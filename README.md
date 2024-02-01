@@ -1,5 +1,4 @@
 # AnturajSurgut
 
-`back` - папка с laravel. Можно менять по своему усмотрению.
-
-`front` - папка с vue. Можно менять по своему усмотрению.
+`backend` - папка с Django.
+`frontend` - папка с vue
