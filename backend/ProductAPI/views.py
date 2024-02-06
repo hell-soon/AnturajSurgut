@@ -5,9 +5,9 @@ from rest_framework import viewsets
 
 from users.models import CustomUser
 from .filter import ProductFilter
-from .serializers import CatalogSerializer, SubCatalogSerializer, ProductImageSerializer, ValueSerializer, \
+from .serializers import CatalogSerializer, SubCatalogSerializer, ProductImageSerializer, \
     SizeSerializer, ProductSerializer, TagsSerializer
-from database.models import Catalog, SubCatalog, ProductImage, Value, Size, Product
+from database.models import Catalog, SubCatalog, ProductImage, Size, Product
 
 
 class CatalogViewSet(viewsets.ModelViewSet):
@@ -23,11 +23,6 @@ class SubCatalogViewSet(viewsets.ModelViewSet):
 class SizeViewSet(viewsets.ModelViewSet):
     queryset = Size.objects.all()
     serializer_class = SizeSerializer
-
-
-class ValueViewSet(viewsets.ModelViewSet):
-    queryset = Value.objects.all()
-    serializer_class = ValueSerializer
 
 
 class ProductImageViewSet(viewsets.ModelViewSet):

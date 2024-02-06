@@ -48,17 +48,6 @@ class ProductImage(models.Model):
         verbose_name_plural = 'Изображения'
 
 
-class Value(models.Model):
-    value = models.CharField(max_length=3, verbose_name='Валюта')
-
-    def __str__(self):
-        return self.value
-
-    class Meta:
-        verbose_name = 'Валюту'
-        verbose_name_plural = 'Валюты'
-
-
 class Tags(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название тэга')
 
@@ -73,7 +62,6 @@ class Tags(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название товара')
     cost = models.FloatField(verbose_name='Цена')
-    value = models.ForeignKey(Value, on_delete=models.DO_NOTHING, verbose_name='Валюта')
     count = models.IntegerField(verbose_name='На складе', default=0)
     rating = models.IntegerField(default=0, verbose_name='Рейтинг')
     description = models.TextField(blank=True, verbose_name='Описание')

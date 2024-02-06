@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from database.models import Catalog, SubCatalog, ProductImage, Size, Value, Product, Tags
+from database.models import Catalog, SubCatalog, ProductImage, Size, Product, Tags
 
 
 
@@ -24,11 +24,6 @@ class SizeSerializer(serializers.ModelSerializer):
         fields = ['name']
 
 
-class ValueSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Value
-        fields = ['value']
-
 
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,14 +40,13 @@ class TagsSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(format="%d.%m.%Y")
     size = SizeSerializer(many=True)
-    value = ValueSerializer()
     subcatalog = SubCatalogSerializer()
     image = ProductImageSerializer(many=True)
     tags = TagsSerializer(many=True)
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'tags', 'description', 'cost', 'value', 'count', 'size', 'rating', 'promotion', 'promotion_cost', 'subcatalog', 'image', 'created_at']
+        fields = ['id', 'name', 'tags', 'description', 'cost', 'count', 'size', 'rating', 'promotion', 'promotion_cost', 'subcatalog', 'image', 'created_at']
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -66,5 +60,4 @@ class ProductSerializer(serializers.ModelSerializer):
         }
 
         return data
-
 
