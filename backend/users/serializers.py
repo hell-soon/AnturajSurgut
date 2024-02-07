@@ -26,18 +26,26 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ['phone', 'password', 'first_name', 'last_name']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ["phone", "password", "first_name", "last_name"]
+        extra_kwargs = {"password": {"write_only": True}}
 
     def validate_password(self, value):
         """
-        Проверка пароля
+        Проверка пароля на длинну
         Можно добавить дополнительные проверки
         :param value:
         :return: value:
         """
         if len(value) < 8:
-            raise serializers.ValidationError("Пароль должен содержать не менее 8 символов")
+            raise serializers.ValidationError(
+                "Пароль должен содержать не менее 8 символов"
+            )
+
+        if value.isdigit():
+            raise serializers.ValidationError(
+                "Пароль не должен состоять только из цифр"
+            )
+
         return value
 
     def validate_phone(self, value):
@@ -58,20 +66,20 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         :param data:
         :return: data:
         """
-        if not data.get('first_name') or not data.get('last_name'):
+        if not data.get("first_name") or not data.get("last_name"):
             raise serializers.ValidationError("Необходимо указать имя и фамилию")
         return data
 
     def create(self, validated_data):
         """
         Создание пользователя после всех проверок
-        Генерация username т.к мы его не будем использовать
+        Генерация username т.к его не будем использовать
         :param validated_data:
-        :return:
+        :return: user
         """
-        phone = validated_data.pop('phone')  # Удаляем телефон из валидированных данных
-        first_name = validated_data.get('first_name')
-        last_name = validated_data.get('last_name')
+        phone = validated_data.pop("phone")  # Удаляем телефон из валидированных данных
+        first_name = validated_data.get("first_name")
+        last_name = validated_data.get("last_name")
 
         base_username = slugify(f"{first_name}-{last_name}")
         username = base_username
@@ -83,7 +91,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
         try:
             # Передаем телефон при создании пользователя
-            user = get_user_model().objects.create_user(username=username, phone=phone, **validated_data)
+            user = get_user_model().objects.create_user(
+                username=username, phone=phone, **validated_data
+            )
         except IntegrityError as e:
             raise serializers.ValidationError("Произошла ошибка на стороне сервера")
 
@@ -101,17 +111,21 @@ class UserLoginSerializer(serializers.Serializer):
         :param data:
         :return:
         """
-        phone = data.get('phone')
-        password = data.get('password')
+        phone = data.get("phone")
+        password = data.get("password")
         if len(phone) != 11:
-                raise serializers.ValidationError("Телефон должен содержать 11 цифр")
+            raise serializers.ValidationError("Телефон должен содержать 11 цифр")
         if phone and password:
             formatted_phone = f"+7-{phone[1:4]}-{phone[4:7]}-{phone[7:9]}-{phone[9:]}"
             user = authenticate(phone=formatted_phone, password=password)
             if not user:
-                raise serializers.ValidationError("Неверные учетные данные")
+                raise serializers.ValidationError(
+                    "Неверные данные для входа в учетную запись"
+                )
         else:
-            raise serializers.ValidationError("Требуется указать номер телефона и пароль")
+            raise serializers.ValidationError(
+                "Требуется указать номер телефона и пароль"
+            )
 
-        data['user'] = user
+        data["user"] = user  # sadsadsad
         return data
