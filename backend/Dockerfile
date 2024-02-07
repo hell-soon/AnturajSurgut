@@ -13,10 +13,6 @@ COPY . .
 
 # Статика
 RUN python manage.py collectstatic --noinput
-RUN python manage.py makemigrations users
-RUN python manage.py makemigrations database
-RUN python manage.py makemigrations sitedb
-RUN python manage.py migrate
 
 # Экспортируем порт
 EXPOSE 8000
