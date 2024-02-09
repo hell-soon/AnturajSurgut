@@ -2,40 +2,25 @@ from django.utils.text import slugify
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from django.db import IntegrityError
-
-
-def format_phone(phone):
-    """
-    Проверка телефона на правильность
-    Формат +7-999-999-99-99
-    :param phone:
-    :return: formatted_phone:
-    """
-    if not phone.isdigit():
-        raise serializers.ValidationError("Телефон должен содержать только цифры")
-
-    if len(phone) != 11:
-        raise serializers.ValidationError("Телефон должен содержать 11 цифр")
-
-    formatted_phone = f"+7-{phone[1:4]}-{phone[4:7]}-{phone[7:9]}-{phone[9:]}"
-    return formatted_phone
+from icecream import ic
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
-    phone = serializers.CharField()
+    email = serializers.EmailField()
 
     class Meta:
         model = get_user_model()
-        fields = ["phone", "password", "first_name", "last_name"]
+        fields = ["email", "password", "first_name", "last_name"]
         extra_kwargs = {"password": {"write_only": True}}
 
     def validate_password(self, value):
         """
         Проверка пароля на длинну
         Можно добавить дополнительные проверки
-        :param value:
-        :return: value:
+        :param str: value(password)
+        :return: str: value(password)
         """
+
         if len(value) < 8:
             raise serializers.ValidationError(
                 "Пароль должен содержать не менее 8 символов"
@@ -45,39 +30,54 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Пароль не должен состоять только из цифр"
             )
-
         return value
 
-    def validate_phone(self, value):
+    def validate_email(self, value):
+        """Проверка уникальности
+
+        Args:
+            value (str): valeu
+
+        Raises:
+            serializers.ValidationError: Аккаунт с такой почтой уже существует
+
+        Returns:
+            str: value(email)
         """
-        Проверка на уникальность телефона
-        :param value:
-        :return: formatted_phone:
-        """
-        formatted_phone = format_phone(value)
-        if get_user_model().objects.filter(phone=formatted_phone).exists():
-            raise serializers.ValidationError("Данный телефон уже зарегистрирован")
-        return formatted_phone
+        if get_user_model().objects.filter(email=value).exists():
+            raise serializers.ValidationError("Аккаунт с такой почтой уже существует")
+        ic(value)
+        return value
 
     def validate(self, data):
         """
-        Проверка наличия имени и фамилии
-        Важные поля т.к используются для генерации username
-        :param data:
-        :return: data:
+
+        Args:
+            data (_type_): _description_
+
+        Raises:
+            serializers.ValidationError: Проверка полей имя и фамилия для генероации username
+
+        Returns:
+            dict: data
         """
         if not data.get("first_name") or not data.get("last_name"):
             raise serializers.ValidationError("Необходимо указать имя и фамилию")
+        ic(data)
         return data
 
     def create(self, validated_data):
         """
-        Создание пользователя после всех проверок
-        Генерация username т.к его не будем использовать
-        :param validated_data:
-        :return: user
+        Args:
+            validated_data : dict
+
+        Raises:
+            serializers.ValidationError: Дополнительная проверка уникальности
+
+        Returns:
+            objects: user
         """
-        phone = validated_data.pop("phone")  # Удаляем телефон из валидированных данных
+        email = validated_data.pop("email")  # Удаляем email из валидированных данных
         first_name = validated_data.get("first_name")
         last_name = validated_data.get("last_name")
 
@@ -90,42 +90,41 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             suffix += 1
 
         try:
-            # Передаем телефон при создании пользователя
+            # Передаем email при создании пользователя
             user = get_user_model().objects.create_user(
-                username=username, phone=phone, **validated_data
+                username=username, email=email, **validated_data
             )
         except IntegrityError as e:
-            raise serializers.ValidationError("Произошла ошибка на стороне сервера")
+            raise serializers.ValidationError(
+                "Данный email уже зарегистрирован. Пожалуйста, используйте другой email."
+            )
 
         return user
 
 
 class UserLoginSerializer(serializers.Serializer):
-    phone = serializers.CharField()
+    email = serializers.EmailField()
     password = serializers.CharField()
 
     def validate(self, data):
         """
         Валидность данных для аутентификации
         Можно добавить дополнительные проверки
-        :param data:
-        :return:
+        :param data: data
+        :return: data
         """
-        phone = data.get("phone")
+        email = data.get("email")
         password = data.get("password")
-        if len(phone) != 11:
-            raise serializers.ValidationError("Телефон должен содержать 11 цифр")
-        if phone and password:
-            formatted_phone = f"+7-{phone[1:4]}-{phone[4:7]}-{phone[7:9]}-{phone[9:]}"
-            user = authenticate(phone=formatted_phone, password=password)
+        if email and password:
+            user = authenticate(email=email, password=password)
             if not user:
                 raise serializers.ValidationError(
-                    "Неверные данные для входа в учетную запись"
+                    "Email или пароль были указаны неверно"
                 )
         else:
             raise serializers.ValidationError(
-                "Требуется указать номер телефона и пароль"
+                "Для входа в учетную запись нужно указать Email и пароль"
             )
 
-        data["user"] = user  # sadsadsad
+        data["user"] = user
         return data

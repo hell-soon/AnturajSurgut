@@ -15,7 +15,7 @@
 - Запрос JSON на регистрацию
 ```
   {
-    "phone": "phone",
+    "email": "email",
     "first_name": "first_name",
     "last_name": "last_name",
     "password": "password"
@@ -23,7 +23,7 @@
   ```
 #### Валидация:
 
-- Телефон 11 символов
+- Поле Email
 - Пароль не менее 8 символов и не должен содержать только цифры
 
 ### Авторизация пользователей 
@@ -33,13 +33,13 @@
 - Запрос JSON на авторизацию
 ```
 {
-    "phone": "phone",
+    "email": "email",
     "password": "password"
 }
 ```
 #### Валидация:
 
-- Телефон 11 символов, иначе ошибка
+- Поле Email
 
 #### Ответ:
 ```
@@ -136,7 +136,7 @@ http://localhost:8000/api/v1/product/products/
 ## Админка 
 http://localhost:8000/admin/
 
-**Login**: admin
+**Login**: admin@admin.ru
 
 **Password**: admin
 
