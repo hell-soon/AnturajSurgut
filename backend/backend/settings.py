@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
-from django.utils.log import RequireDebugFalse
 from dotenv import load_dotenv
 import datetime
+from django.conf import settings
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -72,7 +72,10 @@ ROOT_URLCONF = "backend.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
+        "DIRS": [
+            os.path.join(BASE_DIR, "templates"),
+            os.path.join(BASE_DIR, "users/templates"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -139,7 +142,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
 
 # Media
 MEDIA_URL = "/media/"
@@ -190,10 +196,6 @@ CUSTOM MODEL USER
 AUTH_USER_MODEL = "users.CustomUser"
 
 
-"""
-Логигирование
-"""
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -238,3 +240,22 @@ LOGGING = {
         },
     },
 }
+
+# if DEBUG:
+#     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# else:
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.yandex.ru"
+EMAIL_PORT = "465"
+EMAIL_HOST_USER = "NewsPortalDjango1@yandex.ru"
+EMAIL_HOST_PASSWORD = "gifnwcizletrcgku"
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+REDIS_HOST = "localhost"
+REDIS_PORT = "6379"
+REDIS_DB = "0"
+
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True

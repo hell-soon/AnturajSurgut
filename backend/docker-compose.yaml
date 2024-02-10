@@ -1,6 +1,6 @@
 version: '3'
 services:
-  web:
+  main:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     env_file:
@@ -9,3 +9,21 @@ services:
       - .:/backend
     ports:
       - "8000:8000"
+
+  redis:
+    image: redis:latest
+
+  celery:
+    restart: always
+    build:
+      context: .
+    command: celery -A backend worker -l info
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+    volumes:
+      - .:/backend
+    env_file:
+      - .env
+    depends_on:
+      - main
+      - redis

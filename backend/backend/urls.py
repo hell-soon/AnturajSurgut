@@ -7,7 +7,8 @@ from ProductAPI.schema.schema import schema_view
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/product/", include("ProductAPI.urls")),
-    path("api/v1/user/", include("users.urls")),
+    path("api/auth/", include("users.urls")),
+    path("api/profile/", include("profiles.urls")),
     path(
         "api/docs/",
         schema_view.with_ui("swagger", cache_timeout=0),
@@ -16,4 +17,9 @@ urlpatterns = [
     path(
         "api/redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"
     ),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

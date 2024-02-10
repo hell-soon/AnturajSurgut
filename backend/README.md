@@ -9,7 +9,7 @@
 # Работа с пользователями
 - Регистрация пользователей
     
-    http://localhost:8000/api/v1/user/register/
+    http://localhost:8000/api/auth/register/
 
 
 - Запрос JSON на регистрацию
@@ -28,7 +28,7 @@
 
 ### Авторизация пользователей 
 
-    http://localhost:8000/api/v1/user/login/
+    http://localhost:8000/api/auth/login/
 
 - Запрос JSON на авторизацию
 ```
@@ -52,7 +52,7 @@
 
 ### Информация о пользовтаеле
 
-**http://localhost:8000/api/v1/user/profile**
+**http://localhost:8000/api/profile/**
 
 - Запрос GET Bearer Token: "ACCESS_TOKEN"
 
@@ -79,7 +79,7 @@
     ]
 }
 ```
-- Срок действия ACCESS токена 30 минут после истечения нужно его обновить на **http://localhost:8000/api/v1/user/refresh**
+- Срок действия ACCESS токена 30 минут после истечения нужно его обновить на **http://localhost:8000/api/auth/refresh**
 - Срок дейсвия REFRESH_TOKEN 7 дней после истечения нужно авторизоваться заново
 
 # Товары

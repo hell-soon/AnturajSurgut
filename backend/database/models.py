@@ -1,4 +1,6 @@
 from django.db import models
+from users.models import CustomUser
+from django.db.models import UniqueConstraint
 
 
 class Catalog(models.Model):
@@ -102,3 +104,18 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
+
+
+class Favorite(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(fields=["user", "product"], name="unique_favorite")
+        ]
+        verbose_name = "Избранное"
+        verbose_name_plural = "Избранное"
+
+    def __str__(self):
+        return f"{self.user.first_name} {self.user.last_name}"

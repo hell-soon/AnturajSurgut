@@ -2,7 +2,6 @@ from django.utils.text import slugify
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from django.db import IntegrityError
-from icecream import ic
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -46,7 +45,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         """
         if get_user_model().objects.filter(email=value).exists():
             raise serializers.ValidationError("Аккаунт с такой почтой уже существует")
-        ic(value)
         return value
 
     def validate(self, data):
@@ -63,7 +61,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         """
         if not data.get("first_name") or not data.get("last_name"):
             raise serializers.ValidationError("Необходимо указать имя и фамилию")
-        ic(data)
         return data
 
     def create(self, validated_data):
@@ -128,3 +125,28 @@ class UserLoginSerializer(serializers.Serializer):
 
         data["user"] = user
         return data
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для обновления данных пользователя
+    # TODO: Добавить дополнительные проверки, безопаснотсь и т.д.
+    """
+
+    first_name = serializers.CharField(write_only=True, required=False)
+    last_name = serializers.CharField(write_only=True, required=False)
+    phone = serializers.CharField(write_only=True, required=False)
+    password = serializers.CharField(write_only=True, required=False)
+
+    class Meta:
+        model = get_user_model()
+        fields = ["first_name", "last_name", "phone", "email", "password"]
+        extra_fields = {"email": {"read_only": True}}
+
+        def update(self, instance, validated_data):
+            instance.first_name = validated_data.get("first_name", instance.first_name)
+            instance.last_name = validated_data.get("last_name", instance.last_name)
+            instance.phone = validated_data.get("phone", instance.phone)
+            instance.password = validated_data.get("password", instance.password)
+            instance.save()
+            return instance

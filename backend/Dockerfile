@@ -18,5 +18,5 @@ RUN python manage.py collectstatic --noinput
 EXPOSE 8000
 
 
-# Выполняем миграции, создаем суперпользователя и запускаем приложение
+# Выполняем запуск команды для запуска приложения
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

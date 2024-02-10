@@ -25,6 +25,7 @@ var/
 .installed.cfg
 *.egg
 .plaintext
-
+*rdb
+.log
 # Django
 static/
