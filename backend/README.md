@@ -142,11 +142,7 @@ http://localhost:8000/admin/
 
 # Docker
 
-Для создания контейнера:
+Для создания контейнера и запуска контейнера:
 
-```docker-compose build```
-
-Для запуска контейнера
-
-```docker-compose up```
+```docker-compose up --build```
 
