@@ -13,7 +13,7 @@
 
 
 - Запрос JSON на регистрацию
-```
+```JSON
   {
     "email": "email",
     "first_name": "first_name",
@@ -31,7 +31,7 @@
     http://localhost:8000/api/auth/login/
 
 - Запрос JSON на авторизацию
-```
+```JSON
 {
     "email": "email",
     "password": "password"
@@ -42,14 +42,98 @@
 - Поле Email
 
 #### Ответ:
-```
+```JSON
 {
     "refresh": "REFRESH_TOKEN",
     "access": "ACCESS_TOKEN"
 }
 ```
+### Смена пароля пользователя
+
+Проходит в 2 этапа:
+
+**URLS:**
+Для запроса ссылки на смену пароля
+
+- http://localhost:8000/api/auth/change/password/ 
+
+Для завершения смены пароля
+- http://localhost:8000/api/auth/change/password/{uid}/{token} 
 
 
+#### Первый этап
+Пользователь заполняет форму с полем Email.
+- запрос на сервер:
+```JSON
+{
+    "email": "email"
+}
+```
+
+- Если такого аккаунта нет, то получаем ответ:
+```JSON
+{
+    "email": [
+        "Введите правильный адрес электронной почты."
+    ]
+}
+```
+- Поле не было заполнено
+```JSON
+{
+    "email": [
+        "Это поле не может быть пустым."
+    ]
+}
+```
+- Если зарегистрированный аккаунт существует, то ответ:
+```JSON
+{
+    "message": "На указанную почту было отправленно письмо",
+    "uid": "uid",
+    "token": "token"
+}
+```
+#### Второй этап
+- Из полученого ответа поля ```uid``` ```token``` будут использоваться для завершения смены пароля по ссылке:
+
+http://localhost:8000/api/auth/change/password/{uid}/{token}
+
+- Запрос на сервер
+
+```JSON
+{
+    "password": "password"
+}
+```
+- Если токен неверный
+```JSON
+{
+    "message": "Неверный токен для смены пароля"
+}
+```
+- Пароль не прошел валидацию
+```JSON
+{
+    "password": [
+        "Пароль должен содержать не менее 8 символов"
+    ]
+}
+```
+Или
+```JSON
+{
+    "password": [
+        "Пароль не должен состоять только из цифр"
+    ]
+}
+```
+- Успешная смена пароля
+```JSON
+{
+    "message": "Пароль успешно обновлен"
+}
+```
 ### Информация о пользовтаеле
 
 **http://localhost:8000/api/profile/**
@@ -57,7 +141,7 @@
 - Запрос GET Bearer Token: "ACCESS_TOKEN"
 
 Ответ, если токен действителен
-```json
+```JSON
 {
     "phone": "user.phone",
     "email": "user.email",
@@ -66,7 +150,7 @@
 }
 ```
 Ответ, если токен не действителен
-```json
+```JSON
 {
     "detail": "Given token not valid for any token type",
     "code": "token_not_valid",
@@ -85,7 +169,7 @@
 # Товары
 
 http://localhost:8000/api/v1/product/products/
-```json
+```JSON
 {
         "id": 2,
         "created_at": "06.02.2024",
@@ -142,7 +226,11 @@ http://localhost:8000/admin/
 
 # Docker
 
-Для создания контейнера и запуска контейнера:
+Для создания контейнера:
 
-```docker-compose up --build```
+```docker-compose build```
+
+Для запуска контейнера
+
+```docker-compose up```
 

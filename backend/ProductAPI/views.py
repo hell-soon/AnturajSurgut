@@ -1,12 +1,16 @@
-from django.contrib.auth.models import User
-
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
 
-from users.models import CustomUser
-from .filter import ProductFilter
-from .serializers import CatalogSerializer, SubCatalogSerializer, ProductImageSerializer, \
-    SizeSerializer, ProductSerializer, TagsSerializer
+
+from .filters.filter import ProductFilter
+from .serializers import (
+    CatalogSerializer,
+    SubCatalogSerializer,
+    ProductImageSerializer,
+    SizeSerializer,
+    ProductSerializer,
+    TagsSerializer,
+)
 from database.models import Catalog, SubCatalog, ProductImage, Size, Product
 
 
@@ -40,5 +44,3 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ProductFilter
-
-

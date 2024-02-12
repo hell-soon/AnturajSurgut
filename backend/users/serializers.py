@@ -99,6 +99,29 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return user
 
 
+class UserUpdateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для обновления данных пользователя
+    # TODO: Добавить дополнительные проверки, безопаснотсь и т.д.
+    """
+
+    first_name = serializers.CharField(write_only=True, required=False)
+    last_name = serializers.CharField(write_only=True, required=False)
+    phone = serializers.CharField(write_only=True, required=False)
+
+    class Meta:
+        model = get_user_model()
+        fields = ["first_name", "last_name", "phone", "email"]
+        extra_fields = {"email": {"read_only": True}}
+
+        def update(self, instance, validated_data):
+            instance.first_name = validated_data.get("first_name", instance.first_name)
+            instance.last_name = validated_data.get("last_name", instance.last_name)
+            instance.phone = validated_data.get("phone", instance.phone)
+            instance.save()
+            return instance
+
+
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
@@ -150,3 +173,36 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             instance.password = validated_data.get("password", instance.password)
             instance.save()
             return instance
+
+
+class UserUpdatePasswordSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = get_user_model()
+        fields = [
+            "password",
+        ]
+        extra_fields = {"password": {"write_only": True}}
+
+    def validate_password(self, value):
+        """
+        Проверка пароля на длинну
+        Можно добавить дополнительные проверки
+        :param str: value(password)
+        :return: str: value(password)
+        """
+        if len(value) < 8:
+            raise serializers.ValidationError(
+                "Пароль должен содержать не менее 8 символов"
+            )
+
+        if value.isdigit():
+            raise serializers.ValidationError(
+                "Пароль не должен состоять только из цифр"
+            )
+        return value
+
+
+class UserEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField()
