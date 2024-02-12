@@ -3,9 +3,9 @@
 ### Доступ к API
 - Документация
 
-    http://localhost:8000/api/redoc/ - Swagger
+    http://localhost:8000/api/redoc/ - Redoc
  
-    http://localhost:8000/api/docs/ - Redoc
+    http://localhost:8000/api/docs/ - Swagger
 # Работа с пользователями
 - Регистрация пользователей
     
