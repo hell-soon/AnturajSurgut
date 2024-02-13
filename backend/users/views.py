@@ -78,6 +78,20 @@ def email_for_change_pass(request):
 
 @api_view(["POST"])
 def change_password(request, uid64, token):
+    """
+
+    Args:
+        uid64 (str): uid64 from email_for_change_pass
+        token (str): token from email_for_change_pass
+
+    Returns:
+        Response: _response_
+    API
+    ---
+    {
+
+    }
+    """
     try:
         uid = force_str(urlsafe_base64_decode(uid64))
         user = CustomUser.objects.get(pk=uid)

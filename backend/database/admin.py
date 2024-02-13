@@ -1,7 +1,16 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import Catalog, SubCatalog, Product, Size, ProductImage, Tags, Favorite
+from .models import (
+    Catalog,
+    SubCatalog,
+    Product,
+    Size,
+    ProductImage,
+    Tags,
+    Favorite,
+    Cart,
+)
 
 
 @admin.register(Catalog)
@@ -51,3 +60,8 @@ class FavoriteAdmin(admin.ModelAdmin):
     """Admin View for Favorite"""
 
     list_display = ("product", "user")
+
+
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ("product", "user", "quantity", "price")
