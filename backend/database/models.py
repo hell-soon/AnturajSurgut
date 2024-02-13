@@ -119,3 +119,23 @@ class Favorite(models.Model):
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
+
+
+class Cart(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Товар")
+    user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь"
+    )
+    quantity = models.PositiveIntegerField(default=0, verbose_name="Количество")
+    price = models.FloatField(verbose_name="Цена")
+
+    class Meta:
+        verbose_name = "Корзина"
+        verbose_name_plural = "Корзины"
+
+    def __str__(self):
+        return f"{self.user.first_name} {self.user.last_name}"
+
+    def increase_quantity(self):
+        self.quantity += 1
+        self.save()
