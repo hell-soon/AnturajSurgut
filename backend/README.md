@@ -3,13 +3,13 @@
 ### Доступ к API
 - Документация
 
-    http://localhost:8000/api/redoc/ - Redoc
+    http://127.0.0.1:8000/api/redoc/ - Redoc
  
-    http://localhost:8000/api/docs/ - Swagger
+    http://127.0.0.1:8000/api/docs/ - Swagger
 # Работа с пользователями
 - Регистрация пользователей
     
-    http://localhost:8000/api/auth/register/
+    http://127.0.0.1:8000/api/auth/register/
 
 
 - Запрос JSON на регистрацию
@@ -28,7 +28,7 @@
 
 ### Авторизация пользователей 
 
-    http://localhost:8000/api/auth/login/
+    http://127.0.0.1:8000/api/auth/login/
 
 - Запрос JSON на авторизацию
 ```JSON
@@ -55,10 +55,10 @@
 **URLS:**
 Для запроса ссылки на смену пароля
 
-- http://localhost:8000/api/auth/change/password/ 
+- http://127.0.0.1:8000/api/auth/change/password/ 
 
 Для завершения смены пароля
-- http://localhost:8000/api/auth/change/password/{uid}/{token} 
+- http://127.0.0.1:8000/api/auth/change/password/{uid}/{token} 
 
 
 #### Первый этап
@@ -97,7 +97,7 @@
 #### Второй этап
 - Из полученого ответа поля ```uid``` ```token``` будут использоваться для завершения смены пароля по ссылке:
 
-http://localhost:8000/api/auth/change/password/{uid}/{token}
+http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
 
 - Запрос на сервер
 
@@ -136,7 +136,7 @@ http://localhost:8000/api/auth/change/password/{uid}/{token}
 ```
 ### Информация о пользовтаеле
 
-**http://localhost:8000/api/profile/**
+**http://127.0.0.1:8000/api/profile/**
 
 - Запрос GET Bearer Token: "ACCESS_TOKEN"
 
@@ -163,12 +163,12 @@ http://localhost:8000/api/auth/change/password/{uid}/{token}
     ]
 }
 ```
-- Срок действия ACCESS токена 30 минут после истечения нужно его обновить на **http://localhost:8000/api/auth/refresh**
+- Срок действия ACCESS токена 30 минут после истечения нужно его обновить на **http://127.0.0.1:8000/api/auth/refresh**
 - Срок дейсвия REFRESH_TOKEN 7 дней после истечения нужно авторизоваться заново
 
 # Товары
-
-http://localhost:8000/api/v1/product/products/
+## Отображени товара
+http://127.0.0.1:8000/api/v1/product/products/
 ```JSON
 {
         "id": 2,
@@ -216,9 +216,39 @@ http://localhost:8000/api/v1/product/products/
         }
     }
 ```
+## Избранное
 
+- Добавление **http://127.0.0.1:8000/api/profile/favorite/add/**:
+
+Запрос:
+```JSON
+{
+    "product_id": "product_id"
+}
+```
+Ответ:
+```JSON
+{
+    "success": "Товар добавлен в избранное"
+}
+```
+
+- Удаление **http://127.0.0.1:8000/api/profile/favorite/remove/**
+
+Запрос:
+```JSON
+{
+    "product_id": "product_id"
+}
+```
+Ответ:
+```JSON
+{
+    "success": "Товар удален из избранного"
+}
+```
 ## Админка 
-http://localhost:8000/admin/
+http://127.0.0.1:8000/admin/
 
 **Login**: admin@admin.ru
 
