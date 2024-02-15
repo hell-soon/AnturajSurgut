@@ -10,6 +10,7 @@ from .models import (
     Tags,
     Favorite,
     Cart,
+    CartItem,
 )
 
 
@@ -64,4 +65,14 @@ class FavoriteAdmin(admin.ModelAdmin):
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ("product", "user", "quantity", "price")
+    """Admin View for Cart"""
+
+    list_display = ("user", "total_cost")
+
+
+@admin.register(CartItem)
+class CartItemAdmin(admin.ModelAdmin):
+    """Admin View for CartItem"""
+
+    list_display = ("product", "quantity", "cart", "subtotal")
+    list_filter = ("cart",)
