@@ -151,6 +151,16 @@ class CartItem(models.Model):
     def subtotal(self):
         return self.quantity * self.product.cost
 
+    @classmethod
+    def add_to_cart(cls, cart, product, quantity=1):
+        existing_item = cls.objects.filter(cart=cart, product=product).first()
+        if existing_item:
+            existing_item.quantity += quantity
+            existing_item.save()
+        else:
+            new_item = cls(cart=cart, product=product, quantity=quantity)
+            new_item.save()
+
     class Meta:
         verbose_name = "Товар в корзине"
         verbose_name_plural = "Товары в корзине"

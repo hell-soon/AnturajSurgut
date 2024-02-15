@@ -1939,3 +1939,635 @@ Traceback (most recent call last):
     assert field_name in fields, (
            ^^^^^^^^^^^^^^^^^^^^
 AssertionError: The field 'cart_items' was declared on serializer CartSerializer, but has not been included in the 'fields' option.
+[16.02.2024 02:19:22 - ERROR] Internal Server Error: /api/profile/add-to-cart/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: View.__init__() takes 1 positional argument but 2 were given
+[16.02.2024 02:19:35 - ERROR] Internal Server Error: /api/profile/add-to-cart/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: View.__init__() takes 1 positional argument but 2 were given
+[16.02.2024 02:19:36 - ERROR] Internal Server Error: /api/profile/add-to-cart/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: View.__init__() takes 1 positional argument but 2 were given
+[16.02.2024 02:19:36 - ERROR] Internal Server Error: /api/profile/add-to-cart/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: View.__init__() takes 1 positional argument but 2 were given
+[16.02.2024 02:19:41 - ERROR] Internal Server Error: /api/profile/add-to-cart/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: View.__init__() takes 1 positional argument but 2 were given
+[16.02.2024 02:19:42 - ERROR] Internal Server Error: /api/profile/add-to-cart/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: View.__init__() takes 1 positional argument but 2 were given
+[16.02.2024 02:19:44 - ERROR] Internal Server Error: /api/profile/add-to-cart/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: View.__init__() takes 1 positional argument but 2 were given
+[16.02.2024 02:24:47 - ERROR] Internal Server Error: /api/profile/add-to-cart/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: database_cartitem.product_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\profiles\views.py", line 86, in add_to_cart
+    serializer.save(cart=cart)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 677, in create
+    obj.save(force_insert=True, using=self.db)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 822, in save
+    self.save_base(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 909, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 1067, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 1108, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 1845, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1823, in execute_sql
+    cursor.execute(sql, params)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: database_cartitem.product_id
+[16.02.2024 02:24:59 - ERROR] Internal Server Error: /api/profile/add-to-cart/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: database_cartitem.product_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\profiles\views.py", line 86, in add_to_cart
+    serializer.save(cart=cart)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 677, in create
+    obj.save(force_insert=True, using=self.db)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 822, in save
+    self.save_base(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 909, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 1067, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 1108, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 1845, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1823, in execute_sql
+    cursor.execute(sql, params)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: database_cartitem.product_id
+[16.02.2024 02:25:06 - ERROR] Internal Server Error: /api/profile/add-to-cart/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: database_cartitem.product_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\profiles\views.py", line 86, in add_to_cart
+    serializer.save(cart=cart)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 677, in create
+    obj.save(force_insert=True, using=self.db)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 822, in save
+    self.save_base(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 909, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 1067, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 1108, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 1845, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1823, in execute_sql
+    cursor.execute(sql, params)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: database_cartitem.product_id
+[16.02.2024 02:25:45 - ERROR] Internal Server Error: /api/profile/cart/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\profiles\views.py", line 102, in list
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 686, in to_representation
+    return [
+           ^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 686, in to_representation
+    return [
+           ^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\fields.py", line 1837, in to_representation
+    method = getattr(self.parent, self.method_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CartItemSerializer' object has no attribute 'get_product'
+[16.02.2024 02:30:20 - ERROR] Internal Server Error: /api/profile/cart/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\generics.py", line 199, in get
+    return self.list(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\profiles\views.py", line 102, in list
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 686, in to_representation
+    return [
+           ^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\profiles\serializers.py", line 33, in to_representation
+    for product_id in instance["products"]:
+                      ~~~~~~~~^^^^^^^^^^^^
+TypeError: 'Cart' object is not subscriptable
+[16.02.2024 02:41:38 - ERROR] Internal Server Error: /api/profile/cart/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\generics.py", line 239, in get
+    return self.list(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\mixins.py", line 46, in list
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 686, in to_representation
+    return [
+           ^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 507, in to_representation
+    for field in fields:
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+                      ^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+                                ^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `get_user` is not valid for model `Cart`.

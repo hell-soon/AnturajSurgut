@@ -143,10 +143,15 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
 Ответ, если токен действителен
 ```JSON
 {
-    "phone": "user.phone",
-    "email": "user.email",
-    "first_name": "user.first_name",
-    "last_name": "user_.last_name"
+    "user": {
+        "id": 1,
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@admin.ru",
+        "phone": null
+    },
+    "user_cart_id": 1,
+    "favorites": []
 }
 ```
 Ответ, если токен не действителен
@@ -166,6 +171,30 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
 - Срок действия ACCESS токена 30 минут после истечения нужно его обновить на **http://127.0.0.1:8000/api/auth/refresh**
 - Срок дейсвия REFRESH_TOKEN 7 дней после истечения нужно авторизоваться заново
 
+
+
+### Корзина пользователя
+Корзина пользователя требует авторизации.
+
+Что б получить содержимое корзины пользователя, нужно сделать запрос **http://localhost:8000/api/profile/cart/** Метод **GET**
+## Добавление в корзину
+Добавление товаров в корзину пользователя.
+
+Запрос **http://localhost:8000/api/profile/add-to-cart/** **POST**
+```JSON
+{
+    "product_id": product_id,
+    "cart_id": cart_id,
+    "quantity": quantity
+}
+```
+- Ответ
+
+```JSON
+{
+    "success": "Товар добавлен в корзину"
+}
+```
 # Товары
 ## Отображени товара
 http://127.0.0.1:8000/api/v1/product/products/
