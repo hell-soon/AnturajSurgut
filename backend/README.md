@@ -180,7 +180,7 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
 ## Добавление в корзину
 Добавление товаров в корзину пользователя.
 
-Запрос **http://localhost:8000/api/profile/add-to-cart/** **POST**
+Запрос **http://localhost:8000/api/profile/add-to-cart/** Метод **POST**
 ```JSON
 {
     "product_id": product_id,
@@ -193,6 +193,22 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
 ```JSON
 {
     "success": "Товар добавлен в корзину"
+}
+```
+
+### Удаление товара
+Удаление товара из корзины
+Запрос **http://localhost:8000/api/profile/remove-from-cart/** Метод **POST**
+```JSON
+{
+    "product_id": 2,
+    "cart_id": 1
+}
+```
+Ответ
+```JSON
+{
+    "success": "Товар удален из корзины"
 }
 ```
 # Товары

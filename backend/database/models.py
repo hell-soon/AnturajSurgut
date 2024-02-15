@@ -161,6 +161,10 @@ class CartItem(models.Model):
             new_item = cls(cart=cart, product=product, quantity=quantity)
             new_item.save()
 
+    @classmethod
+    def remove_from_cart(cls, cart, product):
+        cls.objects.filter(cart=cart, product=product).delete()
+
     class Meta:
         verbose_name = "Товар в корзине"
         verbose_name_plural = "Товары в корзине"

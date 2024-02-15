@@ -5,6 +5,7 @@ from .views import (
     remove_from_favorite,
     CartView,
     add_to_cart,
+    remove_from_cart,
 )
 
 
@@ -14,4 +15,5 @@ urlpatterns = [
     path("favorite/remove/", remove_from_favorite, name="remove_from_favorite"),
     path("cart/", CartView.as_view(), name="cart"),
     path("add-to-cart/", add_to_cart, name="add_to_cart"),
+    path("remove-from-cart/", remove_from_cart, name="remove_from_cart"),
 ]
