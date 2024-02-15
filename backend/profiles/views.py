@@ -97,3 +97,21 @@ def add_to_cart(request):
 
     except Exception as e:
         return Response({"error": str(e)})
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def remove_from_cart(request):
+    user = request.user
+    product_id = request.data.get("product_id")
+
+    if not product_id:
+        return Response({"error": "Не указан ID продукта"}, status=400)
+
+    try:
+        cart_item = CartItem.objects.get(cart=user.cart, product_id=product_id)
+        cart_item.delete()
+        return Response({"success": "Товар удален из корзины"})
+
+    except CartItem.DoesNotExist:
+        return Response({"error": "Такого продукта нет в корзине"})
