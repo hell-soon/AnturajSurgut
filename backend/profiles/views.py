@@ -1,17 +1,17 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from database.models import Favorite
+from database.models import Favorite, Cart
 from django.db import IntegrityError
+from .serializers import CartSerializer
+from rest_framework import generics
 
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def user_info(request):
-    """_summary_
+    """
     Представление API для вывода информации о пользователе
-    Returns:
-        _type_: _description_
     """
     user = request.user
     favorite = Favorite.objects.filter(user=user)
@@ -68,3 +68,22 @@ def remove_from_favorite(request):
 
     except Favorite.DoesNotExist:
         return Response({"error": "Такого продукта нет в избранном"})
+
+
+class CartListCreateView(generics.ListCreateAPIView):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+
+
+@permission_classes([IsAuthenticated])
+class UserCartView(generics.ListAPIView):
+    serializer_class = CartSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Cart.objects.filter(user=user)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)

@@ -121,21 +121,36 @@ class Favorite(models.Model):
         return f"{self.user.first_name} {self.user.last_name}"
 
 
+# Корзина
 class Cart(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Товар")
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь"
     )
-    quantity = models.PositiveIntegerField(default=0, verbose_name="Количество")
-    price = models.FloatField(verbose_name="Цена")
+    products = models.ManyToManyField(
+        Product, through="CartItem", verbose_name="Товары в корзине"
+    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создана")
+
+    def total_cost(self):
+        return sum(item.quantity * item.product.cost for item in self.cart_items.all())
+
+    def __str__(self):
+        return f"Корзина пользователя {self.user.email}"
 
     class Meta:
         verbose_name = "Корзина"
         verbose_name_plural = "Корзины"
 
-    def __str__(self):
-        return f"{self.user.first_name} {self.user.last_name}"
 
-    def increase_quantity(self):
-        self.quantity += 1
-        self.save()
+# Промежуточная модель для товара в корзине
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="cart_items")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def subtotal(self):
+        return self.quantity * self.product.cost
+
+    class Meta:
+        verbose_name = "Товар в корзине"
+        verbose_name_plural = "Товары в корзине"
