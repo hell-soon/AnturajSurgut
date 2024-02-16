@@ -55,6 +55,13 @@ class UserLoginView(APIView):
 
 @api_view(["POST"])
 def email_for_change_pass(request):
+    """
+    Конечная точка для обработки запроса на отправку электронной почты для смены пароля.
+    Эта функция принимает запрос POST и ожидает поле 'email' в данных запроса.
+    Если электронная почта действительна, отправляется электронное письмо с ссылкой для изменения пароля.
+    Если электронная почта не найдена в базе данных, возвращается ответ с ошибкой 400 и сообщением о том, что учетная запись с указанной электронной почтой не была найдена.
+    Если данные запроса недопустимы, возвращается ответ с ошибкой 400 и ошибками сериализатора.
+    """
     serializer = UserEmailSerializer(data=request.data)
     if serializer.is_valid():
         email = serializer.validated_data.get("email")
@@ -79,18 +86,7 @@ def email_for_change_pass(request):
 @api_view(["POST"])
 def change_password(request, uid64, token):
     """
-
-    Args:
-        uid64 (str): uid64 from email_for_change_pass
-        token (str): token from email_for_change_pass
-
-    Returns:
-        Response: _response_
-    API
-    ---
-    {
-
-    }
+    Функция для изменения пароля пользователя. Принимает объект запроса, uid64 и токен в качестве параметров и возвращает объект Response.
     """
     try:
         uid = force_str(urlsafe_base64_decode(uid64))

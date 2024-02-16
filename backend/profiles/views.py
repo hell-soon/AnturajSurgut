@@ -80,6 +80,13 @@ class CartView(generics.ListCreateAPIView):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def add_to_cart(request):
+    """
+    Add a product to the user's cart.
+    Parameters:
+    - request: the HTTP request object
+    Returns:
+    - Response: the HTTP response object
+    """
     user = request.user
     product_id = request.data.get("product_id")
     quantity = request.data.get("quantity", 1)  # По умолчанию 1, если не указано
