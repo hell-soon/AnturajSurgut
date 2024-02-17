@@ -235,7 +235,7 @@ http://127.0.0.1:8000/api/v1/product/products/
 ```JSON
 {
     "user_initials": "ФИО",
-    "user_communication": "email/phone",
+    "user_communication": "email/phone", - Формат телефона +12345678901
     "products": [
         {"product_id": product_id, "quantity": quantity},
         {"product_id": product_id, "quantity": quantity},

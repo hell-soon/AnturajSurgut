@@ -9026,3 +9026,625 @@ Traceback (most recent call last):
     return f"Заказ от {self.created_at} - {self.user_info}"
                                            ^^^^^^^^^^^^^^
 AttributeError: 'Order' object has no attribute 'user_info'
+[17.02.2024 23:13:25 - ERROR] Internal Server Error: /admin/database/order/14/change/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 714, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1944, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1802, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1853, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1257, in save_model
+    obj.save()
+  File "A:\Project\AnturajSurgut\backend\database\models.py", line 191, in save
+    super(Order, self).save(*args, **kwargs)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 822, in save
+    self.save_base(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 889, in save_base
+    pre_save.send(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\dispatch\dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\database\signals.py", line 29, in signal_order_change_track_number
+    phone = get_phone(instance.user_communication)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\database\utils\helper.py", line 12, in get_phone
+    phone = re.findall(regex, user_communication)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\re\__init__.py", line 216, in findall
+    return _compile(pattern, flags).findall(string)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\re\__init__.py", line 294, in _compile
+    p = _compiler.compile(pattern, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\re\_compiler.py", line 745, in compile
+    p = _parser.parse(p, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\re\_parser.py", line 989, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\re\_parser.py", line 464, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\re\_parser.py", line 548, in _parse
+    code = _escape(source, this, state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\re\_parser.py", line 444, in _escape
+    raise source.error("invalid group reference %d" % group, len(escape) - 1)
+re.error: invalid group reference 7 at position 1
+[17.02.2024 23:13:55 - ERROR] Internal Server Error: /admin/database/order/14/change/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 714, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1944, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1802, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1853, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1257, in save_model
+    obj.save()
+  File "A:\Project\AnturajSurgut\backend\database\models.py", line 191, in save
+    super(Order, self).save(*args, **kwargs)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 822, in save
+    self.save_base(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 889, in save_base
+    pre_save.send(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\dispatch\dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\database\signals.py", line 29, in signal_order_change_track_number
+    phone = get_phone(instance.user_communication)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\database\utils\helper.py", line 12, in get_phone
+    phone = re.findall(regex, user_communication)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\re\__init__.py", line 216, in findall
+    return _compile(pattern, flags).findall(string)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\re\__init__.py", line 294, in _compile
+    p = _compiler.compile(pattern, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\re\_compiler.py", line 745, in compile
+    p = _parser.parse(p, flags)
+        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\re\_parser.py", line 989, in parse
+    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\re\_parser.py", line 464, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\re\_parser.py", line 548, in _parse
+    code = _escape(source, this, state)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\re\_parser.py", line 444, in _escape
+    raise source.error("invalid group reference %d" % group, len(escape) - 1)
+re.error: invalid group reference 7 at position 1
+[17.02.2024 23:16:23 - ERROR] Internal Server Error: /admin/database/order/14/change/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 714, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1944, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1802, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1853, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1257, in save_model
+    obj.save()
+  File "A:\Project\AnturajSurgut\backend\database\models.py", line 191, in save
+    super(Order, self).save(*args, **kwargs)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 822, in save
+    self.save_base(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 889, in save_base
+    pre_save.send(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\dispatch\dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\database\signals.py", line 30, in signal_order_change_track_number
+    print(phone[0])
+          ~~~~~^^^
+IndexError: list index out of range
+[17.02.2024 23:16:32 - ERROR] Internal Server Error: /admin/database/order/14/change/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 714, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1944, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1802, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1853, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1257, in save_model
+    obj.save()
+  File "A:\Project\AnturajSurgut\backend\database\models.py", line 191, in save
+    super(Order, self).save(*args, **kwargs)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 822, in save
+    self.save_base(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 889, in save_base
+    pre_save.send(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\dispatch\dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\database\signals.py", line 30, in signal_order_change_track_number
+    print(phone[0])
+          ~~~~~^^^
+IndexError: list index out of range
+[17.02.2024 23:16:50 - ERROR] Internal Server Error: /admin/database/order/14/change/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 714, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1944, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1802, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1853, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1257, in save_model
+    obj.save()
+  File "A:\Project\AnturajSurgut\backend\database\models.py", line 191, in save
+    super(Order, self).save(*args, **kwargs)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 822, in save
+    self.save_base(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 889, in save_base
+    pre_save.send(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\dispatch\dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\database\signals.py", line 30, in signal_order_change_track_number
+    print(phone[1])
+          ~~~~~^^^
+IndexError: list index out of range
+[17.02.2024 23:17:31 - ERROR] Internal Server Error: /admin/database/order/14/change/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 714, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1944, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1802, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1853, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1257, in save_model
+    obj.save()
+  File "A:\Project\AnturajSurgut\backend\database\models.py", line 191, in save
+    super(Order, self).save(*args, **kwargs)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 822, in save
+    self.save_base(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 889, in save_base
+    pre_save.send(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\dispatch\dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\database\signals.py", line 30, in signal_order_change_track_number
+    print(phone[0])
+          ~~~~~^^^
+IndexError: list index out of range
+[17.02.2024 23:34:31 - ERROR] Internal Server Error: /api/auth/create/order/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 677, in create
+    obj.save(force_insert=True, using=self.db)
+  File "A:\Project\AnturajSurgut\backend\database\models.py", line 191, in save
+    super(Order, self).save(*args, **kwargs)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 822, in save
+    self.save_base(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 924, in save_base
+    post_save.send(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\dispatch\dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\database\signals.py", line 11, in send_email_order
+    contact_info = get_contact_info(instance.user_communication)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: get_contact_info() missing 1 required positional argument: 'order_number'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\users\views.py", line 124, in create_order
+    serializer.save()
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 981, in create
+    raise TypeError(msg)
+TypeError: Got a `TypeError` when calling `Order.objects.create()`. This may be because you have a writable field on the serializer class that is not a valid argument to `Order.objects.create()`. You may need to make the field read-only, or override the OrderSerializer.create() method to handle this correctly.
+Original exception was:
+ Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 962, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 677, in create
+    obj.save(force_insert=True, using=self.db)
+  File "A:\Project\AnturajSurgut\backend\database\models.py", line 191, in save
+    super(Order, self).save(*args, **kwargs)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 822, in save
+    self.save_base(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 924, in save_base
+    post_save.send(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\dispatch\dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\database\signals.py", line 11, in send_email_order
+    contact_info = get_contact_info(instance.user_communication)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: get_contact_info() missing 1 required positional argument: 'order_number'
+
+[18.02.2024 00:13:36 - ERROR] Internal Server Error: /admin/users/customuser/add/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\utils\functional.py", line 32, in __call__
+    return self.__value__
+           ^^^^^^^^^^^^^^
+AttributeError: 'ChannelPromise' object has no attribute '__value__'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\transport\virtual\base.py", line 951, in create_channel
+    return self._avail_channels.pop()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: pop from empty list
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\connection.py", line 264, in connect
+    sock = self.retry.call_with_retry(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\retry.py", line 46, in call_with_retry
+    return do()
+           ^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\connection.py", line 265, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+            ^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\connection.py", line 627, in _connect
+    raise err
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\connection.py", line 615, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [WinError 10061] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 472, in _reraise_as_library_errors
+    yield
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 459, in _ensure_connection
+    return retry_over_time(
+           ^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\utils\functional.py", line 318, in retry_over_time
+    return fun(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 934, in _connection_factory
+    self._connection = self._establish_connection()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 860, in _establish_connection
+    conn = self.transport.establish_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\transport\virtual\base.py", line 975, in establish_connection
+    self._avail_channels.append(self.create_channel(self))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\transport\virtual\base.py", line 953, in create_channel
+    channel = self.Channel(connection)
+              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\transport\redis.py", line 744, in __init__
+    self.client.ping()
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\commands\core.py", line 1216, in ping
+    return self.execute_command("PING", **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\client.py", line 533, in execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\connection.py", line 1086, in get_connection
+    connection.connect()
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\connection.py", line 270, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6379. Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 714, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\sites.py", line 240, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1941, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1802, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1853, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1257, in save_model
+    obj.save()
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\contrib\auth\base_user.py", line 77, in save
+    super().save(*args, **kwargs)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 822, in save
+    self.save_base(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 924, in save_base
+    post_save.send(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\dispatch\dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\users\signals.py", line 10, in custom_user_created
+    welcome_email.delay(instance.id)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\celery\app\task.py", line 444, in delay
+    return self.apply_async(args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\celery\app\task.py", line 594, in apply_async
+    return app.send_task(
+           ^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\celery\app\base.py", line 799, in send_task
+    amqp.send_task_message(P, name, message, **options)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\celery\app\amqp.py", line 518, in send_task_message
+    ret = producer.publish(
+          ^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\messaging.py", line 186, in publish
+    return _publish(
+           ^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 556, in _ensured
+    return fun(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\messaging.py", line 195, in _publish
+    channel = self.channel
+              ^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\messaging.py", line 218, in _get_channel
+    channel = self._channel = channel()
+                              ^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\utils\functional.py", line 34, in __call__
+    value = self.__value__ = self.__contract__()
+                             ^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\messaging.py", line 234, in <lambda>
+    channel = ChannelPromise(lambda: connection.default_channel)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 953, in default_channel
+    self._ensure_connection(**conn_opts)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 458, in _ensure_connection
+    with ctx():
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 476, in _reraise_as_library_errors
+    raise ConnectionError(str(exc)) from exc
+kombu.exceptions.OperationalError: Error 10061 connecting to localhost:6379. Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
