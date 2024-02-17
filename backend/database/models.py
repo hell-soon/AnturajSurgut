@@ -107,21 +107,6 @@ class Product(models.Model):
         verbose_name_plural = "Товары"
 
 
-class Favorite(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-
-    class Meta:
-        constraints = [
-            UniqueConstraint(fields=["user", "product"], name="unique_favorite")
-        ]
-        verbose_name = "Избранное"
-        verbose_name_plural = "Избранное"
-
-    def __str__(self):
-        return f"{self.user.first_name} {self.user.last_name}"
-
-
 class Order(models.Model):
     CHOICES_TYPES = (
         ("1", "Самовывоз"),
@@ -129,16 +114,20 @@ class Order(models.Model):
         ("3", "Доставка транспортной компанией"),
     )
 
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    products = models.JSONField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, verbose_name="Заказчик"
+    )
+    products = models.JSONField(verbose_name="Товары")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Сформирован")
     order_number = models.CharField(
         max_length=10,
         verbose_name="Номер заказа",
         unique=True,
         default=generate_order_number,
     )
-    order_type = models.CharField(max_length=1, choices=CHOICES_TYPES, default="1")
+    order_type = models.CharField(
+        max_length=1, choices=CHOICES_TYPES, default="1", verbose_name="Тип доставки"
+    )
     order_status = models.BooleanField(default=False, verbose_name="Статус оплаты")
     order_address = models.CharField(
         max_length=255, verbose_name="Адрес доставки", blank=True

@@ -7,7 +7,6 @@ from .models import (
     Product,
     Size,
     Tags,
-    Favorite,
     Order,
 )
 from allauth.account.models import EmailAddress
@@ -51,25 +50,19 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ("subcatalog", "promotion")
 
 
-@admin.register(Favorite)
-class FavoriteAdmin(admin.ModelAdmin):
-    """Admin View for Favorite"""
-
-    list_display = ("product", "user")
-
-
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     """Admin View for Order"""
 
     list_display = (
+        "order_number",
         "user",
         "created_at",
-        "order_number",
         "order_type",
         "order_status",
         "order_address",
         "get_products_display",
+        "get_total_cost",
     )
     list_filter = ("order_type", "order_status")
 
@@ -88,4 +81,19 @@ class OrderAdmin(admin.ModelAdmin):
                 products_display += f"ID: {product_id}, Количество: {quantity}\n"
         return products_display
 
-    get_products_display.short_description = "Products"
+    get_products_display.short_description = "Товары"
+
+    def get_total_cost(self, obj):
+        products_data = obj.products
+        total_cost = 0
+        for product in products_data:
+            product_id = product.get("product_id")
+            quantity = product.get("quantity")
+            try:
+                product_cost = Product.objects.get(id=product_id).cost
+                total_cost += product_cost * quantity
+            except Product.DoesNotExist:
+                pass
+        return total_cost
+
+    get_total_cost.short_description = "Общая стоимость"
