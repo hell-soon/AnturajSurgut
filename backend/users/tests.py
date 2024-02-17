@@ -73,7 +73,6 @@ class CustomUserRegistrationTestCase(APITestCase):
         self.assertEqual(info_response.data["user"]["email"], user.email)
         self.assertEqual(info_response.data["user"]["first_name"], user.first_name)
         self.assertEqual(info_response.data["user"]["last_name"], user.last_name)
-        self.assertEqual(info_response.data["user_cart_id"], user.cart.id)
         print("Успешный запрос информации о пользователе с использованием JWT токена")
 
     def test_user_info_without_token(self):

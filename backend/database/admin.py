@@ -9,8 +9,6 @@ from .models import (
     ProductImage,
     Tags,
     Favorite,
-    Cart,
-    CartItem,
 )
 
 
@@ -61,18 +59,3 @@ class FavoriteAdmin(admin.ModelAdmin):
     """Admin View for Favorite"""
 
     list_display = ("product", "user")
-
-
-@admin.register(Cart)
-class CartAdmin(admin.ModelAdmin):
-    """Admin View for Cart"""
-
-    list_display = ("user", "total_cost")
-
-
-@admin.register(CartItem)
-class CartItemAdmin(admin.ModelAdmin):
-    """Admin View for CartItem"""
-
-    list_display = ("product", "quantity", "cart", "subtotal")
-    list_filter = ("cart",)

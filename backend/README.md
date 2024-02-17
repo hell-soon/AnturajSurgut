@@ -150,7 +150,6 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
         "email": "admin@admin.ru",
         "phone": null
     },
-    "user_cart_id": 1,
     "favorites": []
 }
 ```
@@ -171,46 +170,6 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
 - Срок действия ACCESS токена 30 минут после истечения нужно его обновить на **http://127.0.0.1:8000/api/auth/refresh**
 - Срок дейсвия REFRESH_TOKEN 7 дней после истечения нужно авторизоваться заново
 
-
-
-### Корзина пользователя
-Корзина пользователя требует авторизации.
-
-Что б получить содержимое корзины пользователя, нужно сделать запрос **http://localhost:8000/api/profile/cart/** Метод **GET**
-## Добавление в корзину
-Добавление товаров в корзину пользователя.
-
-Запрос **http://localhost:8000/api/profile/add-to-cart/** Метод **POST**
-```JSON
-{
-    "product_id": product_id,
-    "cart_id": cart_id,
-    "quantity": quantity
-}
-```
-- Ответ
-
-```JSON
-{
-    "success": "Товар добавлен в корзину"
-}
-```
-
-### Удаление товара
-Удаление товара из корзины
-Запрос **http://localhost:8000/api/profile/remove-from-cart/** Метод **POST**
-```JSON
-{
-    "product_id": 2,
-    "cart_id": 1
-}
-```
-Ответ
-```JSON
-{
-    "success": "Товар удален из корзины"
-}
-```
 # Товары
 ## Отображени товара
 http://127.0.0.1:8000/api/v1/product/products/
