@@ -9,6 +9,7 @@ from .serializers import (
     UserLoginSerializer,
     UserUpdatePasswordSerializer,
     UserEmailSerializer,
+    OrderSerializer,
 )
 from rest_framework.permissions import IsAuthenticated
 
@@ -113,3 +114,13 @@ def change_password(request, uid64, token):
             {"message": "Неверный идентификатор пользователя"},
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+
+@api_view(["POST"])
+def create_order(request):
+    if request.method == "POST":
+        serializer = OrderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

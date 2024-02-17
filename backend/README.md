@@ -212,37 +212,42 @@ http://127.0.0.1:8000/api/v1/product/products/
     }
 }
 ```
-## Избранное
 
-- Добавление **http://127.0.0.1:8000/api/profile/favorite/add/**:
 
-Запрос:
+# ЗАКАЗ
+## Коды:
+#### ```order_type``` - Тип доставки:
 ```JSON
 {
-    "product_id": "product_id"
+    "order_type": "1", - Самовывоз
+    "order_type": "2", - Доставка до двери
+    "order_type": "3", - Доставка транспортной компанией
 }
 ```
-Ответ:
+#### ```order_face``` - Лицо заказчика:
 ```JSON
 {
-    "success": "Товар добавлен в избранное"
+    "order_face": "1", - Юридическое лицо
+    "order_face": "2", - Физическое лицо
+}
+```
+- Тело запроса:
+```JSON
+{
+    "user_initials": "ФИО",
+    "user_communication": "email/phone",
+    "products": [
+        {"product_id": product_id, "quantity": quantity},
+        {"product_id": product_id, "quantity": quantity},
+    ],
+    "order_type": "1",
+    "order_address": "address",
+    "order_face": "2",
+    "order_additionalservices": [1, 2, 3], - Доп услуги выбранные при оформлении
+    "comment": "Доставить заказ к заднему входу" - Коментарий к заказу. Может быть пустой
 }
 ```
 
-- Удаление **http://127.0.0.1:8000/api/profile/favorite/remove/**
-
-Запрос:
-```JSON
-{
-    "product_id": "product_id"
-}
-```
-Ответ:
-```JSON
-{
-    "success": "Товар удален из избранного"
-}
-```
 ## Админка 
 http://127.0.0.1:8000/admin/
 

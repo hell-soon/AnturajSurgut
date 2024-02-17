@@ -7,4 +7,4 @@ from .tasks import send_order_confirmation_email
 @receiver(post_save, sender=Order)
 def send_email_order(sender, instance, created, **kwargs):
     if created:
-        send_order_confirmation_email.delay(instance.user.email)
+        print("Sending email to: " + instance.user_communication)

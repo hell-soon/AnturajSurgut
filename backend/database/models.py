@@ -2,6 +2,7 @@ from django.db import models
 from users.models import CustomUser
 from django.db.models import UniqueConstraint
 from .utils.order_number_generator import generate_order_number
+from django.db.models import Q
 
 
 class Catalog(models.Model):
@@ -137,7 +138,8 @@ class Order(models.Model):
         ("5", "Отменен"),
         ("6", "Завершен"),
     )
-    user_info = models.CharField(max_length=255, verbose_name="Информация о покупателе")
+    user_initials = models.CharField(max_length=100, verbose_name="Инициалы покупателя")
+    user_communication = models.CharField(max_length=255, verbose_name="Как связаться")
     products = models.JSONField(verbose_name="Товары")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Сформирован")
     order_number = models.CharField(
@@ -176,17 +178,17 @@ class Order(models.Model):
             self.order_address = "Самовывоз"
             self.track_number = "Самовывоз"
 
-        if CustomUser.objects.filter(email=self.user_info).exists():
-            user = CustomUser.objects.get(email=self.user_info)
-            self.user = user
-            self.user_info = f"{user.first_name} {user.last_name}\n {user.email}"
-
-        elif CustomUser.objects.filter(phone=self.user_info).exists():
-            user = CustomUser.objects.get(phone=self.user_info)
-            self.user = user
-            self.user_info = f"{user.first_name} {user.last_name}\n {user.phone}"
+        user_comm = self.user_communication
+        if user_comm:
+            try:
+                # Попытка найти пользователя по email или телефону
+                user = CustomUser.objects.get(Q(email=user_comm) | Q(phone=user_comm))
+                self.user_initials = f"{user.first_name} {user.last_name}"
+                self.user_communication = f"{user.email}, {user.phone}"
+            except CustomUser.DoesNotExist:
+                pass  # Если пользователь не найден, оставляем исходные данные
 
         super(Order, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"Заказ от {self.created_at} - {self.user_info}"
+        return f"Заказ от {self.created_at} - {self.user_communication}"

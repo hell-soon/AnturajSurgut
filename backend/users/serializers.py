@@ -2,6 +2,7 @@ from django.utils.text import slugify
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from django.db import IntegrityError
+from database.models import Order, Additionalservices
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -183,3 +184,28 @@ class UserUpdatePasswordSerializer(serializers.ModelSerializer):
 
 class UserEmailSerializer(serializers.Serializer):
     email = serializers.EmailField()
+
+
+class AdditionalservicesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Additionalservices
+        fields = ["id", "name", "price"]
+
+
+class OrderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Order
+        fields = [
+            "user_initials",
+            "user_communication",
+            "products",
+            "created_at",
+            "order_number",
+            "order_type",
+            "order_address",
+            "order_face",
+            "track_number",
+            "order_additionalservices",
+            "comment",
+        ]
