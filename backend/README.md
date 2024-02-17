@@ -174,51 +174,43 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
 ## Отображени товара
 http://127.0.0.1:8000/api/v1/product/products/
 ```JSON
+
 {
-        "id": 2,
-        "created_at": "06.02.2024",
-        "name": "Брюки темные для мальчика",
-        "description": "Состав:\r\n60% - хлопок \r\n30% - ткани\r\n10% - нитки",
-        "tags": [
+    "catalog_id": 1,
+    "catalog_name": "Школьная Форма",
+    "catalog_image": "http://127.0.0.1:8000/media/catalog_images/large_2.jpg",
+    "subcatalog": {
+        "subcatalog_id": 1,
+        "subcatalog_name": "Брюки школьные",
+        "subcatalog_image": "http://127.0.0.1:8000/media/subcatalog_images/aa0cd46cf06379ed7b4d503d02dc0ff9c6fb9f74_full.jpg",
+        "products": [
             {
-                "name": "Брюки"
-            },
-            {
-                "name": "Для мальчиков"
-            }
-        ],
-        "count": 100,
-        "size": [
-            {
-                "name": "XL"
-            },
-            {
-                "name": "L"
-            }
-        ],
-        "cost": 4500.0,
-        "rating": 666,
-        "promotion": true,
-        "promotion_cost": 3000.0,
-        "image": [
-            {
-                "image": "http://127.0.0.1:8000/media/product_images/large_2.jpg"
-            },
-            {
-                "image": "http://127.0.0.1:8000/media/product_images/d5fcaf91b8476153f2e7ffa0e5966b8c.png"
-            }
-        ],
-        "catalog": {
-            "id": 2,
-            "name": "Школьная Форма",
-            "image": "http://127.0.0.1:8000/media/catalog_images/large_25.jpg",
-            "subcatalog": {
-                "id": 2,
+                "id": 1,
+                "created_at": "13.02.2024",
                 "name": "Брюки",
-                "image": "http://127.0.0.1:8000/media/subcatalog_images/large_41.jpg"
+                "description": "asd\r\nDSA\r\nADS\r\n\r\nASD",
+                "count": 123,
+                "size": [
+                    {
+                        "name": "XXL"
+                    },
+                    {
+                        "name": "XL"
+                    }
+                ],
+                "cost": 3700.0,
+                "rating": 123,
+                "promotion": false,
+                "promotion_cost": null,
+                "image": [
+                    {
+                        "image": "http://127.0.0.1:8000/media/product_images/aa0cd46cf06379ed7b4d503d02dc0ff9c6fb9f74_full.jpg"
+                    }
+                ]
             }
-        }
+        ]
     }
+}
 ```
 ## Избранное
 

@@ -1,6 +1,7 @@
 from django.db import models
 from users.models import CustomUser
 from django.db.models import UniqueConstraint
+from .utils.order_number_generator import generate_order_number
 
 
 class Catalog(models.Model):
@@ -119,3 +120,40 @@ class Favorite(models.Model):
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
+
+
+class Order(models.Model):
+    CHOICES_TYPES = (
+        ("1", "Самовывоз"),
+        ("2", "Доставка до двери"),
+        ("3", "Доставка транспортной компанией"),
+    )
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    products = models.JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    order_number = models.CharField(
+        max_length=10,
+        verbose_name="Номер заказа",
+        unique=True,
+        default=generate_order_number,
+    )
+    order_type = models.CharField(max_length=1, choices=CHOICES_TYPES, default="1")
+    order_status = models.BooleanField(default=False, verbose_name="Статус оплаты")
+    order_address = models.CharField(
+        max_length=255, verbose_name="Адрес доставки", blank=True
+    )
+
+    class Meta:
+        verbose_name = "Заказ"
+        verbose_name_plural = "Заказы"
+
+    def save(self, *args, **kwargs):
+        if self.order_type == "1":
+            self.order_address = "Самовывоз"
+        super(Order, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return (
+            f"Заказ от {self.created_at} - {self.user.first_name} {self.user.last_name}"
+        )

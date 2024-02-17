@@ -3,20 +3,6 @@ from rest_framework import serializers
 from database.models import Catalog, SubCatalog, ProductImage, Size, Product, Tags
 
 
-class CatalogSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Catalog
-        fields = ["id", "name", "image"]
-
-
-class SubCatalogSerializer(serializers.ModelSerializer):
-    catalog = CatalogSerializer()
-
-    class Meta:
-        model = SubCatalog
-        fields = ["id", "catalog", "name", "image"]
-
-
 class SizeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Size
@@ -35,12 +21,25 @@ class TagsSerializer(serializers.ModelSerializer):
         fields = ["name"]
 
 
+class CatalogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Catalog
+        fields = ["id", "name", "image"]
+
+
+class SubCatalogSerializer(serializers.ModelSerializer):
+    catalog = CatalogSerializer()
+
+    class Meta:
+        model = SubCatalog
+        fields = ["id", "catalog", "name", "image"]
+
+
 class ProductSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(format="%d.%m.%Y")
     size = SizeSerializer(many=True)
     subcatalog = SubCatalogSerializer()
     image = ProductImageSerializer(many=True)
-    tags = TagsSerializer(many=True)
 
     class Meta:
         model = Product
@@ -49,7 +48,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "created_at",
             "name",
             "description",
-            "tags",
             "count",
             "size",
             "cost",
@@ -64,11 +62,15 @@ class ProductSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
         subcatalog_data = data.pop("subcatalog")
         catalog_data = subcatalog_data.pop("catalog")
-        data["catalog"] = {
-            "id": catalog_data["id"],
-            "name": catalog_data["name"],
-            "image": catalog_data["image"],
-            "subcatalog": subcatalog_data,
+        catalog = {
+            "catalog_id": catalog_data["id"],
+            "catalog_name": catalog_data["name"],
+            "catalog_image": catalog_data["image"],
+            "subcatalog": {
+                "subcatalog_id": subcatalog_data["id"],
+                "subcatalog_name": subcatalog_data["name"],
+                "subcatalog_image": subcatalog_data["image"],
+                "products": [data],
+            },
         }
-
-        return data
+        return catalog
