@@ -76,7 +76,7 @@ class Product(models.Model):
     description = models.TextField(blank=True, verbose_name="Описание")
     size = models.ManyToManyField(Size, verbose_name="Размеры")
     subcatalog = models.ForeignKey(
-        SubCatalog, on_delete=models.DO_NOTHING, verbose_name="Категория"
+        SubCatalog, on_delete=models.CASCADE, verbose_name="Категория"
     )
     image = models.ManyToManyField(ProductImage, verbose_name="Изображение", blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создан")
@@ -107,16 +107,37 @@ class Product(models.Model):
         verbose_name_plural = "Товары"
 
 
+class Additionalservices(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Название доп.услуги")
+    price = models.FloatField(verbose_name="Цена")
+
+    class Meta:
+        verbose_name = "Доп.услуга"
+        verbose_name_plural = "Доп.услуги"
+
+    def __str__(self):
+        return self.name
+
+
 class Order(models.Model):
     CHOICES_TYPES = (
         ("1", "Самовывоз"),
         ("2", "Доставка до двери"),
         ("3", "Доставка транспортной компанией"),
     )
-
-    user = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, verbose_name="Заказчик"
+    CHOICES_FACE = (
+        ("1", "Юридическое лицо"),
+        ("2", "Физическое лицо"),
     )
+    CHOICES_STATUS = (
+        ("1", "Не готов"),
+        ("2", "Готов к выдаче"),
+        ("3", "Передан в доставку"),
+        ("4", "Доставлен"),
+        ("5", "Отменен"),
+        ("6", "Завершен"),
+    )
+    user_info = models.CharField(max_length=255, verbose_name="Информация о покупателе")
     products = models.JSONField(verbose_name="Товары")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Сформирован")
     order_number = models.CharField(
@@ -128,10 +149,23 @@ class Order(models.Model):
     order_type = models.CharField(
         max_length=1, choices=CHOICES_TYPES, default="1", verbose_name="Тип доставки"
     )
-    order_status = models.BooleanField(default=False, verbose_name="Статус оплаты")
+    order_paymant = models.BooleanField(default=False, verbose_name="Статус оплаты")
     order_address = models.CharField(
         max_length=255, verbose_name="Адрес доставки", blank=True
     )
+    order_face = models.CharField(
+        max_length=1, choices=CHOICES_FACE, default="1", verbose_name="Тип лица"
+    )
+    order_status = models.CharField(
+        max_length=1, choices=CHOICES_STATUS, default="1", verbose_name="Статус"
+    )
+    order_additionalservices = models.ManyToManyField(
+        Additionalservices, verbose_name="Доп.услуги", blank=True
+    )
+    track_number = models.CharField(
+        max_length=255, verbose_name="Номер отслеживания", blank=True
+    )
+    comment = models.TextField(verbose_name="Комментарии", blank=True)
 
     class Meta:
         verbose_name = "Заказ"
@@ -140,9 +174,19 @@ class Order(models.Model):
     def save(self, *args, **kwargs):
         if self.order_type == "1":
             self.order_address = "Самовывоз"
+            self.track_number = "Самовывоз"
+
+        if CustomUser.objects.filter(email=self.user_info).exists():
+            user = CustomUser.objects.get(email=self.user_info)
+            self.user = user
+            self.user_info = f"{user.first_name} {user.last_name}\n {user.email}"
+
+        elif CustomUser.objects.filter(phone=self.user_info).exists():
+            user = CustomUser.objects.get(phone=self.user_info)
+            self.user = user
+            self.user_info = f"{user.first_name} {user.last_name}\n {user.phone}"
+
         super(Order, self).save(*args, **kwargs)
 
     def __str__(self):
-        return (
-            f"Заказ от {self.created_at} - {self.user.first_name} {self.user.last_name}"
-        )
+        return f"Заказ от {self.created_at} - {self.user_info}"
