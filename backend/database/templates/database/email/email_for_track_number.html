@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Number Added</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .content {
+            margin-top: 20px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #333;
+            color: #fff;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Ваш заказ был обновлен!</h1>
+        </div>
+        <div class="content">
+            <p>Здравствуй,{{ initials }}!</p>
+            <p>Мы добавили трэк-номер к вашему заказу.</p>
+            <p>Ваш трэк-номер: <strong>{{ track_number }}</strong></p>
+            <p>Вы можете отследить ваш заказ на официальном сайте транспортной компании.</p>
+        </div>
+        <div class="footer">
+            <p>Спасибо за то что выбрали нас!</p>
+            <p>Это письмо сформировано автоматически. Пожалуйста, не отвечайте на него.</p>
+        </div>
+    </div>
+</body>
+
+</html>
