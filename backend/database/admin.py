@@ -72,7 +72,8 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = (
         "order_number",
         "user_initials",
-        "user_communication",
+        "user_email",
+        "user_phone",
         "created_at",
         "order_type",
         "order_address",

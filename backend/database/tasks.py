@@ -17,9 +17,9 @@ def send_html_email(subject, template_name, data, recipient_list):
 
 
 @shared_task
-def send_order_confirmation_email(contact_info, order_number):
-    recipient_list = [contact_info]
+def send_order_confirmation_email(order_number):
     order = Order.objects.get(order_number=order_number)
+    recipient_list = [order.user_email]
     data = {
         "initials": order.user_initials,
         "order_number": order.order_number,
@@ -37,13 +37,14 @@ def send_order_confirmation_email(contact_info, order_number):
 
 
 @shared_task
-def send_email_for_manager(contact_info, order_number):
+def send_email_for_manager(order_number):
     recipient_list = Group.objects.get(name="Менеджеры").user_set.all()
     order = Order.objects.get(order_number=order_number)
     data = {
         "id": order.id,
         "initials": order.user_initials,
-        "user_contact": [contact_info],
+        "user_email": order.user_email,
+        "user_phone": order.user_phone,
         "order_number": order.order_number,
         "order_address": order.order_address,
         "order_status": order.order_status,
@@ -58,9 +59,9 @@ def send_email_for_manager(contact_info, order_number):
 
 
 @shared_task
-def send_email_for_track_number(contact_info, order_number, track_number):
-    recipient_list = [contact_info]
+def send_email_for_track_number(order_number, track_number):
     order = Order.objects.get(order_number=order_number)
+    recipient_list = [order.user_email]
     data = {
         "initials": order.user_initials,
         "order_number": order.order_number,
@@ -74,9 +75,9 @@ def send_email_for_track_number(contact_info, order_number, track_number):
 
 
 @shared_task
-def send_email_for_change_order_status(contact_info, order_number, order_status):
-    recipient_list = [contact_info]
+def send_email_for_change_order_status(order_number, order_status):
     order = Order.objects.get(order_number=order_number)
+    recipient_list = [order.user_email]
     status_name = STATUS_MAP.get(order_status)
     data = {
         "initials": order.user_initials,
@@ -115,8 +116,8 @@ def send_error_for_manager(result, phone):
 
 
 @shared_task
-def send_sms_to_user(contact_info, sms_text):
+def send_sms_to_user(user_phone, sms_text):
     sms = SmsRuApi()
-    phone = sms.beautify_phone(contact_info)
+    phone = sms.beautify_phone(user_phone)
     result = sms.send_one_sms(phone, sms_text)
     send_error_for_manager.delay(result, phone)

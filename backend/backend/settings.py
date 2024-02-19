@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "sitedb.apps.SitedbConfig",
     "ProductAPI.apps.ProductapiConfig",
     "users.apps.UsersConfig",
+    "profiles.apps.ProfilesConfig",
+    "telegram.apps.TelegramConfig",
     "django_filters",
     "allauth",  # work with users
     "allauth.account",

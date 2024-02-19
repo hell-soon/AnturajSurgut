@@ -20,6 +20,7 @@ urlpatterns = [
     ),
     path("create/", create_products),
     path("smsru/", include("smsru.urls")),
+    path("telegram/", include("telegram.urls")),
 ]
 
 

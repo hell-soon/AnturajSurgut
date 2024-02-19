@@ -3,6 +3,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from django.db import IntegrityError
 from database.models import Order, Additionalservices
+from rest_framework.exceptions import ValidationError
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -193,12 +194,15 @@ class AdditionalservicesSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    user_email = serializers.EmailField()
+    user_phone = serializers.CharField()
 
     class Meta:
         model = Order
         fields = [
             "user_initials",
-            "user_communication",
+            "user_email",
+            "user_phone",
             "products",
             "created_at",
             "order_number",
@@ -209,3 +213,14 @@ class OrderSerializer(serializers.ModelSerializer):
             "order_additionalservices",
             "comment",
         ]
+
+    def validate(self, data):
+        user_email = data.get("user_email")
+        user_phone = data.get("user_phone")
+
+        if not user_email and not user_phone:
+            raise serializers.ValidationError(
+                "Either 'user_email' or 'user_phone' must be provided."
+            )
+
+        return data

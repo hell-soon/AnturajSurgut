@@ -139,7 +139,10 @@ class Order(models.Model):
         ("6", "Завершен"),
     )
     user_initials = models.CharField(max_length=100, verbose_name="Инициалы покупателя")
-    user_communication = models.CharField(max_length=255, verbose_name="Как связаться")
+    user_email = models.EmailField(verbose_name="Электронная почта", blank=True)
+    user_phone = models.CharField(
+        max_length=20, verbose_name="Номер телефона", blank=True
+    )
     products = models.JSONField(verbose_name="Товары")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Сформирован")
     order_number = models.CharField(
@@ -178,17 +181,20 @@ class Order(models.Model):
             self.order_address = "Самовывоз"
             self.track_number = "Самовывоз"
 
-        user_comm = self.user_communication
-        if user_comm:
-            try:
-                # Попытка найти пользователя по email или телефону
-                user = CustomUser.objects.get(Q(email=user_comm) | Q(phone=user_comm))
-                self.user_initials = f"{user.first_name} {user.last_name}"
-                self.user_communication = f"{user.email}, {user.phone}"
-            except CustomUser.DoesNotExist:
-                pass  # Если пользователь не найден, оставляем исходные данные
+        try:
+            user = CustomUser.objects.get(
+                Q(email=self.user_email) | Q(phone=self.user_phone)
+            )
+            self.user_email = user.email
+            self.user_phone = user.phone
+            self.user_initials = f"{user.first_name} {user.last_name}"
+        except CustomUser.DoesNotExist:
+            pass
+
+        if not self.user_phone:
+            self.user_phone = "Нету телефона я бимж"
 
         super(Order, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"Заказ от {self.created_at} - {self.user_communication}"
+        return f"Заказ от {self.created_at} - {self.user_initials}"
