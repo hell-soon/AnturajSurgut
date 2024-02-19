@@ -5,8 +5,8 @@ from .tasks import (
     send_order_confirmation_email,
     send_email_for_track_number,
     send_email_for_manager,
-    send_notification_order_sms,
-    send_notification_sms_for_change_track_number,
+    send_email_for_change_order_status,
+    send_sms_to_user,
 )
 from .utils.helper import get_contact_info
 
@@ -30,14 +30,14 @@ def send_email_order(sender, instance, created, **kwargs):
                     contact_info[0], instance.order_number
                 )
             else:
-                sms_text = f"Спасибо за заказ в Антураж. Номер вашего заказа: {instance.order_number}"
-                send_notification_order_sms.delay(contact_info[0], sms_text)
+                sms_text = f"Спасибо за заказ в Антураж.\n Номер вашего заказа: {instance.order_number}"
+                send_sms_to_user.delay(contact_info[0], sms_text)
 
 
 @receiver(pre_save, sender=Order)
 def signal_order_change_track_number(sender, instance, **kwargs):
     """
-    Проверяем, изменился ли трэк-номер заказа.
+    Проверяем, изменился ли трэк-номер заказа. Если нет проверка на статус заказа.
     Отправляеться Письмо на Почту с трэк-номером или СМС на телефон
     """
     try:
@@ -52,7 +52,17 @@ def signal_order_change_track_number(sender, instance, **kwargs):
                     contact_info[0], instance.order_number, instance.track_number
                 )
             else:
-                sms_text = f"К заказу: {instance.order_number} был добавлен трэк-номер. Трэк-номер: {instance.track_number}. Вы можете отследить посылку по этому трэк-номеру на офицальном сайте транспортной компании."
-                send_notification_sms_for_change_track_number.delay(
-                    contact_info[0], sms_text
+                sms_text = f"К заказу: {instance.order_number} был добавлен трэк-номер.\n Трэк-номер: {instance.track_number}.\n Вы можете отследить посылку по этому трэк-номеру на офицальном сайте транспортной компании."
+                send_sms_to_user.delay(contact_info[0], sms_text)
+
+    if old_instance.order_status != instance.order_status:
+        contact_info = get_contact_info(instance.user_communication)
+        if contact_info:
+            if "@" in contact_info[0]:
+                pass
+                send_email_for_change_order_status.delay(
+                    contact_info[0], instance.order_number, instance.order_status
                 )
+            else:
+                sms_text = f"Статус заказа:{instance.order_number} измнился. \n Статус: {instance.order_status}"
+                send_sms_to_user.delay(contact_info[0], sms_text)

@@ -5,6 +5,7 @@ from django.conf import settings
 from .models import Order
 from django.contrib.auth.models import Group
 from smsru.service import SmsRuApi
+from .utils.codes import STATUS_MAP
 
 
 @shared_task
@@ -73,6 +74,26 @@ def send_email_for_track_number(contact_info, order_number, track_number):
 
 
 @shared_task
+def send_email_for_change_order_status(contact_info, order_number, order_status):
+    recipient_list = [contact_info]
+    order = Order.objects.get(order_number=order_number)
+    status_name = STATUS_MAP.get(order_status)
+    data = {
+        "initials": order.user_initials,
+        "order_number": order.order_number,
+        "order_address": order.order_address,
+        "order_status": status_name,
+        "created_at": order.created_at,
+    }
+    send_html_email(
+        "Изменение статуса заказа",
+        "database/email/email_for_change_order_status.html",
+        data,
+        recipient_list,
+    )
+
+
+@shared_task
 def send_error_for_manager(result, phone):
     if result.get(phone, {}).get("status", False):
         pass
@@ -94,15 +115,7 @@ def send_error_for_manager(result, phone):
 
 
 @shared_task
-def send_notification_order_sms(contact_info, sms_text):
-    sms = SmsRuApi()
-    phone = sms.beautify_phone(contact_info)
-    result = sms.send_one_sms(phone, sms_text)
-    send_error_for_manager.delay(result, phone)
-
-
-@shared_task
-def send_notification_sms_for_change_track_number(contact_info, sms_text):
+def send_sms_to_user(contact_info, sms_text):
     sms = SmsRuApi()
     phone = sms.beautify_phone(contact_info)
     result = sms.send_one_sms(phone, sms_text)
