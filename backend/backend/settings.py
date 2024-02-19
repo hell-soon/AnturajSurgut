@@ -263,8 +263,6 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 
 SMS_RU = {
-    "API_ID": "AD9CE953-3D6B-E5D6-437C-A94DFA56885D",  # если указан API ключ, логин и пароль пропускаем
-    "TEST": True,  # отправка смс в тестовом режиме, по умолчанию False
-    "SENDER": "sms",  # отправитель - необязательно поле
-    "PARTNER_ID": 1111,  # ID партнера - необязательно поле
+    "API_ID": "AD9CE953-3D6B-E5D6-437C-A94DFA56885D",
+    "FROM": "Anturaj",
 }

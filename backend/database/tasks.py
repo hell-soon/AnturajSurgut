@@ -4,6 +4,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from .models import Order
 from django.contrib.auth.models import Group
+from smsru.service import SmsRuApi
 
 
 @shared_task
@@ -69,3 +70,40 @@ def send_email_for_track_number(contact_info, order_number, track_number):
     send_html_email(
         "Ваш заказ", "database/email/email_for_track_number.html", data, recipient_list
     )
+
+
+@shared_task
+def send_error_for_manager(result, phone):
+    if result.get(phone, {}).get("status", False):
+        pass
+    else:
+        sms_id = result.get(phone, {}).get("sms_id")
+        error_message = result.get(phone, {}).get("status_text")
+        recipient_list = Group.objects.get(name="Менеджеры").user_set.all()
+        data = {
+            "id": sms_id,
+            "phone": phone,
+            "error_message": error_message,
+        }
+        send_html_email(
+            "Ошбика при отправке смс",
+            "database/email/error_email_for_manager.html",
+            data,
+            recipient_list,
+        )
+
+
+@shared_task
+def send_notification_order_sms(contact_info, sms_text):
+    sms = SmsRuApi()
+    phone = sms.beautify_phone(contact_info)
+    result = sms.send_one_sms(phone, sms_text)
+    send_error_for_manager.delay(result, phone)
+
+
+@shared_task
+def send_notification_sms_for_change_track_number(contact_info, sms_text):
+    sms = SmsRuApi()
+    phone = sms.beautify_phone(contact_info)
+    result = sms.send_one_sms(phone, sms_text)
+    send_error_for_manager.delay(result, phone)
