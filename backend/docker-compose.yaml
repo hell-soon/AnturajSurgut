@@ -27,3 +27,7 @@ services:
     depends_on:
       - main
       - redis
+  telegram:
+    build:
+      context: .
+    command: python manage.py bot
