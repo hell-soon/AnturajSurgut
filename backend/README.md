@@ -167,7 +167,7 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
     ]
 }
 ```
-- Срок действия ACCESS токена 30 минут после истечения нужно его обновить на **http://127.0.0.1:8000/api/auth/refresh**
+- Срок действия ACCESS токена 5 часов после истечения нужно его обновить на **http://127.0.0.1:8000/api/auth/refresh**
 - Срок дейсвия REFRESH_TOKEN 7 дней после истечения нужно авторизоваться заново
 
 # Товары
@@ -217,36 +217,46 @@ http://127.0.0.1:8000/api/v1/product/products/
 # ЗАКАЗ
 ## Коды:
 #### ```order_type``` - Тип доставки:
-```JSON
-{
-    "order_type": "1", - Самовывоз
-    "order_type": "2", - Доставка до двери
-    "order_type": "3", - Доставка транспортной компанией
-}
-```
+| Код | Описание |
+| ----------- | ----------- |
+| 1    | Самовывоз    |
+| 2    | Доставка до двери    |
+| 3    | Доставка транспортной компанией    |
+
+
 #### ```order_face``` - Лицо заказчика:
+| Код | Описание |
+| ----------- | ----------- |
+| 1    | Юридическое лицо    |
+| 2    | Физическое лицо    |
+
+### Основное тело запроса:
 ```JSON
 {
-    "order_face": "1", - Юридическое лицо
-    "order_face": "2", - Физическое лицо
-}
-```
-- Тело запроса:
-```JSON
 {
-    "user_initials": "ФИО",
-    "user_communication": "email/phone", - Формат телефона +12345678901
-    "products": [
-        {"product_id": product_id, "quantity": quantity},
-        {"product_id": product_id, "quantity": quantity},
+    "user_initials": "John Doe",
+    "user_email": "johndoe@example.com",
+    "user_phone": "123456789",
+    "items": [
+        {
+            "id": 1,
+            "quantity": 2
+        },
+        {
+            "id": 2,
+            "quantity": 1
+        }
     ],
+    "order_additionalservices": [1,2,3],
     "order_type": "1",
-    "order_address": "address",
+    "order_address": "123 Main St",
     "order_face": "2",
-    "order_additionalservices": [1, 2, 3], - Доп услуги выбранные при оформлении
-    "comment": "Доставить заказ к заднему входу" - Коментарий к заказу. Может быть пустой
+    "comment": "Please deliver to the front door"
+}
 }
 ```
+### Валидация:
+- поля user_email и user_phone, должно быть заполнено хотя бы одно любое из этих полей
 
 ## Админка 
 http://127.0.0.1:8000/admin/

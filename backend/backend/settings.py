@@ -14,7 +14,6 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 import datetime
-from django.conf import settings
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -98,6 +97,8 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+
+# ПЕРЕХОД С SQLITE3 на POSTGRESQL
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -249,22 +250,22 @@ LOGGING = {
 # else:
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.yandex.ru"
-EMAIL_PORT = "465"
-EMAIL_HOST_USER = "NewsPortalDjango1@yandex.ru"
-EMAIL_HOST_PASSWORD = "gifnwcizletrcgku"
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
-REDIS_HOST = "localhost"
-REDIS_PORT = "6379"
-REDIS_DB = "0"
+REDIS_HOST = os.getenv("REDIS_HOST")
+REDIS_PORT = os.getenv("REDIS_PORT")
+REDIS_DB = os.getenv("REDIS_DB")
 
 CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 
 SMS_RU = {
-    "API_ID": "AD9CE953-3D6B-E5D6-437C-A94DFA56885D",
-    "FROM": "Anturaj",
+    "API_ID": os.getenv("SMS_RU_API_ID"),
+    "FROM": os.getenv("SMSRU_FROM"),
 }

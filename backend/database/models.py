@@ -139,11 +139,12 @@ class Order(models.Model):
         ("6", "Завершен"),
     )
     user_initials = models.CharField(max_length=100, verbose_name="Инициалы покупателя")
-    user_email = models.EmailField(verbose_name="Электронная почта", blank=True)
-    user_phone = models.CharField(
-        max_length=20, verbose_name="Номер телефона", blank=True
+    user_email = models.EmailField(
+        verbose_name="Электронная почта", blank=True, null=True
     )
-    products = models.JSONField(verbose_name="Товары")
+    user_phone = models.CharField(
+        max_length=20, verbose_name="Номер телефона", blank=True, null=True
+    )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Сформирован")
     order_number = models.CharField(
         max_length=10,
@@ -192,9 +193,26 @@ class Order(models.Model):
             pass
 
         if not self.user_phone:
-            self.user_phone = "Нету телефона я бимж"
+            self.user_phone = "Нету телефона"
 
         super(Order, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"Заказ от {self.created_at} - {self.user_initials}"
+
+
+class OrderItems(models.Model):
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, verbose_name="номер заказа"
+    )
+    product = models.ForeignKey(
+        "Product", on_delete=models.CASCADE, verbose_name="Товар"
+    )
+    quantity = models.PositiveIntegerField(verbose_name="Количество")
+
+    def __str__(self):
+        return f"{self.order} - {self.product}"
+
+    class Meta:
+        verbose_name = "Товар в заказе"
+        verbose_name_plural = "Товары в заказе"

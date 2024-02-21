@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   main:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -27,7 +28,11 @@ services:
     depends_on:
       - main
       - redis
-  telegram:
+
+  telegram_bot:
     build:
       context: .
     command: python manage.py bot
+    depends_on:
+      - main
+      - redis

@@ -21,6 +21,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
+from database.models import Order
 
 
 @api_view(["POST"])
@@ -123,4 +124,5 @@ def create_order(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
