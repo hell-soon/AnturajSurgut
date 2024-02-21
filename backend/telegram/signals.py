@@ -1,10 +1,16 @@
-from .models import TelegramNews
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .tasks import send_telegram_message
+from .models import TelegramNews
+
+import telebot
+import os
+
+
+bot = telebot.TeleBot(os.getenv("BOT_TOKEN"))
 
 
 @receiver(post_save, sender=TelegramNews)
-def telegram_news(sender, instance, created, **kwargs):
+def send_telegram_message(sender, instance, created, **kwargs):
     if created:
-        send_telegram_message(instance.title)
+        text = f"{instance.title}\n{instance.description}"
+        bot.send_message(chat_id=os.getenv("CHAT_ID"), text=text)
