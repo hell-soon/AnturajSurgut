@@ -30,3 +30,4 @@ var/
 # Django
 static/
 logs/
+.env

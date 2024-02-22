@@ -144,14 +144,12 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
 ```JSON
 {
     "user": {
-        "id": 1,
-        "first_name": "",
-        "last_name": "",
-        "email": "admin@admin.ru",
-        "phone": null
-    },
-    "user_cart_id": 1,
-    "favorites": []
+        "id": 3,
+        "first_name": "Test",
+        "last_name": "123456",
+        "email": "email@test.ru",
+        "phone": "123567890"
+    }
 }
 ```
 Ответ, если токен не действителен
@@ -168,130 +166,110 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
     ]
 }
 ```
-- Срок действия ACCESS токена 30 минут после истечения нужно его обновить на **http://127.0.0.1:8000/api/auth/refresh**
+- Срок действия ACCESS токена 5 часов после истечения нужно его обновить на **http://127.0.0.1:8000/api/auth/refresh**
 - Срок дейсвия REFRESH_TOKEN 7 дней после истечения нужно авторизоваться заново
-
-
-
-### Корзина пользователя
-Корзина пользователя требует авторизации.
-
-Что б получить содержимое корзины пользователя, нужно сделать запрос **http://localhost:8000/api/profile/cart/** Метод **GET**
-## Добавление в корзину
-Добавление товаров в корзину пользователя.
-
-Запрос **http://localhost:8000/api/profile/add-to-cart/** Метод **POST**
+### Изменение информацию о пользователе
+- http://127.0.0.1:8000/api/profile/change/ Метод PATCH
+- Тело запроса:
 ```JSON
 {
-    "product_id": product_id,
-    "cart_id": cart_id,
-    "quantity": quantity
+    "first_name": "first_name",
+    "last_name": "last_name",
+    "phone": "phone",
+    "email": "email"
 }
 ```
-- Ответ
+**Дополнительно**
 
-```JSON
-{
-    "success": "Товар добавлен в корзину"
-}
-```
-
-### Удаление товара
-Удаление товара из корзины
-Запрос **http://localhost:8000/api/profile/remove-from-cart/** Метод **POST**
-```JSON
-{
-    "product_id": 2,
-    "cart_id": 1
-}
-```
-Ответ
-```JSON
-{
-    "success": "Товар удален из корзины"
-}
-```
+В запросе не обязательно указывать все 4 поля.
 # Товары
 ## Отображени товара
 http://127.0.0.1:8000/api/v1/product/products/
 ```JSON
+
 {
-        "id": 2,
-        "created_at": "06.02.2024",
-        "name": "Брюки темные для мальчика",
-        "description": "Состав:\r\n60% - хлопок \r\n30% - ткани\r\n10% - нитки",
-        "tags": [
+    "catalog_id": 1,
+    "catalog_name": "Школьная Форма",
+    "catalog_image": "http://127.0.0.1:8000/media/catalog_images/large_2.jpg",
+    "subcatalog": {
+        "subcatalog_id": 1,
+        "subcatalog_name": "Брюки школьные",
+        "subcatalog_image": "http://127.0.0.1:8000/media/subcatalog_images/aa0cd46cf06379ed7b4d503d02dc0ff9c6fb9f74_full.jpg",
+        "products": [
             {
-                "name": "Брюки"
-            },
-            {
-                "name": "Для мальчиков"
-            }
-        ],
-        "count": 100,
-        "size": [
-            {
-                "name": "XL"
-            },
-            {
-                "name": "L"
-            }
-        ],
-        "cost": 4500.0,
-        "rating": 666,
-        "promotion": true,
-        "promotion_cost": 3000.0,
-        "image": [
-            {
-                "image": "http://127.0.0.1:8000/media/product_images/large_2.jpg"
-            },
-            {
-                "image": "http://127.0.0.1:8000/media/product_images/d5fcaf91b8476153f2e7ffa0e5966b8c.png"
-            }
-        ],
-        "catalog": {
-            "id": 2,
-            "name": "Школьная Форма",
-            "image": "http://127.0.0.1:8000/media/catalog_images/large_25.jpg",
-            "subcatalog": {
-                "id": 2,
+                "id": 1,
+                "created_at": "13.02.2024",
                 "name": "Брюки",
-                "image": "http://127.0.0.1:8000/media/subcatalog_images/large_41.jpg"
+                "description": "asd\r\nDSA\r\nADS\r\n\r\nASD",
+                "count": 123,
+                "size": [
+                    {
+                        "name": "XXL"
+                    },
+                    {
+                        "name": "XL"
+                    }
+                ],
+                "cost": 3700.0,
+                "rating": 123,
+                "promotion": false,
+                "promotion_cost": null,
+                "image": [
+                    {
+                        "image": "http://127.0.0.1:8000/media/product_images/aa0cd46cf06379ed7b4d503d02dc0ff9c6fb9f74_full.jpg"
+                    }
+                ]
             }
-        }
+        ]
     }
-```
-## Избранное
-
-- Добавление **http://127.0.0.1:8000/api/profile/favorite/add/**:
-
-Запрос:
-```JSON
-{
-    "product_id": "product_id"
-}
-```
-Ответ:
-```JSON
-{
-    "success": "Товар добавлен в избранное"
 }
 ```
 
-- Удаление **http://127.0.0.1:8000/api/profile/favorite/remove/**
 
-Запрос:
+# ЗАКАЗ
+## Коды:
+#### ```order_type``` - Тип доставки:
+| Код | Описание |
+| ----------- | ----------- |
+| 1    | Самовывоз    |
+| 2    | Доставка до двери    |
+| 3    | Доставка транспортной компанией    |
+
+
+#### ```order_face``` - Лицо заказчика:
+| Код | Описание |
+| ----------- | ----------- |
+| 1    | Юридическое лицо    |
+| 2    | Физическое лицо    |
+
+### Основное тело запроса:
 ```JSON
 {
-    "product_id": "product_id"
-}
-```
-Ответ:
-```JSON
 {
-    "success": "Товар удален из избранного"
+    "user_initials": "John Doe",
+    "user_email": "johndoe@example.com",
+    "user_phone": "123456789",
+    "items": [
+        {
+            "id": 1,
+            "quantity": 2
+        },
+        {
+            "id": 2,
+            "quantity": 1
+        }
+    ],
+    "order_additionalservices": [1,2,3],
+    "order_type": "1",
+    "order_address": "123 Main St",
+    "order_face": "2",
+    "comment": "Please deliver to the front door"
+}
 }
 ```
+### Валидация:
+- поля user_email и user_phone, должно быть заполнено хотя бы одно любое из этих полей
+
 ## Админка 
 http://127.0.0.1:8000/admin/
 

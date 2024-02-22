@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Entity Contact Information</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .content {
+            margin-top: 20px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #333;
+            color: #fff;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Заказ от Юридического лица</h1>
+        </div>
+        <div class="content">
+            <p>Уважаемые менеджеры</p>
+            <p>Поступил новый заказ от Юридического лица, пожалуйста, свяжитесь с ним по указанной контактной
+                информации</p>
+            <p>Инициалы заказчика: <strong>{{ initials }}</strong></p>
+            <p>Почта заказчика: <strong>{{ user_email }}</strong></p>
+            <p>Телефон заказчика: <strong>{{ user_phone }}</strong></p>
+            {% if order_comment %}
+            <p>Заказчик указал дополнительную информацию по заказу: <strong>{{ order_comment }}</strong></p>
+            {% endif %}
+            <p>Номер заказа: <a href="http://127.0.0.1:8000/admin/database/order/{{id}}/change/"> {{ order_number }}</a>
+            </p>
+            <!-- Add additional information if needed -->
+        </div>
+        <div class="footer">
+            <p>Это письмо сформировано автоматически. Пожалуйста, не отвечайте на него.</p>
+        </div>
+    </div>
+</body>
+
+</html>

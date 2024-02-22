@@ -1,0 +1,65 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-19 22:31+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\smsru\admin.py:23
+msgid "Update selected sms status"
+msgstr "Обновить статус выбранных записей"
+
+#: .\smsru\models.py:6
+msgid "Phone number"
+msgstr "Номер телефона"
+
+#: .\smsru\models.py:7
+msgid "Message"
+msgstr "Сообщение"
+
+#: .\smsru\models.py:8
+msgid "Status"
+msgstr "Статус"
+
+#: .\smsru\models.py:9
+msgid "Status code"
+msgstr "Код статуса"
+
+#: .\smsru\models.py:10
+msgid "Status text"
+msgstr "Текст статуса"
+
+#: .\smsru\models.py:11
+msgid "SMS ID"
+msgstr "SMS ID"
+
+#: .\smsru\models.py:12
+msgid "Cost"
+msgstr "Стоимость"
+
+#: .\smsru\models.py:13
+msgid "Created at"
+msgstr "Дата создания"
+
+#: .\smsru\models.py:16
+msgid "Logs"
+msgstr "Логи"
+
+#: .\smsru\models.py:17
+msgid "Log"
+msgstr "Лог"

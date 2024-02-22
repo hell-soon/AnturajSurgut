@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Delivery Error</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .content {
+            margin-top: 20px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #333;
+            color: #fff;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Ошибка при отправке СМС</h1>
+        </div>
+        <div class="content">
+            <p>Уважаемый менеджер,</p>
+            <p>Произошла ошибка при попытке отправить СМС.</p>
+            <p><strong>ID СМС:</strong> {{ sms_id }}</p>
+            <p><strong>Номер телефона:</strong> {{ phone }}</p>
+            <p><strong>Сообщение об ошибке:</strong> {{ error_message }}</p>
+            <p>Пожалуйста, проверьте систему для устранения проблемы.</p>
+        </div>
+        <div class="footer">
+            <p>Это письмо сформировано автоматически. Пожалуйста, не отвечайте на него.</p>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,17 +1,17 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-
+import json
 from .models import (
     Catalog,
     SubCatalog,
     Product,
     Size,
-    ProductImage,
     Tags,
-    Favorite,
-    Cart,
-    CartItem,
+    Order,
+    Additionalservices,
+    OrderItems,
 )
+from allauth.account.models import EmailAddress
 
 
 @admin.register(Catalog)
@@ -30,11 +30,6 @@ class SizeAdmin(admin.ModelAdmin):
     list_display = ("name",)
 
 
-@admin.register(ProductImage)
-class ProductImageAdmin(admin.ModelAdmin):
-    list_display = ("image",)
-
-
 @admin.register(Tags)
 class TagsAdmin(admin.ModelAdmin):
     list_display = ("name",)
@@ -44,35 +39,76 @@ class TagsAdmin(admin.ModelAdmin):
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "name",
-        "cost",
+        "id",
+        "get_cost",
         "count",
         "rating",
         "description",
         "subcatalog",
         "created_at",
         "promotion",
-        "promotion_cost",
+        "get_promotion_cost",
     )
     list_filter = ("subcatalog", "promotion")
+    search_fields = ("name", "description", "id")
+
+    def get_cost(self, obj):
+        return f"{round(obj.cost, 2)} Рублей"
+
+    get_cost.short_description = "Цена"
+
+    def get_promotion_cost(self, obj):
+        if obj.promotion_cost is not None:
+            return f"{round(obj.promotion_cost, 2)} Рублей"
+        else:
+            return None
+
+    get_promotion_cost.short_description = "Цена по акции"
 
 
-@admin.register(Favorite)
-class FavoriteAdmin(admin.ModelAdmin):
-    """Admin View for Favorite"""
-
-    list_display = ("product", "user")
-
-
-@admin.register(Cart)
-class CartAdmin(admin.ModelAdmin):
-    """Admin View for Cart"""
-
-    list_display = ("user", "total_cost")
+@admin.register(Additionalservices)
+class AdditionalservicesAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "price",
+    )
 
 
-@admin.register(CartItem)
-class CartItemAdmin(admin.ModelAdmin):
-    """Admin View for CartItem"""
+class OrderItemsInline(admin.TabularInline):
+    model = OrderItems
+    extra = 0
 
-    list_display = ("product", "quantity", "cart", "subtotal")
-    list_filter = ("cart",)
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    """Admin View for Order"""
+
+    list_display = (
+        "order_number",
+        "user_initials",
+        "user_email",
+        "user_phone",
+        "created_at",
+        "order_type",
+        "order_address",
+        "order_face",
+        "get_additional_services",
+        "order_paymant",
+        "order_status",
+        "comment",
+        "track_number",
+    )
+    list_filter = ("order_type", "order_status")
+    inlines = [OrderItemsInline]
+
+    def get_additional_services(self, obj):
+        additional_services = obj.order_additionalservices.all()
+        if additional_services:
+            return ", ".join([str(service) for service in additional_services])
+        else:
+            return "Нету дополнительных услуг"
+
+    get_additional_services.short_description = "Дополнительные услуги"
+
+
+admin.site.register(OrderItems)
