@@ -172,6 +172,7 @@ class Order(models.Model):
         max_length=255, verbose_name="Номер отслеживания", blank=True
     )
     comment = models.TextField(verbose_name="Комментарии", blank=True)
+    user_register = models.BooleanField(default=False, verbose_name="Зарегистрирован")
 
     class Meta:
         verbose_name = "Заказ"
@@ -189,6 +190,7 @@ class Order(models.Model):
             self.user_email = user.email
             self.user_phone = user.phone
             self.user_initials = f"{user.first_name} {user.last_name}"
+            self.user_register = True
         except CustomUser.DoesNotExist:
             pass
 
@@ -198,7 +200,7 @@ class Order(models.Model):
         super(Order, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"Заказ от {self.created_at} - {self.user_initials}"
+        return f"Заказ от {self.created_at.strftime('%d.%m.%Y %H:%M')} - {self.user_initials}"
 
 
 class OrderItems(models.Model):

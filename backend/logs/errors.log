@@ -14150,3 +14150,410 @@ Traceback (most recent call last):
     for image in instance.images.all():
                  ^^^^^^^^^^^^^^^
 AttributeError: 'TelegramNews' object has no attribute 'images'
+[22.02.2024 12:16:08 - ERROR] Internal Server Error: /api/auth/create/order/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\utils\functional.py", line 32, in __call__
+    return self.__value__
+           ^^^^^^^^^^^^^^
+AttributeError: 'ChannelPromise' object has no attribute '__value__'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\transport\virtual\base.py", line 951, in create_channel
+    return self._avail_channels.pop()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: pop from empty list
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\connection.py", line 264, in connect
+    sock = self.retry.call_with_retry(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\retry.py", line 46, in call_with_retry
+    return do()
+           ^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\connection.py", line 265, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+            ^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\connection.py", line 627, in _connect
+    raise err
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\connection.py", line 615, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [WinError 10061] Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 472, in _reraise_as_library_errors
+    yield
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 459, in _ensure_connection
+    return retry_over_time(
+           ^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\utils\functional.py", line 318, in retry_over_time
+    return fun(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 934, in _connection_factory
+    self._connection = self._establish_connection()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 860, in _establish_connection
+    conn = self.transport.establish_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\transport\virtual\base.py", line 975, in establish_connection
+    self._avail_channels.append(self.create_channel(self))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\transport\virtual\base.py", line 953, in create_channel
+    channel = self.Channel(connection)
+              ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\transport\redis.py", line 744, in __init__
+    self.client.ping()
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\commands\core.py", line 1216, in ping
+    return self.execute_command("PING", **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\client.py", line 533, in execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\connection.py", line 1086, in get_connection
+    connection.connect()
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\redis\connection.py", line 270, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 10061 connecting to localhost:6379. Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\users\views.py", line 123, in create_order
+    serializer.save()
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\users\serializers.py", line 250, in create
+    order = Order.objects.create(**validated_data)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 677, in create
+    obj.save(force_insert=True, using=self.db)
+  File "A:\Project\AnturajSurgut\backend\database\models.py", line 199, in save
+    super(Order, self).save(*args, **kwargs)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 822, in save
+    self.save_base(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 924, in save_base
+    post_save.send(
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\dispatch\dispatcher.py", line 189, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\database\signals.py", line 28, in send_email_order
+    send_order_confirmation_email.delay(instance.order_number)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\celery\app\task.py", line 444, in delay
+    return self.apply_async(args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\celery\app\task.py", line 594, in apply_async
+    return app.send_task(
+           ^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\celery\app\base.py", line 799, in send_task
+    amqp.send_task_message(P, name, message, **options)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\celery\app\amqp.py", line 518, in send_task_message
+    ret = producer.publish(
+          ^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\messaging.py", line 186, in publish
+    return _publish(
+           ^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 556, in _ensured
+    return fun(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\messaging.py", line 195, in _publish
+    channel = self.channel
+              ^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\messaging.py", line 218, in _get_channel
+    channel = self._channel = channel()
+                              ^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\utils\functional.py", line 34, in __call__
+    value = self.__value__ = self.__contract__()
+                             ^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\messaging.py", line 234, in <lambda>
+    channel = ChannelPromise(lambda: connection.default_channel)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 953, in default_channel
+    self._ensure_connection(**conn_opts)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 458, in _ensure_connection
+    with ctx():
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.11_3.11.2288.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\kombu\connection.py", line 476, in _reraise_as_library_errors
+    raise ConnectionError(str(exc)) from exc
+kombu.exceptions.OperationalError: Error 10061 connecting to localhost:6379. Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение.
+[22.02.2024 12:17:51 - ERROR] Internal Server Error: /api/auth/create/order/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\users\views.py", line 123, in create_order
+    serializer.save()
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\users\serializers.py", line 250, in create
+    order = Order.objects.create(**validated_data)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 677, in create
+    obj.save(force_insert=True, using=self.db)
+  File "A:\Project\AnturajSurgut\backend\database\models.py", line 192, in save
+    order = UsersOrder.objects.create(order=self.order, user=user)
+                                            ^^^^^^^^^^
+AttributeError: 'Order' object has no attribute 'order'
+[22.02.2024 12:18:18 - ERROR] Internal Server Error: /api/auth/create/order/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\users\views.py", line 123, in create_order
+    serializer.save()
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\users\serializers.py", line 250, in create
+    order = Order.objects.create(**validated_data)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 677, in create
+    obj.save(force_insert=True, using=self.db)
+  File "A:\Project\AnturajSurgut\backend\database\models.py", line 192, in save
+    order = UsersOrder.objects.create(order=order, user=user)
+                                            ^^^^^
+UnboundLocalError: cannot access local variable 'order' where it is not associated with a value
+[22.02.2024 12:21:54 - ERROR] Internal Server Error: /api/auth/create/order/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\users\views.py", line 123, in create_order
+    serializer.save()
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\users\serializers.py", line 250, in create
+    order = Order.objects.create(**validated_data)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 677, in create
+    obj.save(force_insert=True, using=self.db)
+  File "A:\Project\AnturajSurgut\backend\database\models.py", line 192, in save
+    users_order = UsersOrder.objects.create(order=self, user=user)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 677, in create
+    obj.save(force_insert=True, using=self.db)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 778, in save
+    self._prepare_related_fields_for_save(operation_name="save")
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 1140, in _prepare_related_fields_for_save
+    raise ValueError(
+ValueError: save() prohibited to prevent data loss due to unsaved related object 'order'.
+[22.02.2024 12:22:26 - ERROR] Internal Server Error: /api/auth/create/order/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\users\views.py", line 123, in create_order
+    serializer.save()
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\users\serializers.py", line 250, in create
+    order = Order.objects.create(**validated_data)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 677, in create
+    obj.save(force_insert=True, using=self.db)
+  File "A:\Project\AnturajSurgut\backend\database\models.py", line 192, in save
+    users_order = UsersOrder.objects.create(order=self, user=user)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 677, in create
+    obj.save(force_insert=True, using=self.db)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 778, in save
+    self._prepare_related_fields_for_save(operation_name="save")
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 1140, in _prepare_related_fields_for_save
+    raise ValueError(
+ValueError: save() prohibited to prevent data loss due to unsaved related object 'order'.
+[22.02.2024 12:22:27 - ERROR] Internal Server Error: /api/auth/create/order/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\users\views.py", line 123, in create_order
+    serializer.save()
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\backend\users\serializers.py", line 250, in create
+    order = Order.objects.create(**validated_data)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 677, in create
+    obj.save(force_insert=True, using=self.db)
+  File "A:\Project\AnturajSurgut\backend\database\models.py", line 192, in save
+    users_order = UsersOrder.objects.create(order=self, user=user)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\query.py", line 677, in create
+    obj.save(force_insert=True, using=self.db)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 778, in save
+    self._prepare_related_fields_for_save(operation_name="save")
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\base.py", line 1140, in _prepare_related_fields_for_save
+    raise ValueError(
+ValueError: save() prohibited to prevent data loss due to unsaved related object 'order'.
