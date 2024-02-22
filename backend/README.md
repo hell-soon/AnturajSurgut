@@ -144,13 +144,12 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
 ```JSON
 {
     "user": {
-        "id": 1,
-        "first_name": "",
-        "last_name": "",
-        "email": "admin@admin.ru",
-        "phone": null
-    },
-    "favorites": []
+        "id": 3,
+        "first_name": "Test",
+        "last_name": "123456",
+        "email": "email@test.ru",
+        "phone": "123567890"
+    }
 }
 ```
 Ответ, если токен не действителен
@@ -169,7 +168,20 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
 ```
 - Срок действия ACCESS токена 5 часов после истечения нужно его обновить на **http://127.0.0.1:8000/api/auth/refresh**
 - Срок дейсвия REFRESH_TOKEN 7 дней после истечения нужно авторизоваться заново
+### Изменение информацию о пользователе
+- http://127.0.0.1:8000/api/profile/change/ Метод PATCH
+- Тело запроса:
+```JSON
+{
+    "first_name": "first_name",
+    "last_name": "last_name",
+    "phone": "phone",
+    "email": "email"
+}
+```
+**Дополнительно**
 
+В запросе не обязательно указывать все 4 поля.
 # Товары
 ## Отображени товара
 http://127.0.0.1:8000/api/v1/product/products/
