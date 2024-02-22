@@ -6,9 +6,11 @@ from .views import (
     UserLoginView,
     change_password,
     email_for_change_pass,
-    create_order,
 )
 
+"""
+ENDPOINTS FOR AUTHENTICATION
+"""
 urlpatterns = [
     path("register/", register_user, name="register"),
     path("login/", UserLoginView.as_view(), name="user_login"),
@@ -19,5 +21,4 @@ urlpatterns = [
         name="change_password",
     ),
     path("refresh/", jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
-    path("create/order/", create_order, name="create_order"),
 ]

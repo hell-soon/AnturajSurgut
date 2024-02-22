@@ -8,8 +8,9 @@ from database.views import create_products
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/product/", include("ProductAPI.urls")),
-    path("api/auth/", include("users.urls")),
-    path("api/profile/", include("profiles.urls")),
+    path("api/v1/auth/", include("users.urls")),
+    path("api/v1/profile/", include("profiles.urls")),
+    path("api/v1/order/", include("order.urls")),
     path(
         "api/docs/",
         schema_view.with_ui("swagger", cache_timeout=0),

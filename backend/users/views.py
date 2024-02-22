@@ -1,17 +1,16 @@
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.shortcuts import render
+
 from .serializers import (
     UserRegisterSerializer,
     UserLoginSerializer,
     UserUpdatePasswordSerializer,
     UserEmailSerializer,
-    OrderSerializer,
 )
-from rest_framework.permissions import IsAuthenticated
+
 
 from users.models import CustomUser
 from .tasks import send_link_for_change_pass
@@ -19,7 +18,6 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
-from database.models import Order
 
 
 @api_view(["POST"])
@@ -113,14 +111,3 @@ def change_password(request, uid64, token):
             {"message": "Неверный идентификатор пользователя"},
             status=status.HTTP_400_BAD_REQUEST,
         )
-
-
-@api_view(["POST"])
-def create_order(request):
-    if request.method == "POST":
-        serializer = OrderSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        print(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
