@@ -3,8 +3,27 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import OrderSerializer
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 
+@swagger_auto_schema(
+    method="post",
+    request_body=OrderSerializer,
+    responses={
+        201: openapi.Response(
+            description="Пользователь успешно создан",
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    "message": openapi.Schema(type=openapi.TYPE_STRING),
+                    "order_number": openapi.Schema(type=openapi.TYPE_STRING),
+                },
+            ),
+        ),
+        400: "Возвращается ответ с ошибкой 400 и ошибками сериализатора",
+    },
+)
 @api_view(["POST"])
 def create_order(request):
     """
