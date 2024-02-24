@@ -2,9 +2,6 @@ from django.utils.text import slugify
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from django.db import IntegrityError
-from database.models import Order, Additionalservices, Product, OrderItems
-from rest_framework.exceptions import ValidationError
-from ProductAPI.serializers import ProductSerializer
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
