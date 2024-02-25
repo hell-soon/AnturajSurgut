@@ -2,7 +2,7 @@ from celery import shared_task
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
-from .models import Order
+from order.models import Order
 from django.contrib.auth.models import Group
 from smsru.service import SmsRuApi
 from DB.utils.codes import STATUS_MAP

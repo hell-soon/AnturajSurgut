@@ -1,8 +1,8 @@
-from database.models import Order
+from order.models import Order
 from telegram.models import TelegramImageOrder
 from django.db.models import Q
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-from database.utils.codes import STATUS_MAP
+from DB.utils.codes import STATUS_MAP
 
 
 def order_list_inline_buttons(message, bot, found_orders):

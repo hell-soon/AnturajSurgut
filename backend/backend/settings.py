@@ -41,13 +41,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "sitedb.apps.SitedbConfig",
-    "users.apps.UsersConfig",
-    "profiles.apps.ProfilesConfig",
-    "telegram.apps.TelegramConfig",
-    "DB.apps.DbConfig",
-    "order.apps.OrderConfig",
-    "API.apps.ApiConfig",
+    "sitedb.apps.SitedbConfig",  # Site Info etc
+    "users.apps.UsersConfig",  # AUTH USER API
+    "profiles.apps.ProfilesConfig",  # User Profiles API
+    "telegram.apps.TelegramConfig",  # Integrate TG BOT
+    "DB.apps.DbConfig",  # Database
+    "order.apps.OrderConfig",  # Order API
+    "API.apps.ApiConfig",  # Product API
     "django_filters",
     "allauth",  # work with users
     "allauth.account",
@@ -78,6 +78,7 @@ TEMPLATES = [
         "DIRS": [
             os.path.join(BASE_DIR, "templates"),
             os.path.join(BASE_DIR, "users/templates"),
+            os.path.join(BASE_DIR, "DB/templates"),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
