@@ -1,12 +1,7 @@
 from rest_framework import serializers
-from order.models import Additionalservices
-from DB.models import ProductInfo, Product
-from icecream import ic
-from order.models import Order, OrderItems
-from .OrderComponentSerializers import (
-    ProductQuantitySerializer,
-    AdditionalservicesSerializer,
-)
+from order.models import Additionalservices, Order, OrderItems
+from DB.models import ProductInfo
+from .OrderComponentSerializers import ProductQuantitySerializer
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -43,7 +38,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def validate_items(self, value):
         for item in value:
-            product_info_id = item["id"]
+            product_info_id = item["product_info_id"]
             quantity = item["quantity"]
             try:
                 info = ProductInfo.objects.get(id=product_info_id)
@@ -64,56 +59,9 @@ class OrderSerializer(serializers.ModelSerializer):
         order.order_additionalservices.set(additional_services_data)
 
         for item_data in items_data:
-            product_info_id = item_data["id"]
+            product_info_id = item_data["product_info_id"]
             quantity = item_data["quantity"]
             product = ProductInfo.objects.get(id=product_info_id)
             OrderItems.objects.create(order=order, product=product, quantity=quantity)
 
         return order
-
-
-class UpdateOrderSerializer(serializers.ModelSerializer):
-    items = ProductQuantitySerializer(many=True, required=False)
-    order_additionalservices = serializers.PrimaryKeyRelatedField(
-        queryset=Additionalservices.objects.all(), many=True, required=False
-    )
-
-    class Meta:
-        model = Order
-        fields = [
-            "items",
-            "order_additionalservices",
-        ]
-        read_only_fields = ["created_at", "order_number"]
-
-    def validate_items(self, value):
-        # Validate that each product exists and has a valid quantity
-        for item in value:
-            product_id = item["id"]
-            try:
-                Product.objects.get(id=product_id)
-            except Product.DoesNotExist:
-                raise serializers.ValidationError("Такого товара больше не существует")
-        return value
-
-    def update(self, instance, validated_data):
-        # Update the order items
-        if "items" in validated_data:
-            instance.orderitems_set.all().delete()  # Delete existing order items
-            items_data = validated_data.pop("items")
-            for item_data in items_data:
-                product_id = item_data["id"]
-                quantity = item_data["quantity"]
-                product = Product.objects.get(id=product_id)
-                OrderItems.objects.create(
-                    order=instance, product=product, quantity=quantity
-                )
-
-        # Update the additional services of the order
-        if "order_additionalservices" in validated_data:
-            instance.order_additionalservices.set(
-                validated_data["order_additionalservices"]
-            )
-
-        instance.save()
-        return instance

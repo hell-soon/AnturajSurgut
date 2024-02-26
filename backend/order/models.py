@@ -8,7 +8,7 @@ from icecream import ic
 
 class Additionalservices(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название доп.услуги")
-    price = models.FloatField(verbose_name="Цена")
+    cost = models.FloatField(verbose_name="Цена")
 
     class Meta:
         verbose_name = "Доп.услуга"
@@ -113,18 +113,17 @@ class OrderItems(models.Model):
         max_length=100, verbose_name="Размер", blank=True, null=True
     )
     cost = models.FloatField(verbose_name="Цена", blank=True, null=True)
-    quantity = models.PositiveIntegerField(default=1, verbose_name="Количество")
+    quantity = models.PositiveIntegerField(verbose_name="Количество")
     total_cost = models.FloatField(verbose_name="Общая цена", blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        self.cost = self.product.cost
         if self.product.promotion:
-            self.total_cost = self.promotion_cost * self.quantity
+            self.cost = self.product.promotion_cost
+            self.total_cost = self.product.promotion_cost * self.quantity
         else:
+            self.cost = self.product.cost
             self.total_cost = self.cost * self.quantity
         self.color = self.product.color.name
         self.size = self.product.size.name
 
-        self.product.quantity -= self.quantity
-        self.product.save()
         super(OrderItems, self).save(*args, **kwargs)

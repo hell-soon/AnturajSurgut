@@ -4,7 +4,7 @@ from django.db.utils import IntegrityError
 
 
 def generate_order_number():
-    Order = apps.get_model("database", "Order")  # Получаем модель Order
+    Order = apps.get_model("order", "Order")  # Получаем модель Order
 
     while True:
         order_number = str(uuid.uuid4())[:10]

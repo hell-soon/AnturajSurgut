@@ -1,14 +1,13 @@
 from rest_framework import serializers
 from order.models import Additionalservices
-from DB.models import Product
 
 
 class AdditionalservicesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Additionalservices
-        fields = ["id"]
+        fields = ["id", "name", "cost"]
 
 
 class ProductQuantitySerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    quantity = serializers.IntegerField(min_value=1)
+    product_info_id = serializers.IntegerField()
+    quantity = serializers.IntegerField(min_value=0)

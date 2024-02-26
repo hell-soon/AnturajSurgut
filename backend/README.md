@@ -219,9 +219,9 @@ http://127.0.0.1:8000/api/v1/list/product/
 ### Дополнительная информация о товаре:
 http://127.0.0.1:8000/api/v1/list/product/info/{product_id}/
 ```JSON
-{
-    "info": {
-        "info_id": 2,
+[
+    {
+        "product_info_id": 2,
         "color": {
             "id": 1,
             "name": "asdsad",
@@ -231,12 +231,28 @@ http://127.0.0.1:8000/api/v1/list/product/info/{product_id}/
             "id": 1,
             "name": "asdasdsad"
         },
-        "quantity": 0,
+        "quantity": -156,
         "cost": 111.0,
         "promotion": false,
         "promotion_cost": 1111.0
+    },
+    {
+        "product_info_id": 3,
+        "color": {
+            "id": 2,
+            "name": "asdasdsadasdasd",
+            "code": "asdsadsad"
+        },
+        "size": {
+            "id": 1,
+            "name": "asdasdsad"
+        },
+        "quantity": 9975,
+        "cost": 1111.0,
+        "promotion": true,
+        "promotion_cost": 300.0
     }
-},
+]
 ```
 # ЗАКАЗ
 ### Основное тело запроса:
@@ -247,11 +263,11 @@ http://127.0.0.1:8000/api/v1/list/product/info/{product_id}/
     "user_phone": "",
     "items": [
         {
-            "id": 2,
+            "product_info_id": 2,
             "quantity": 5
         },
         {
-            "id": 4,
+            "product_info_id": 4,
             "quantity": 5
         }
     ],
@@ -268,7 +284,7 @@ http://127.0.0.1:8000/api/v1/list/product/info/{product_id}/
 |user_email| Почта заказчика |string|
 |user_phone| телефон заказчика|string|
 |items| товары |string|
-|items[id]| id дополнительной информации о товаре [тут](http://127.0.0.1:8000/api/v1/list/product/info/{product_id}/)|int|
+|items[product_info_id]| id дополнительной информации о товаре [тут](http://127.0.0.1:8000/api/v1/list/product/info/{product_id}/)|int|
 |item[quanity]| количество товара|int|
 |order_additionalservices| дополнительные услуги к заказу (Список с их id)|int|
 |order_type|id типа заказа(Описан ниже)|int|
@@ -278,7 +294,7 @@ http://127.0.0.1:8000/api/v1/list/product/info/{product_id}/
 
 ## Коды:
 #### ```order_additionalservices```
-Весь список активных доп услуг - 
+Весь список активных доп услуг - http://localhost:8000/api/v1/order/service/
 #### ```order_type``` - Тип доставки:
 | Код | Описание |
 | ----------- | ----------- |
@@ -296,6 +312,35 @@ http://127.0.0.1:8000/api/v1/list/product/info/{product_id}/
 ### Валидация:
 - поля user_email и user_phone, должно быть заполнено хотя бы одно любое из этих полей
 
+### Изменение заказа:
+Тело запроса:
+```JSON
+{
+    "items": [
+        {
+            "product_info_id": 3,
+            "quantity": 90
+        },
+        {
+            "product_info_id": 4,
+            "quantity": 90
+        }
+    ],
+    "order_additionalservices": [1,2,4],
+    "order_status": "5"
+}
+```
+|Поле| валидация| описание |
+|----|----------|----------|
+|items|Выдает ошибку если количество товара в заказе превышает его количество на складе|Передается id подробной информации товара и его количество или товар был удален|
+|order_additionalservices|Ошибка если указанный id доп.услуги не был найден| список id с теми доп услугами которые выбрал пользователь к своему заказу|
+|order_status|Ошибка если пользователь захотел отменить заказ статус которого отличен от статуса "Не готов" или заказ уже был отменен|Передаеться ключ значение для отмены, ключ - 5|
+
+**ДОПОЛНИТЕЛЬНО**
+
+Передается id не ТОВАРА а id информации о товаре, это связана с тем, что у товара есть пречень Цветов, размеров и тд, и у каждого цвета или размера разная стоимость и разное количество товара на складе. ID Информации о товаре уникален, поэтому не нужно передавать Id цвета и тд, все это уже храниться в передаваемом id информации о товаре.
+
+Информацию о доп информации о товаре можно получить тут http://127.0.0.1:8000/api/v1/list/product/info/{product_id}/
 ## Админка 
 http://127.0.0.1:8000/admin/
 

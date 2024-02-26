@@ -6,7 +6,7 @@ from .models import *
 class AdditionalservicesAdmin(admin.ModelAdmin):
     list_display = (
         "name",
-        "price",
+        "cost",
     )
 
 

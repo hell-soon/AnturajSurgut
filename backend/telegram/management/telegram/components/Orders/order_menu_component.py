@@ -4,9 +4,10 @@ from .docs_message import docs_messages
 
 
 class Order_menu:
-    def __init__(self, bot, found_orders):
+    def __init__(self, bot, found_orders, API_URL):
         self.bot = bot
         self.found_orders = found_orders
+        self.API_URL = API_URL
 
     def setup_handler(self):
         @self.bot.message_handler(func=lambda message: message.text == "Заказы")

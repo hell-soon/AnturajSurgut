@@ -1,13 +1,12 @@
-from django.shortcuts import render
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from .models import Order
-from DB.utils.codes import STATUS_MAP
-from .serializers.OrderSerializers import OrderSerializer, UpdateOrderSerializer
-from icecream import ic
+from rest_framework.decorators import api_view
+from rest_framework import status
+from rest_framework.response import Response
+from .models import Order, Additionalservices
+from .serializers.OrderSerializers import OrderSerializer
+from .serializers.OrderUpdateSerializers import UpdateOrderSerializer
+from .serializers.OrderComponentSerializers import AdditionalservicesSerializer
 
 
 @swagger_auto_schema(
@@ -74,19 +73,16 @@ def update_order(request, order_number):
     except Order.DoesNotExist:
         return Response({"error": "Заказ не найден"}, status=status.HTTP_404_NOT_FOUND)
 
-    if order.order_status != "1":
-        order_status = STATUS_MAP.get(order.order_status)
-        return Response(
-            {
-                "error": f"Заказ не может быть обновлен, так как его статус {order_status}"
-            },
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    serializer = UpdateOrderSerializer(instance=order, data=request.data, partial=True)
+    serializer = UpdateOrderSerializer(order, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(
-            {"message": "Заказ успешно обновлен"}, status=status.HTTP_200_OK
-        )
+        print(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+def get_additional_services(request):
+    additional_services = Additionalservices.objects.all()
+    serializer = AdditionalservicesSerializer(additional_services, many=True)
+    return Response(serializer.data)
