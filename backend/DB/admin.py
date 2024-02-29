@@ -10,6 +10,7 @@ class CatalogAdmin(admin.ModelAdmin):
 @admin.register(SubCatalog)
 class SubCatalogAdmin(admin.ModelAdmin):
     list_display = ("id", "catalog", "name", "image")
+    search_fields = ["id_1C"]
 
 
 @admin.register(Tags)
@@ -51,6 +52,8 @@ class ProductAdmin(admin.ModelAdmin):
         "name",
     )
     inlines = [ProductInfoInline]
+    list_filter = ("sub_catalog",)
+    search_fields = ["name"]
 
 
 admin.site.register(Product, ProductAdmin)

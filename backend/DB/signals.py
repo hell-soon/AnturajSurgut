@@ -8,7 +8,6 @@ from .tasks import (
     send_email_for_change_order_status,
     send_sms_to_user,
 )
-from DB.utils.helper import get_contact_info
 
 
 @receiver(post_save, sender=Order)
@@ -24,7 +23,6 @@ def send_email_order(sender, instance, created, **kwargs):
         else:
             pass
         if instance.user_email:
-            print("Email")
             send_order_confirmation_email.delay(instance.order_number)
         else:
             sms_text = f"Спасибо за заказ в Антураж.\n Номер вашего заказа: {instance.order_number}"

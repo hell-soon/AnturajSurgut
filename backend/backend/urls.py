@@ -21,6 +21,7 @@ urlpatterns = [
     ),
     path("smsru/", include("smsru.urls")),
     path("telegram/", include("telegram.urls")),
+    path("api/v1/review/", include("reviews.urls")),
 ]
 
 

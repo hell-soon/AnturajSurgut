@@ -8,6 +8,9 @@ class Catalog(models.Model):
     image = models.ImageField(
         upload_to="catalog_images/", verbose_name="Картинка", blank=True, null=True
     )
+    id_1C = models.CharField(
+        max_length=255, verbose_name="ID 1C", blank=True, null=True
+    )
     verbose_name = "Каталог"
     verbose_name_plural = "Каталоги"
 
@@ -25,6 +28,9 @@ class SubCatalog(models.Model):
     catalog = models.ForeignKey(
         Catalog, on_delete=models.CASCADE, verbose_name="Каталог", blank=True, null=True
     )
+    id_1C = models.CharField(
+        max_length=255, verbose_name="ID 1C", blank=True, null=True
+    )
     verbose_name = "Подкаталог"
     verbose_name_plural = "Подкаталоги"
 
@@ -38,6 +44,9 @@ class SubCatalog(models.Model):
 
 class Tags(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название тэга")
+    id_1C = models.CharField(
+        max_length=255, verbose_name="ID 1C", blank=True, null=True
+    )
     verbose_name = "Тэг"
     verbose_name_plural = "Тэги"
 
@@ -130,8 +139,12 @@ class Product(models.Model):
 
 class ProductInfo(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Товар")
-    color = models.ForeignKey(Color, on_delete=models.CASCADE, verbose_name="Цвет")
-    size = models.ForeignKey(Size, on_delete=models.CASCADE, verbose_name="Размер")
+    color = models.ForeignKey(
+        Color, on_delete=models.CASCADE, verbose_name="Цвет", blank=True, null=True
+    )
+    size = models.ForeignKey(
+        Size, on_delete=models.CASCADE, verbose_name="Размер", blank=True, null=True
+    )
     quantity = models.IntegerField(default=0, verbose_name="Количество")
     cost = models.FloatField(null=True, blank=True, verbose_name="Цена")
     promotion = models.BooleanField(default=False, verbose_name="Товар по акции")

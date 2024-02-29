@@ -76,7 +76,6 @@ def update_order(request, order_number):
     serializer = UpdateOrderSerializer(order, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

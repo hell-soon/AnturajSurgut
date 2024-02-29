@@ -7,3 +7,6 @@ class DbConfig(AppConfig):
 
     verbose_name = "База данных"
     verbose_name_plural = "База данных"
+
+    def ready(self):
+        from . import signals

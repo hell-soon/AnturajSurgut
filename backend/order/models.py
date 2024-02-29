@@ -117,13 +117,19 @@ class OrderItems(models.Model):
     total_cost = models.FloatField(verbose_name="Общая цена", blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        if self.product.promotion:
-            self.cost = self.product.promotion_cost
-            self.total_cost = self.product.promotion_cost * self.quantity
-        else:
-            self.cost = self.product.cost
-            self.total_cost = self.cost * self.quantity
-        self.color = self.product.color.name
-        self.size = self.product.size.name
+        if self.pk is None:  # Проверяем, что это новый объект
+            if self.product.promotion:
+                self.cost = self.product.promotion_cost
+                self.total_cost = self.product.promotion_cost * self.quantity
+            else:
+                self.cost = self.product.cost
+                self.total_cost = self.cost * self.quantity
+            self.color = self.product.color.name
+            self.size = self.product.size.name
+
+            # Списание товара со склада
+            product_info = self.product
+            product_info.quantity -= self.quantity
+            product_info.save()
 
         super(OrderItems, self).save(*args, **kwargs)
