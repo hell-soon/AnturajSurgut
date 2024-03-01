@@ -3,8 +3,16 @@ from telegram.management.telegram.components.Product.Menu.Popular.PopularCompone
     show_product,
     callback_query,
 )
-from telegram.management.telegram.components.Product.Menu.Popular.Utils.APIResponses import (
+from telegram.management.telegram.Utils.APIResponses import (
     get_popular_product,
+)
+from .Catalog.CatalogMenu import catalog_menu
+from .Catalog.SubCatalogMenu import subcatalog_menu
+from telegram.management.telegram.Utils.ChatHelper import (
+    delete_message,
+)
+from telegram.management.telegram.components.Product.Menu.Catalog.ProductMenu import (
+    product_list,
 )
 
 
@@ -36,13 +44,21 @@ class ProductMenu:
                 index = 0
                 show_product(self.bot, message, get_popular, index, self.API_URL)
 
+        # Обработка Callback запросов
         @self.bot.callback_query_handler(func=lambda call: True)
         def on_callback_query(call):
-            callback_query(self.bot, call, self.API_URL, self.popular_product)
+            if call.data.startswith("catalog_"):
+                subcatalog_menu(self.bot, call, self.API_URL)
+            elif call.data.startswith("subcatalog_back"):
+                delete_message(self.bot, call.message)
+                catalog_menu(call.message, self.bot, self.API_URL)
+            elif call.data.startswith("subcatalog_"):
+                _, value = call.data.split("_")
+                product_list(call.message, self.bot, self.API_URL, value)
+            else:
+                callback_query(self.bot, call, self.API_URL, self.popular_product)
 
         @self.bot.message_handler(func=lambda message: message.text == "Каталог")
         def catalog(message):
             if message.chat.type == "private":
-                self.bot.send_message(
-                    message.chat.id, f"{self.API_URL} Апишка, в РАЗРАБОТКЕ"
-                )
+                catalog_menu(message, self.bot, self.API_URL)

@@ -1,19 +1,20 @@
-from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers.MainProductSerializers import ProductSerializer
 from .serializers.DetailProductSerializers import DetailProductSerializer
-from DB.models import Product, ProductInfo
+from .serializers.DetailProductSerializers import (
+    CatalogSerializer,
+    SubCatalogSerializer,
+)
+from DB.models import Product, ProductInfo, Catalog, SubCatalog
 from API.filters.filter import ProductFilter
+from API.filters.SubCatalogFilter import CatalogFilter, SubCatalogFilter
 from django_filters import rest_framework as filters
-from rest_framework import generics
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import action
-from django.http import HttpResponse
-from icecream import ic
-from rest_framework.generics import RetrieveAPIView
+
+
 from rest_framework.exceptions import NotFound
-from drf_yasg.utils import swagger_auto_schema
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -22,6 +23,20 @@ class ProductViewSet(viewsets.ModelViewSet):
     http_method_names = ["get"]
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = ProductFilter
+
+
+class CatalogViewSet(viewsets.ModelViewSet):
+    queryset = Catalog.objects.all()
+    serializer_class = CatalogSerializer
+    http_method_names = ["get"]
+
+
+class SubCatalogViewSet(viewsets.ModelViewSet):
+    queryset = SubCatalog.objects.all()
+    serializer_class = SubCatalogSerializer
+    http_method_names = ["get"]
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = SubCatalogFilter
 
 
 class ProductInfoView(APIView):

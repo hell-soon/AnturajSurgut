@@ -12,3 +12,4 @@ djangorestframework-simplejwt==5.3.1
 celery==5.3.6
 redis==5.0.1
 telebot==0.0.5
+aiohttp==3.9.3

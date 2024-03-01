@@ -1,12 +1,15 @@
 import requests
 from telebot import types
 from io import BytesIO
-from .Utils.APIResponses import (
+from telegram.management.telegram.Utils.APIResponses import (
     get_popular_product,
     get_product,
     get_addition_info_for_product,
 )
-from .Utils.ChatHelper import delete_message
+from telegram.management.telegram.Utils.ChatHelper import (
+    delete_message,
+)
+from icecream import ic
 
 
 def show_product(bot, message, product_ids, index, API_URL):

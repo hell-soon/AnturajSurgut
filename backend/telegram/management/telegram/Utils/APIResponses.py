@@ -24,3 +24,21 @@ def get_addition_info_for_product(value, API_URL):
     data = response.json()
     text = addition_info_for_product(data)
     return text
+
+
+def get_catalog_list(bot, API_URL):
+    response = requests.get(f"{API_URL}list/catalog/")
+    catalogs = response.json()
+    return catalogs
+
+
+def get_subcatalog_list(bot, API_URL, catalog_id):
+    response = requests.get(f"{API_URL}list/subcatalog/?catalog_id={catalog_id}")
+    subcatalogs = response.json()
+    return subcatalogs
+
+
+def get_product_for_subcatalog(bot, API_URL, subcatalog_id):
+    response = requests.get(f"{API_URL}list/product/?sub_catalog={subcatalog_id}")
+    products = response.json()
+    return products
