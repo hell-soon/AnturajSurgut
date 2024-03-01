@@ -52,7 +52,7 @@ class ProductAdmin(admin.ModelAdmin):
         "name",
     )
     inlines = [ProductInfoInline]
-    list_filter = ("sub_catalog",)
+    list_filter = ("sub_catalog", "rating")
     search_fields = ["name"]
 
 

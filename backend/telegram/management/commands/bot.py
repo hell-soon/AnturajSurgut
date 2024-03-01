@@ -5,6 +5,9 @@ from telegram.management.telegram.components.main_menu_component import Main_men
 from telegram.management.telegram.components.Orders.order_menu_component import (
     Order_menu,
 )
+from telegram.management.telegram.components.Product.Menu.MenuComponent import (
+    ProductMenu,
+)
 
 
 class Command(BaseCommand):
@@ -23,6 +26,10 @@ class Command(BaseCommand):
         # Экземпляр меню с заказами
         order_menu_hander = Order_menu(bot, found_orders, API_URL)
         order_menu_hander.setup_handler()
+
+        # Меню товаров
+        product_menu_handler = ProductMenu(bot, API_URL)
+        product_menu_handler.setup_handler()
 
         # запуск бота
         bot.polling(timeout=60)

@@ -12,10 +12,10 @@ class Main_menu:
         def main_menu(message):
             self.found_orders.clear()
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-            item1 = types.KeyboardButton("DEV")
+            item1 = types.KeyboardButton("Товары")
             markup.add(item1)
             item2 = types.KeyboardButton("Заказы")
-            item3 = types.KeyboardButton("DEV")
+            item3 = types.KeyboardButton("Помощь")
             markup.row(item2, item3)
 
             self.bot.send_message(
