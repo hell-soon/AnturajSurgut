@@ -1,15 +1,10 @@
 import requests
-from telebot import types
+from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 from io import BytesIO
-from telegram.management.telegram.Utils.APIResponses import (
-    get_popular_product,
-    get_product,
-    get_addition_info_for_product,
-)
-from telegram.management.telegram.Utils.ChatHelper import (
-    delete_message,
-)
-from icecream import ic
+from ..Utils.APIResponses import get_product, get_addition_info_for_product
+from ..Utils.ChatHelper import delete_message
+
+info_message_id = None
 
 
 def show_product(bot, message, product_ids, index, API_URL):
@@ -17,14 +12,10 @@ def show_product(bot, message, product_ids, index, API_URL):
     product = get_product(product_id, API_URL)
 
     # Инлайн Меню
-    keyboard = types.InlineKeyboardMarkup()
-    prev_button = types.InlineKeyboardButton(
-        text="Предыдущий", callback_data=f"prev_{index}"
-    )
-    next_button = types.InlineKeyboardButton(
-        text="Следующий", callback_data=f"next_{index}"
-    )
-    info_button = types.InlineKeyboardButton(
+    keyboard = InlineKeyboardMarkup()
+    prev_button = InlineKeyboardButton(text="Предыдущий", callback_data=f"prev_{index}")
+    next_button = InlineKeyboardButton(text="Следующий", callback_data=f"next_{index}")
+    info_button = InlineKeyboardButton(
         text="Подробнее", callback_data=f"info_{product_id}"
     )
     keyboard.row(prev_button, next_button)
@@ -49,27 +40,34 @@ def show_product(bot, message, product_ids, index, API_URL):
     else:
         bot.send_message(message.chat.id, message_text, reply_markup=keyboard)
 
+    return product_ids
 
-def callback_query(bot, call, API_URL, popular_product):
+
+def callback_query(bot, call, API_URL, product_ids):
+    global info_message_id
     action, value = call.data.split("_")
     value = int(value)
 
     if action == "next":
-        get_popular = get_popular_product(popular_product, API_URL)
-        index = (value + 1) % len(get_popular)
-        # Обертка, чтобы индекс не выходил за границы списка
-        show_product(bot, call.message, get_popular, index, API_URL)
+        index = (value + 1) % len(product_ids)
+        show_product(bot, call.message, product_ids, index, API_URL)
         delete_message(bot, call.message)
         bot.answer_callback_query(call.id, text="Следующий товар")
+        if info_message_id:
+            bot.delete_message(call.message.chat.id, info_message_id)
+            info_message_id = None
 
     elif action == "prev":
-        get_popular = get_popular_product(popular_product, API_URL)
-        index = (value - 1) % len(get_popular)
-        # Обертка, чтобы индекс не выходил за границы списка
-        show_product(bot, call.message, get_popular, index, API_URL)
+        index = (value - 1) % len(product_ids)
+        show_product(bot, call.message, product_ids, index, API_URL)
         delete_message(bot, call.message)
         bot.answer_callback_query(call.id, text="Предыдущий товар")
+        if info_message_id:
+            bot.delete_message(call.message.chat.id, info_message_id)
+            info_message_id = None
+
     elif action == "info":
         text = get_addition_info_for_product(value, API_URL)
-        bot.send_message(call.message.chat.id, text)
+        sent_message = bot.send_message(call.message.chat.id, text)
+        info_message_id = sent_message.message_id
         bot.answer_callback_query(call.id, text="Информация по этому продукту")

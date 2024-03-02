@@ -1,7 +1,6 @@
 import requests
 from .AdditionInfo import addition_info_for_product
 from .OrderInfo import order_info
-from urllib.parse import quote
 
 
 # Популярные товары
@@ -14,9 +13,25 @@ def get_popular_product(popular_product, API_URL):
     return popular_product
 
 
+def get_main_product(API_URL, product_type, subcatalog_id=None):
+    params = {}
+    product_ids = []
+    if product_type == "popular":
+        params = {"high_rating": True}
+    elif product_type == "catalog":
+        params = {"sub_catalog": subcatalog_id}
+
+    response = requests.get(f"{API_URL}list/product/", params=params)
+    product = response.json()
+    for item in product:
+        product_ids.append(item["product"]["id"])
+    return product_ids
+
+
 # Информация о товаре
 def get_product(product_id, API_URL):
     response = requests.get(f"{API_URL}list/product/{product_id}")
+    test = response.json()
     return response.json()
 
 
@@ -43,10 +58,12 @@ def get_subcatalog_list(bot, API_URL, catalog_id):
 
 
 # Список продуктов
-def get_product_for_subcatalog(bot, API_URL, subcatalog_id):
-    response = requests.get(f"{API_URL}list/product/?sub_catalog={subcatalog_id}")
+def get_product_for_subcatalog(API_URL, params, product_list):
+    response = requests.get(f"{API_URL}list/product/", params=params)
     products = response.json()
-    return products
+    for item in products:
+        product_list.append(item["product"]["id"])
+    return product_list
 
 
 # Список заказов

@@ -30,4 +30,4 @@ class Command(BaseCommand):
         product_menu_handler.setup_handler()
 
         # запуск бота
-        bot.polling(timeout=60)
+        bot.polling(none_stop=True)

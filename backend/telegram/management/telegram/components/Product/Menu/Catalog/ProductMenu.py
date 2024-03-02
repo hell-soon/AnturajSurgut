@@ -1,12 +1,13 @@
-from telegram.management.telegram.Utils.APIResponses import (
-    get_product,
-)
-from telegram.management.telegram.components.Product.Menu.Popular.PopularComponent import (
-    show_product,
-)
+from .....Utils.APIResponses import get_main_product
+from .....Func.ProductView import show_product
 
 
-def product_list(message, bot, API_URL, subcatalog_id):
-    products = get_product(bot, API_URL, subcatalog_id, high_rating=False)
-    index = 0
-    show_product(bot, message, products, index, API_URL)
+def product_list_start(message, bot, API_URL, subcatalog_id):
+    if message.chat.type == "private":
+        product_type = "catalog"
+        product_ids = get_main_product(
+            API_URL, product_type, subcatalog_id=subcatalog_id
+        )
+        index = 0
+        ids = show_product(bot, message, product_ids, index, API_URL)
+        return ids

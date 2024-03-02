@@ -1,27 +1,21 @@
 from telebot import types
-from telegram.management.telegram.components.Product.Menu.Popular.PopularComponent import (
-    show_product,
-    callback_query,
-)
-from telegram.management.telegram.Utils.APIResponses import (
-    get_popular_product,
+from ....Func.ProductView import callback_query, show_product
+from ....Utils.APIResponses import (
+    get_main_product,
 )
 from .Catalog.CatalogMenu import catalog_menu
 from .Catalog.SubCatalogMenu import subcatalog_menu
-from telegram.management.telegram.Utils.ChatHelper import (
-    delete_message,
-)
-from telegram.management.telegram.components.Product.Menu.Catalog.ProductMenu import (
-    product_list,
-)
+from ....Utils.ChatHelper import delete_message
+from ...Product.Menu.Catalog.ProductMenu import product_list_start
 from ...Orders.OrderInfo.OrderInfoMessage import show_order_info
+from icecream import ic
 
 
 class ProductMenu:
     def __init__(self, bot, API_URL):
         self.bot = bot
         self.API_URL = API_URL
-        self.popular_product = []
+        self.product_return = None
 
     def setup_handler(self):
         @self.bot.message_handler(func=lambda message: message.text == "Товары")
@@ -38,12 +32,22 @@ class ProductMenu:
                     message.chat.id, "Выберите действие:", reply_markup=menu_item
                 )
 
+        # Блок Популярных товаров
         @self.bot.message_handler(func=lambda message: message.text == "Популярное")
         def popular_product_list(message):
             if message.chat.type == "private":
-                get_popular = get_popular_product(self.popular_product, self.API_URL)
+                product_type = "popular"
+                product_ids = get_main_product(self.API_URL, product_type)
                 index = 0
-                show_product(self.bot, message, get_popular, index, self.API_URL)
+                self.product_return = show_product(
+                    self.bot, message, product_ids, index, self.API_URL
+                )
+
+        # Блок Каталогов
+        @self.bot.message_handler(func=lambda message: message.text == "Каталог")
+        def catalog(message):
+            if message.chat.type == "private":
+                catalog_menu(message, self.bot, self.API_URL)
 
         # Обработка Callback запросов
         @self.bot.callback_query_handler(func=lambda call: True)
@@ -53,18 +57,14 @@ class ProductMenu:
 
             elif call.data.startswith("subcatalog_back"):
                 delete_message(self.bot, call.message)
-                catalog_menu(call.message, self.bot, self.API_URL)
 
             elif call.data.startswith("subcatalog_"):
                 _, value = call.data.split("_")
-                product_list(call.message, self.bot, self.API_URL, value)
+                self.product_return = product_list_start(
+                    call.message, self.bot, self.API_URL, value
+                )
             elif call.data.startswith("order_"):
                 _, value = call.data.split("_")
                 show_order_info(self.bot, call, value, self.API_URL)
             else:
-                callback_query(self.bot, call, self.API_URL, self.popular_product)
-
-        @self.bot.message_handler(func=lambda message: message.text == "Каталог")
-        def catalog(message):
-            if message.chat.type == "private":
-                catalog_menu(message, self.bot, self.API_URL)
+                callback_query(self.bot, call, self.API_URL, self.product_return)
