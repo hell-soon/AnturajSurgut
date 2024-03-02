@@ -2,9 +2,7 @@ from django.core.management.base import BaseCommand
 import telebot
 import os
 from telegram.management.telegram.components.main_menu_component import Main_menu
-from telegram.management.telegram.components.Orders.order_menu_component import (
-    Order_menu,
-)
+from telegram.management.telegram.components.Orders.Menu.OrderComponent import OrderMenu
 from telegram.management.telegram.components.Product.Menu.MenuComponent import (
     ProductMenu,
 )
@@ -24,7 +22,7 @@ class Command(BaseCommand):
         main_menu_handler.setup_handler()
 
         # Экземпляр меню с заказами
-        order_menu_hander = Order_menu(bot, found_orders, API_URL)
+        order_menu_hander = OrderMenu(bot, API_URL, found_orders)
         order_menu_hander.setup_handler()
 
         # Меню товаров

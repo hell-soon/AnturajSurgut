@@ -11,6 +11,7 @@ class OrderSerializer(serializers.ModelSerializer):
     order_additionalservices = serializers.PrimaryKeyRelatedField(
         queryset=Additionalservices.objects.all(), many=True, write_only=True
     )
+    created_at = serializers.DateTimeField(format="%d.%m.%Y %H:%M", read_only=True)
 
     class Meta:
         model = Order
@@ -26,6 +27,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "order_face",
             "order_additionalservices",
             "comment",
+            "order_status",
         ]
         read_only_fields = ["created_at", "order_number"]
 

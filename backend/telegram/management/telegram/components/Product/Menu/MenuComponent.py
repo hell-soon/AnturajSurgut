@@ -14,6 +14,7 @@ from telegram.management.telegram.Utils.ChatHelper import (
 from telegram.management.telegram.components.Product.Menu.Catalog.ProductMenu import (
     product_list,
 )
+from ...Orders.OrderInfo.OrderInfoMessage import show_order_info
 
 
 class ProductMenu:
@@ -49,12 +50,17 @@ class ProductMenu:
         def on_callback_query(call):
             if call.data.startswith("catalog_"):
                 subcatalog_menu(self.bot, call, self.API_URL)
+
             elif call.data.startswith("subcatalog_back"):
                 delete_message(self.bot, call.message)
                 catalog_menu(call.message, self.bot, self.API_URL)
+
             elif call.data.startswith("subcatalog_"):
                 _, value = call.data.split("_")
                 product_list(call.message, self.bot, self.API_URL, value)
+            elif call.data.startswith("order_"):
+                _, value = call.data.split("_")
+                show_order_info(self.bot, call, value, self.API_URL)
             else:
                 callback_query(self.bot, call, self.API_URL, self.popular_product)
 

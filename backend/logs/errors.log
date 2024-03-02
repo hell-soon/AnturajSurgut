@@ -15613,3 +15613,73 @@ Traceback (most recent call last):
   File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\db\models\sql\query.py", line 1761, in names_to_path
     raise FieldError(
 django.core.exceptions.FieldError: Cannot resolve keyword 'catalog' into field. Choices are: created_at, description, id, image, name, product_status, productinfo, rating, sub_catalog, sub_catalog_id, tags
+[02.03.2024 11:55:06 - ERROR] Internal Server Error: /api/v1/list/order/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\generics.py", line 150, in filter_queryset
+    queryset = backend().filter_queryset(self.request, queryset, self)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django_filters\rest_framework\backends.py", line 68, in filter_queryset
+    filterset = self.get_filterset(request, queryset, view)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django_filters\rest_framework\backends.py", line 20, in get_filterset
+    filterset_class = self.get_filterset_class(view, queryset)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django_filters\rest_framework\backends.py", line 39, in get_filterset_class
+    assert issubclass(
+AssertionError: FilterSet model <class 'order.models.Order'> does not match queryset model <class 'DB.models.Product'>
+[02.03.2024 11:56:27 - ERROR] Internal Server Error: /api/v1/list/order/, путь: A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\utils\log.py, строка: 241
+Traceback (most recent call last):
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\mixins.py", line 45, in list
+    serializer = self.get_serializer(queryset, many=True)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "A:\Project\AnturajSurgut\.venv\Lib\site-packages\rest_framework\generics.py", line 110, in get_serializer
+    return serializer_class(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'OrderSerializer' object is not callable
