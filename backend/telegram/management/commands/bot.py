@@ -1,11 +1,12 @@
 from django.core.management.base import BaseCommand
 import telebot
 import os
-from telegram.management.telegram.components.main_menu_component import Main_menu
-from telegram.management.telegram.components.Orders.Menu.OrderComponent import OrderMenu
-from telegram.management.telegram.components.Product.Menu.MenuComponent import (
+from ..telegram.components.main_menu_component import Main_menu
+from ..telegram.components.Orders.Menu.OrderComponent import OrderMenu
+from ..telegram.components.Product.Menu.MenuComponent import (
     ProductMenu,
 )
+from ..telegram.components.UserHelp.MainHelp.MainMenu.MainhelpMenu import HelpMenu
 
 
 class Command(BaseCommand):
@@ -28,6 +29,10 @@ class Command(BaseCommand):
         # Меню товаров
         product_menu_handler = ProductMenu(bot, API_URL)
         product_menu_handler.setup_handler()
-
+        
+        # Обратная связь
+        help_menu_handler = HelpMenu(bot, API_URL)
+        help_menu_handler.setup_handle()
+        
         # запуск бота
         bot.polling(none_stop=True)

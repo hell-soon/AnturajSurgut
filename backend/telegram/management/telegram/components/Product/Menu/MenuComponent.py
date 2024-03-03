@@ -1,14 +1,12 @@
 from telebot import types
+from ....Utils.APIResponses import get_main_product
+from ....Utils.ChatHelper import delete_message
 from ....Func.ProductView import callback_query, show_product
-from ....Utils.APIResponses import (
-    get_main_product,
-)
 from .Catalog.CatalogMenu import catalog_menu
 from .Catalog.SubCatalogMenu import subcatalog_menu
-from ....Utils.ChatHelper import delete_message
 from ...Product.Menu.Catalog.ProductMenu import product_list_start
 from ...Orders.OrderInfo.OrderInfoMessage import show_order_info
-from icecream import ic
+from ...UserHelp.MainHelp.OtherMenu.AboutMenu import callback_query_about
 
 
 class ProductMenu:
@@ -37,11 +35,14 @@ class ProductMenu:
         def popular_product_list(message):
             if message.chat.type == "private":
                 product_type = "popular"
-                product_ids = get_main_product(self.API_URL, product_type)
-                index = 0
-                self.product_return = show_product(
-                    self.bot, message, product_ids, index, self.API_URL
+                product_ids = get_main_product(
+                    self.bot, message.chat.id, self.API_URL, product_type
                 )
+                index = 0
+                if product_ids:
+                    self.product_return = show_product(
+                        self.bot, message, product_ids, index, self.API_URL
+                    )
 
         # Блок Каталогов
         @self.bot.message_handler(func=lambda message: message.text == "Каталог")
@@ -66,5 +67,11 @@ class ProductMenu:
             elif call.data.startswith("order_"):
                 _, value = call.data.split("_")
                 show_order_info(self.bot, call, value, self.API_URL)
-            else:
+            elif (
+                call.data.startswith("next_")
+                or call.data.startswith("prev_")
+                or call.data.startswith("info_")
+            ):
                 callback_query(self.bot, call, self.API_URL, self.product_return)
+            elif call.data.startswith("About:"):
+                callback_query_about(self.bot, call)

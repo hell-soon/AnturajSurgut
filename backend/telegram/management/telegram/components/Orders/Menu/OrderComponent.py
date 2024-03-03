@@ -20,7 +20,6 @@ class OrderMenu:
                 self.bot.send_message(
                     message.chat.id, "Выберите действие:", reply_markup=menu_item
                 )
-                print(self.API_URL)
 
         @self.bot.message_handler(
             func=lambda message: message.text == "Узнать статус заказа"
