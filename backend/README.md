@@ -9,7 +9,7 @@
 # Работа с пользователями
 - Регистрация пользователей
     
-    http://127.0.0.1:8000/api/auth/register/
+    http://127.0.0.1:8000/api/v1/auth/register/
 
 
 - Запрос JSON на регистрацию
@@ -28,7 +28,7 @@
 
 ### Авторизация пользователей 
 
-    http://127.0.0.1:8000/api/auth/login/
+    http://127.0.0.1:8000/api/v1/auth/login/
 
 - Запрос JSON на авторизацию
 ```JSON
@@ -55,10 +55,10 @@
 **URLS:**
 Для запроса ссылки на смену пароля
 
-- http://127.0.0.1:8000/api/auth/change/password/ 
+- http://127.0.0.1:8000/api/v1/auth/change/password/ 
 
 Для завершения смены пароля
-- http://127.0.0.1:8000/api/auth/change/password/{uid}/{token} 
+- http://127.0.0.1:8000/api/v1/auth/change/password/{uid}/{token} 
 
 
 #### Первый этап
@@ -136,7 +136,7 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
 ```
 ### Информация о пользовтаеле
 
-**http://127.0.0.1:8000/api/profile/**
+**http://127.0.0.1:8000/api/v1/profile/**
 
 - Запрос GET Bearer Token: "ACCESS_TOKEN"
 
@@ -166,10 +166,10 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
     ]
 }
 ```
-- Срок действия ACCESS токена 5 часов после истечения нужно его обновить на **http://127.0.0.1:8000/api/auth/refresh**
+- Срок действия ACCESS токена 5 часов после истечения нужно его обновить на **http://127.0.0.1:8000/api/v1/auth/refresh**
 - Срок дейсвия REFRESH_TOKEN 7 дней после истечения нужно авторизоваться заново
 ### Изменение информацию о пользователе
-- http://127.0.0.1:8000/api/profile/change/ Метод PATCH
+- http://127.0.0.1:8000/api/v1/profile/change/ Метод PATCH
 - Тело запроса:
 ```JSON
 {
@@ -184,50 +184,117 @@ http://127.0.0.1:8000/api/auth/change/password/{uid}/{token}
 В запросе не обязательно указывать все 4 поля.
 # Товары
 ## Отображени товара
-http://127.0.0.1:8000/api/v1/product/products/
+http://127.0.0.1:8000/api/v1/list/product/
 ```JSON
-
 {
-    "catalog_id": 1,
-    "catalog_name": "Школьная Форма",
-    "catalog_image": "http://127.0.0.1:8000/media/catalog_images/large_2.jpg",
-    "subcatalog": {
-        "subcatalog_id": 1,
-        "subcatalog_name": "Брюки школьные",
-        "subcatalog_image": "http://127.0.0.1:8000/media/subcatalog_images/aa0cd46cf06379ed7b4d503d02dc0ff9c6fb9f74_full.jpg",
-        "products": [
+    "catalog": {
+        "id": 2,
+        "name": "фывфывыф",
+        "image": "http://127.0.0.1:8000/media/catalog_images/DcwqgdOMiFw.jpg",
+        "subcatalog": {
+            "id": 2,
+            "name": "фывфыв",
+            "image": "http://127.0.0.1:8000/media/subcatalog_images/c-NKb-usMu0.jpg"
+        }
+    },
+    "product": {
+        "id": 2,
+        "name": "фыв",
+        "description": "фывфыв",
+        "image": [
             {
-                "id": 1,
-                "created_at": "13.02.2024",
-                "name": "Брюки",
-                "description": "asd\r\nDSA\r\nADS\r\n\r\nASD",
-                "count": 123,
-                "size": [
-                    {
-                        "name": "XXL"
-                    },
-                    {
-                        "name": "XL"
-                    }
-                ],
-                "cost": 3700.0,
-                "rating": 123,
-                "promotion": false,
-                "promotion_cost": null,
-                "image": [
-                    {
-                        "image": "http://127.0.0.1:8000/media/product_images/aa0cd46cf06379ed7b4d503d02dc0ff9c6fb9f74_full.jpg"
-                    }
-                ]
+                "image": "http://127.0.0.1:8000/media/product_images/dStUSAf-CiU.jpg"
             }
-        ]
+        ],
+        "tags": [
+            {
+                "name": "asdsadadsad"
+            }
+        ],
+        "product_status": true,
+        "created_at": "24.02.2024"
     }
 }
 ```
-
-
+### Дополнительная информация о товаре:
+http://127.0.0.1:8000/api/v1/list/product/info/{product_id}/
+```JSON
+[
+    {
+        "product_info_id": 2,
+        "color": {
+            "id": 1,
+            "name": "asdsad",
+            "code": "sadsadsa"
+        },
+        "size": {
+            "id": 1,
+            "name": "asdasdsad"
+        },
+        "quantity": -156,
+        "cost": 111.0,
+        "promotion": false,
+        "promotion_cost": 1111.0
+    },
+    {
+        "product_info_id": 3,
+        "color": {
+            "id": 2,
+            "name": "asdasdsadasdasd",
+            "code": "asdsadsad"
+        },
+        "size": {
+            "id": 1,
+            "name": "asdasdsad"
+        },
+        "quantity": 9975,
+        "cost": 1111.0,
+        "promotion": true,
+        "promotion_cost": 300.0
+    }
+]
+```
 # ЗАКАЗ
+### Основное тело запроса:
+```JSON
+{
+    "user_initials": "John Doe",
+    "user_email": "WinerTy@yan1dex.ru",
+    "user_phone": "",
+    "items": [
+        {
+            "product_info_id": 2,
+            "quantity": 5
+        },
+        {
+            "product_info_id": 4,
+            "quantity": 5
+        }
+    ],
+    "order_additionalservices": [1],
+    "order_type": "1",
+    "order_address": "123 Main St",
+    "order_face": "2",
+    "comment": "Please deliver to the front door"
+}
+```
+| поле | описание | тип|
+|------|----------|----|
+| user_initials | Инициалы заказчика |string|
+|user_email| Почта заказчика |string|
+|user_phone| телефон заказчика|string|
+|items| товары |string|
+|items[product_info_id]| id дополнительной информации о товаре [тут](http://127.0.0.1:8000/api/v1/list/product/info/{product_id}/)|int|
+|item[quanity]| количество товара|int|
+|order_additionalservices| дополнительные услуги к заказу (Список с их id)|int|
+|order_type|id типа заказа(Описан ниже)|int|
+|order_address| Адресс доставки|string|
+|order_face|Тип заказчика(описан ниже)|int|
+|comment| Коментарий заказчика|string|
+
 ## Коды:
+#### ```order_additionalservices```
+Весь список активных доп услуг - http://localhost:8000/api/v1/order/service/
 #### ```order_type``` - Тип доставки:
 | Код | Описание |
 | ----------- | ----------- |
@@ -242,34 +309,38 @@ http://127.0.0.1:8000/api/v1/product/products/
 | 1    | Юридическое лицо    |
 | 2    | Физическое лицо    |
 
-### Основное тело запроса:
-```JSON
-{
-{
-    "user_initials": "John Doe",
-    "user_email": "johndoe@example.com",
-    "user_phone": "123456789",
-    "items": [
-        {
-            "id": 1,
-            "quantity": 2
-        },
-        {
-            "id": 2,
-            "quantity": 1
-        }
-    ],
-    "order_additionalservices": [1,2,3],
-    "order_type": "1",
-    "order_address": "123 Main St",
-    "order_face": "2",
-    "comment": "Please deliver to the front door"
-}
-}
-```
 ### Валидация:
 - поля user_email и user_phone, должно быть заполнено хотя бы одно любое из этих полей
 
+### Изменение заказа:
+Тело запроса:
+```JSON
+{
+    "items": [
+        {
+            "product_info_id": 3,
+            "quantity": 90
+        },
+        {
+            "product_info_id": 4,
+            "quantity": 90
+        }
+    ],
+    "order_additionalservices": [1,2,4],
+    "order_status": "5"
+}
+```
+|Поле| валидация| описание |
+|----|----------|----------|
+|items|Выдает ошибку если количество товара в заказе превышает его количество на складе|Передается id подробной информации товара и его количество или товар был удален|
+|order_additionalservices|Ошибка если указанный id доп.услуги не был найден| список id с теми доп услугами которые выбрал пользователь к своему заказу|
+|order_status|Ошибка если пользователь захотел отменить заказ статус которого отличен от статуса "Не готов" или заказ уже был отменен|Передаеться ключ значение для отмены, ключ - 5|
+
+**ДОПОЛНИТЕЛЬНО**
+
+Передается id не ТОВАРА а id информации о товаре, это связана с тем, что у товара есть пречень Цветов, размеров и тд, и у каждого цвета или размера разная стоимость и разное количество товара на складе. ID Информации о товаре уникален, поэтому не нужно передавать Id цвета и тд, все это уже храниться в передаваемом id информации о товаре.
+
+Информацию о доп информации о товаре можно получить тут http://127.0.0.1:8000/api/v1/list/product/info/{product_id}/
 ## Админка 
 http://127.0.0.1:8000/admin/
 

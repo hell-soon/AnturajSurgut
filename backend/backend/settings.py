@@ -41,12 +41,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "database.apps.DatabaseConfig",
-    "sitedb.apps.SitedbConfig",
-    "ProductAPI.apps.ProductapiConfig",
-    "users.apps.UsersConfig",
-    "profiles.apps.ProfilesConfig",
-    "telegram.apps.TelegramConfig",
+    "sitedb.apps.SitedbConfig",  # Site Info etc
+    "users.apps.UsersConfig",  # AUTH USER API
+    "profiles.apps.ProfilesConfig",  # User Profiles API
+    "telegram.apps.TelegramConfig",  # Integrate TG BOT
+    "DB.apps.DbConfig",  # Database
+    "order.apps.OrderConfig",  # Order API
+    "API.apps.ApiConfig",  # Product API
+    "reviews.apps.ReviewsConfig",  # Reviews API
     "django_filters",
     "allauth",  # work with users
     "allauth.account",
@@ -77,6 +79,7 @@ TEMPLATES = [
         "DIRS": [
             os.path.join(BASE_DIR, "templates"),
             os.path.join(BASE_DIR, "users/templates"),
+            os.path.join(BASE_DIR, "DB/templates"),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -98,7 +101,19 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
-# ПЕРЕХОД С SQLITE3 на POSTGRESQL
+"""
+БАЗА ДАННЫХ
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        "HOST": os.getenv("POSTGRES_HOST"),
+        "PORT": os.getenv("POSTGRES_PORT"),
+    }
+}
+"""
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -142,16 +157,18 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
+"""
+STATIC SETTINGS
+"""
 STATIC_URL = "static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
 
-# Media
+"""
+MEDIA SETTINGS
+"""
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 # Default primary key field type
@@ -161,16 +178,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 """
-ID
+SITE_ID 
 """
-
 SITE_ID = 1
 
 
 """
 REST FRAMEWORK
 """
-
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
@@ -181,7 +196,6 @@ REST_FRAMEWORK = {
 """
 JWT TOKEN
 """
-
 JWT_AUTH = {
     "JWT_EXPIRATION_DELTA": datetime.timedelta(
         hours=5
@@ -196,10 +210,12 @@ JWT_AUTH = {
 """
 CUSTOM MODEL USER
 """
-
 AUTH_USER_MODEL = "users.CustomUser"
 
 
+"""
+LOGGING
+"""
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -209,7 +225,7 @@ LOGGING = {
             "datefmt": "%d.%m.%Y %H:%M:%S",
         },
         "error_format": {
-            "format": "[%(asctime)s - %(levelname)s] %(message)s, путь: %(pathname)s, строка: %(lineno)d",
+            "format": "[%(asctime)s - %(levelname)s] %(message)s, PATH: %(pathname)s, line: %(lineno)d",
             "datefmt": "%d.%m.%Y %H:%M:%S",
         },
         "security_error": {
@@ -234,6 +250,14 @@ LOGGING = {
             "formatter": "security_error",
             "level": "INFO",
         },
+        "telegram_bot": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": os.path.join(BASE_DIR, "logs/telegram_bot.log"),
+            "maxBytes": 1024 * 1024 * 5,
+            "backupCount": 5,
+            "formatter": "error_format",
+            "level": "ERROR",
+        },
     },
     "loggers": {
         "django.request": {"handlers": ["errors"], "level": "ERROR", "propagate": True},
@@ -242,9 +266,18 @@ LOGGING = {
             "level": "INFO",
             "propagate": True,
         },
+        "tg_bot": {
+            "handlers": ["telegram_bot"],
+            "level": "ERROR",
+            "propagate": True,
+        },
     },
 }
 
+
+"""
+MAIL SETTINGS
+"""
 # if DEBUG:
 #     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # else:
@@ -257,14 +290,24 @@ EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
+"""
+REDIS SETTINGS
+"""
 REDIS_HOST = os.getenv("REDIS_HOST")
 REDIS_PORT = os.getenv("REDIS_PORT")
 REDIS_DB = os.getenv("REDIS_DB")
 
+
+"""
+CELERY SETTINGS
+"""
 CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 
+"""
+SMS SETTINGS
+"""
 SMS_RU = {
     "API_ID": os.getenv("SMS_RU_API_ID"),
     "FROM": os.getenv("SMSRU_FROM"),
