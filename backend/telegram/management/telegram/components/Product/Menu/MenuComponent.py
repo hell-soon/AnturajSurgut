@@ -1,3 +1,4 @@
+import logging
 from telebot import types
 from ....Utils.APIResponses import get_main_product
 from ....Utils.ChatHelper import delete_message
@@ -7,6 +8,8 @@ from .Catalog.SubCatalogMenu import subcatalog_menu
 from ...Product.Menu.Catalog.ProductMenu import product_list_start
 from ...Orders.OrderInfo.OrderInfoMessage import show_order_info
 from ...UserHelp.MainHelp.OtherMenu.AboutMenu import callback_query_about
+
+logger = logging.getLogger("tg_bot")
 
 
 class ProductMenu:
@@ -57,8 +60,10 @@ class ProductMenu:
                 subcatalog_menu(self.bot, call, self.API_URL)
 
             elif call.data.startswith("subcatalog_back"):
-                delete_message(self.bot, call.message)
-
+                try:
+                    delete_message(self.bot, call.message)
+                except Exception as e:
+                    logger.error(e)
             elif call.data.startswith("subcatalog_"):
                 _, value = call.data.split("_")
                 self.product_return = product_list_start(

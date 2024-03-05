@@ -28,6 +28,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "order_additionalservices",
             "comment",
             "order_status",
+            "track_number",
         ]
         read_only_fields = ["created_at", "order_number"]
 

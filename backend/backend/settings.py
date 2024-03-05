@@ -225,7 +225,7 @@ LOGGING = {
             "datefmt": "%d.%m.%Y %H:%M:%S",
         },
         "error_format": {
-            "format": "[%(asctime)s - %(levelname)s] %(message)s, путь: %(pathname)s, строка: %(lineno)d",
+            "format": "[%(asctime)s - %(levelname)s] %(message)s, PATH: %(pathname)s, line: %(lineno)d",
             "datefmt": "%d.%m.%Y %H:%M:%S",
         },
         "security_error": {
@@ -250,12 +250,25 @@ LOGGING = {
             "formatter": "security_error",
             "level": "INFO",
         },
+        "telegram_bot": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": os.path.join(BASE_DIR, "logs/telegram_bot.log"),
+            "maxBytes": 1024 * 1024 * 5,
+            "backupCount": 5,
+            "formatter": "error_format",
+            "level": "ERROR",
+        },
     },
     "loggers": {
         "django.request": {"handlers": ["errors"], "level": "ERROR", "propagate": True},
         "django.security": {
             "handlers": ["security"],
             "level": "INFO",
+            "propagate": True,
+        },
+        "tg_bot": {
+            "handlers": ["telegram_bot"],
+            "level": "ERROR",
             "propagate": True,
         },
     },

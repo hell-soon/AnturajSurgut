@@ -1,12 +1,22 @@
-from telegram.management.telegram.Utils.APIResponses import get_order
+import logging
+from ....Utils.APIResponses import get_order
 from telebot import types
+
+logger = logging.getLogger("tg_bot")
 
 
 def finded_orders(bot, API_URL, message):
-    key = "user_email" if "@" in message.text else "user_phone"
-    params = {key: message.text}
-    orders = get_order(bot, API_URL, params, chat_id=message.chat.id)
-    if orders:
+    try:
+        key = "user_email" if "@" in message.text else "user_phone"
+        params = {key: message.text}
+        orders = get_order(bot, API_URL, params, chat_id=message.chat.id)
+    except Exception as e:
+        bot.send_message(
+            message.chat.id,
+            "Не используйте недопустимые символы. Повторите попытку с самого начала",
+        )
+
+    try:
         ch = 0
         keyboard = types.InlineKeyboardMarkup()
         for order in orders:
@@ -17,9 +27,14 @@ def finded_orders(bot, API_URL, message):
                     callback_data=f"order_{order['order_number']}",
                 )
                 keyboard.add(button)
-        bot.send_message(
-            message.chat.id, f"Найдено {ch} активных заказов:", reply_markup=keyboard
-        )
-        if ch == 0:
-            text = f"на {message.text} не найдено ни одного активного заказа"
-            bot.send_message(message.chat.id, text)
+        if ch > 0:
+            bot.send_message(
+                message.chat.id,
+                f"Найдено {ch} активных заказов:",
+                reply_markup=keyboard,
+            )
+        else:
+            text = f"На <b>{message.text}</b> не найдено ни одного активного заказа"
+            bot.send_message(message.chat.id, text, parse_mode="html")
+    except Exception as e:
+        logger.error(e)
