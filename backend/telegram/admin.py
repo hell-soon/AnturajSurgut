@@ -1,15 +1,7 @@
 from django.contrib import admin
-from .models import TelegramNews, TelegramImage, TelegramImageOrder
+from .models import TelegramNews, TelegramImage
 
 # Register your models here.
-
-
-@admin.register(TelegramImageOrder)
-class TelegramImageOrderAdmin(admin.ModelAdmin):
-    list_display = (
-        "order_status",
-        "image",
-    )
 
 
 class TelegramImageInline(admin.TabularInline):

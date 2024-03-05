@@ -25,25 +25,3 @@ class TelegramNews(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class TelegramImageOrder(models.Model):
-    CHOICE_STATUS = (
-        ("1", "Не готов"),
-        ("2", "Готов к выдаче"),
-        ("3", "Передан в доставку"),
-        ("4", "Доставлен"),
-        ("5", "Отменен"),
-        ("6", "Завершен"),
-    )
-    order_status = models.CharField(
-        max_length=1, choices=CHOICE_STATUS, unique=True, verbose_name="Статус заказа"
-    )
-    image = models.ImageField(upload_to="telegram_images_orders/")
-
-    class Meta:
-        verbose_name = "Изображение для отображения в заказе"
-        verbose_name_plural = "Изображения для отображения в заказе"
-
-    def __str__(self):
-        return self.image.url
