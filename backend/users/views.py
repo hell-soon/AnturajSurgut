@@ -1,23 +1,21 @@
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_str, force_bytes
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from django.utils.encoding import force_str, force_bytes
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from django.contrib.auth.tokens import default_token_generator
-
-from .serializers import (
-    UserRegisterSerializer,
-    UserLoginSerializer,
-    UserUpdatePasswordSerializer,
-    UserEmailSerializer,
-)
-from users.models import CustomUser
+from .models import CustomUser
 from .tasks import send_link_for_change_pass
+from .serializers.Register.UserRegister import UserRegisterSerializer
+from .serializers.Login.UserLogin import UserLoginSerializer
+from .serializers.Component.EmailSerializers import UserEmailSerializer
+from .serializers.Update.UserPasswordUpdate import UserUpdatePasswordSerializer
+from .serializers.Update.UserInfoUpdate import UserUpdateSerializer
 
 
 @swagger_auto_schema(
