@@ -15,7 +15,6 @@ from .serializers.Register.UserRegister import UserRegisterSerializer
 from .serializers.Login.UserLogin import UserLoginSerializer
 from .serializers.Component.EmailSerializers import UserEmailSerializer
 from .serializers.Update.UserPasswordUpdate import UserUpdatePasswordSerializer
-from .serializers.Update.UserInfoUpdate import UserUpdateSerializer
 
 
 @swagger_auto_schema(

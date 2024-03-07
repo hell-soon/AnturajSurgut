@@ -13,3 +13,4 @@ celery==5.3.6
 redis==5.0.1
 telebot==0.0.5
 aiohttp==3.9.3
+yookassa==3.0.1

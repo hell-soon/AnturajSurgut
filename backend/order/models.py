@@ -36,6 +36,10 @@ class Order(models.Model):
         ("5", "Отменен"),
         ("6", "Завершен"),
     )
+    PAYMENT_STATUS = (
+        ("1", "Онланй платеж"),
+        ("2", "При получении"),
+    )
     user_initials = models.CharField(max_length=100, verbose_name="Инициалы покупателя")
     user_email = models.EmailField(
         verbose_name="Электронная почта", blank=True, null=True
@@ -53,7 +57,10 @@ class Order(models.Model):
     order_type = models.CharField(
         max_length=1, choices=CHOICES_TYPES, default="1", verbose_name="Тип доставки"
     )
-    order_paymant = models.BooleanField(default=False, verbose_name="Статус оплаты")
+    payment_type = models.CharField(
+        max_length=1, choices=PAYMENT_STATUS, default="1", verbose_name="Способ оплаты"
+    )
+    order_paymant = models.BooleanField(default=False, verbose_name="Оплачен")
     order_address = models.CharField(
         max_length=255, verbose_name="Адрес доставки", blank=True
     )
@@ -94,7 +101,6 @@ class Order(models.Model):
 
         if not self.user_phone:
             self.user_phone = "Телефон не указан"
-
         super(Order, self).save(*args, **kwargs)
 
     def __str__(self):

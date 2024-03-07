@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 import datetime
+from yookassa.configuration import Configuration
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -49,7 +50,7 @@ INSTALLED_APPS = [
     "order.apps.OrderConfig",  # Order API
     "API.apps.ApiConfig",  # Product API
     "reviews.apps.ReviewsConfig",  # Reviews API
-    "django_filters",
+    "django_filters",  # Filters
     "allauth",  # work with users
     "allauth.account",
     "allauth.socialaccount",
@@ -258,6 +259,14 @@ LOGGING = {
             "formatter": "error_format",
             "level": "ERROR",
         },
+        "payment_create": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": os.path.join(BASE_DIR, "logs/payment_create.log"),
+            "maxBytes": 1024 * 1024 * 5,
+            "backupCount": 5,
+            "formatter": "error_format",
+            "level": "ERROR",
+        },
     },
     "loggers": {
         "django.request": {"handlers": ["errors"], "level": "ERROR", "propagate": True},
@@ -268,6 +277,11 @@ LOGGING = {
         },
         "tg_bot": {
             "handlers": ["telegram_bot"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+        "payment_create": {
+            "handlers": ["payment_create"],
             "level": "ERROR",
             "propagate": True,
         },
@@ -312,3 +326,10 @@ SMS_RU = {
     "API_ID": os.getenv("SMS_RU_API_ID"),
     "FROM": os.getenv("SMSRU_FROM"),
 }
+
+
+"""
+Yookassa
+"""
+YOOKASSA_ACCOUNT_ID = os.getenv("YOOKASSA_ACCOUNT_ID")
+YOOKASSA_SECRET = os.getenv("YOOKASSA_SECRET")
