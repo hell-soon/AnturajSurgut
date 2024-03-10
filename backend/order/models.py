@@ -122,6 +122,10 @@ class OrderItems(models.Model):
     quantity = models.PositiveIntegerField(verbose_name="Количество")
     total_cost = models.FloatField(verbose_name="Общая цена", blank=True, null=True)
 
+    class Meta:
+        verbose_name = "Детали заказа"
+        verbose_name_plural = "Детали заказа"
+
     def save(self, *args, **kwargs):
         if self.pk is None:  # Проверяем, что это новый объект
             if self.product.promotion:
@@ -139,3 +143,6 @@ class OrderItems(models.Model):
             product_info.save()
 
         super(OrderItems, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.order.order_number} - {self.product}"

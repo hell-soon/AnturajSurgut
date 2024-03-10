@@ -28,3 +28,6 @@ class LogAdmin(admin.ModelAdmin):
     list_display = ['phone', 'sms_id', 'msg', 'status', 'status_text', 'created_at']
     date_hierarchy = 'created_at'
     actions = [update_sms_status]
+
+
+

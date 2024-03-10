@@ -14,7 +14,6 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 import datetime
-from yookassa.configuration import Configuration
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -36,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition1
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -51,9 +51,7 @@ INSTALLED_APPS = [
     "API.apps.ApiConfig",  # Product API
     "reviews.apps.ReviewsConfig",  # Reviews API
     "django_filters",  # Filters
-    "allauth",  # work with users
-    "allauth.account",
-    "allauth.socialaccount",
+    "colorfield",  # color field
     "rest_framework",
     "rest_framework.authtoken",
     "rest_framework_swagger",  # swagger and docs
@@ -69,7 +67,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -143,7 +140,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 # Internationalization
@@ -162,9 +158,7 @@ USE_TZ = True
 STATIC SETTINGS
 """
 STATIC_URL = "static/"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 """
@@ -333,3 +327,8 @@ Yookassa
 """
 YOOKASSA_ACCOUNT_ID = os.getenv("YOOKASSA_ACCOUNT_ID")
 YOOKASSA_SECRET = os.getenv("YOOKASSA_SECRET")
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Антураж",
+    "site_header": "Антураж",
+}

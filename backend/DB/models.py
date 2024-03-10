@@ -1,4 +1,6 @@
 from django.db import models
+from colorfield.fields import ColorField
+
 
 # Create your models here.
 
@@ -74,10 +76,8 @@ class ProductImage(models.Model):
 
 
 class Color(models.Model):
-    name = models.CharField(max_length=20, verbose_name="Цвет")
-    code = models.CharField(max_length=20, verbose_name="Код цвета")
-    verbose_name = "Цвет"
-    verbose_name_plural = "Цвета"
+    name = models.CharField(max_length=20, verbose_name="Название")
+    color = ColorField(default="#FFFFFF", verbose_name="Код")
 
     class Meta:
         verbose_name = "Цвет"

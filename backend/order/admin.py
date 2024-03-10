@@ -45,6 +45,3 @@ class OrderAdmin(admin.ModelAdmin):
             return "Нету дополнительных услуг"
 
     get_additional_services.short_description = "Дополнительные услуги"
-
-
-admin.site.register(OrderItems)

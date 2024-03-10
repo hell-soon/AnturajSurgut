@@ -5,7 +5,7 @@ class DbConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "DB"
 
-    verbose_name = "База данных"
+    verbose_name = "Каталог товаров"
     verbose_name_plural = "База данных"
 
     def ready(self):

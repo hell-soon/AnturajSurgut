@@ -23,12 +23,12 @@ class TagsAdmin(admin.ModelAdmin):
 
 @admin.register(ProductImage)
 class ProductImageAdmin(admin.ModelAdmin):
-    list_display = ("image",)
+    list_display = ("id", "image")
 
 
 @admin.register(Color)
 class ColorAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "code")
+    list_display = ("id", "color")
 
 
 @admin.register(Size)
@@ -57,4 +57,3 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Product, ProductAdmin)
-admin.site.register(ProductInfo)
