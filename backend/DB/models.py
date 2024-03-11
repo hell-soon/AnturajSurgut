@@ -26,7 +26,12 @@ class Catalog(models.Model):
 
 class SubCatalog(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название подкаталога")
-    image = models.ImageField(upload_to="subcatalog_images/", blank=True, null=True)
+    image = models.ImageField(
+        upload_to="subcatalog_images/",
+        blank=True,
+        null=True,
+        verbose_name="Загрузить картинку",
+    )
     catalog = models.ForeignKey(
         Catalog, on_delete=models.CASCADE, verbose_name="Каталог", blank=True, null=True
     )
@@ -62,7 +67,7 @@ class Tags(models.Model):
 
 class ProductImage(models.Model):
     image = models.ImageField(
-        upload_to="product_images/", verbose_name="Картинки товаров"
+        upload_to="product_images/", verbose_name="Загрузить картинку"
     )
     verbose_name = "Изображение"
     verbose_name_plural = "Изображения"
@@ -155,7 +160,7 @@ class ProductInfo(models.Model):
 
     class Meta:
         verbose_name = "Информация о продукте"
-        verbose_name_plural = "Информация о продуктах"
+        verbose_name_plural = "Линейка товара"
 
     def __str__(self):
         return f"{self.product.name} - {self.id}"

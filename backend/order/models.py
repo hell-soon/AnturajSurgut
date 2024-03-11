@@ -127,11 +127,19 @@ class OrderItems(models.Model):
         verbose_name_plural = "Детали заказа"
 
     def save(self, *args, **kwargs):
+        """
+        Сохранение объекта, проверяеться акционный ли продукт и высчитаываеться общая цена лота в заказе(с учетом акции), Можно добавить Вычет НДС и тд
+        total_cost - общая цена лота
+        cost - цена товара за 1 шт
+        quantity - кол-во единиц в лоте
+        """
         if self.pk is None:  # Проверяем, что это новый объект
+            # Товар акционный?
             if self.product.promotion:
                 self.cost = self.product.promotion_cost
                 self.total_cost = self.product.promotion_cost * self.quantity
             else:
+                # Товар без акции
                 self.cost = self.product.cost
                 self.total_cost = self.cost * self.quantity
             self.color = self.product.color.name
