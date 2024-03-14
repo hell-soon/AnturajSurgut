@@ -1,24 +1,18 @@
 from django.urls import path, include
-from .views import (
-    ProductViewSet,
-    ProductInfoView,
-    CatalogViewSet,
-    SubCatalogViewSet,
-    OrderViewSet,
-    OrderInfoView,
-)
-from rest_framework import routers
 
-
-router = routers.DefaultRouter()
-router.register(r"product", ProductViewSet)
-router.register(r"catalog", CatalogViewSet)
-router.register(r"subcatalog", SubCatalogViewSet)
-router.register(r"order", OrderViewSet)
+from .Views.Order.OrderInfo.OrderInfo import OrderInfoView
+from .Views.Product.ProductInfo.ProductInfo import ProductInfoView
+from .Routers.Product.router import router as product_router
+from .Routers.Catalog.router import router as catalog_router
+from .Routers.SubCatalog.router import router as subcatalog_router
+from .Routers.Order.router import router as order_router
 
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path("", include(product_router.urls)),
+    path("", include(catalog_router.urls)),
+    path("", include(subcatalog_router.urls)),
+    path("", include(order_router.urls)),
     path(
         "product/info/<int:product_id>/", ProductInfoView.as_view(), name="product-info"
     ),
