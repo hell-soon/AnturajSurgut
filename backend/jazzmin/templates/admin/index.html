@@ -9,12 +9,13 @@
 {% block breadcrumbs %}
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
-        <li class="breadcrumb-item">{% trans 'Dashboard' %}</li>
+        <li class="breadcrumb-items">{% trans 'Dashboard' %}</li>
     </ol>
 {% endblock %}
 
 
 {% block content %}
+    <!-- <div class="test"><h1>TEST</h1></div> -->
     {% get_side_menu using="app_list" as dashboard_list %}
     {% if dashboard_list %}
         {% widthratio dashboard_list|length 2 1 as middle %}
@@ -88,7 +89,7 @@
                                 {% endif %}
 
                                 <div class="timeline-item">
-                                    <span class="time"><i class="fas fa-clock"></i> {% blocktrans with timesince=entry.action_time|timesince %}{{ timesince }} ago{% endblocktrans %}</span>
+                                    <span class="time"><i class="fas fa-clock"></i> {% blocktrans with timesince=entry.action_time|timesince %}{{ timesince }} назад{% endblocktrans %}</span>
                                     <h3 class="timeline-header no-border">
                                         {% if entry.is_deletion or not entry.get_admin_url %}
                                             {{ entry.object_repr }}

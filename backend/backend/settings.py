@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from .config.database.db import SQLITE, POSTGRES
 import datetime
 
 load_dotenv()
@@ -35,7 +36,7 @@ ALLOWED_HOSTS = []
 # Application definition1
 
 INSTALLED_APPS = [
-    "jazzmin.apps.JazzminConfig",
+    "jazzmin.apps.JazzminConfig",  # ADMIN
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -50,9 +51,10 @@ INSTALLED_APPS = [
     "order.apps.OrderConfig",  # Order API
     "API.apps.ApiConfig",  # Product API
     "reviews.apps.ReviewsConfig",  # Reviews API
+    "AdminPanel.apps.AdminpanelConfig",  # Admin Panel app
     "django_filters",  # Filters
     "colorfield",  # color field
-    "rest_framework",
+    "rest_framework",  # API
     "rest_framework.authtoken",
     "rest_framework_swagger",  # swagger and docs
     "drf_yasg",
@@ -100,24 +102,10 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 
 """
-БАЗА ДАННЫХ
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("POSTGRES_HOST"),
-        "PORT": os.getenv("POSTGRES_PORT"),
-    }
-}
+DATA BASE
 """
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+
+DATABASES = POSTGRES
 
 
 # Password validation
@@ -145,7 +133,7 @@ AUTHENTICATION_BACKENDS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = "RU-ru"
+LANGUAGE_CODE = "ru"
 
 TIME_ZONE = "Asia/Yekaterinburg"
 
@@ -191,16 +179,9 @@ REST_FRAMEWORK = {
 """
 JWT TOKEN
 """
-JWT_AUTH = {
-    "JWT_EXPIRATION_DELTA": datetime.timedelta(
-        hours=5
-    ),  # Срок действия Access Token на 5 часов
-    "JWT_REFRESH_EXPIRATION_DELTA": datetime.timedelta(
-        days=7
-    ),  # Срок действия Refresh Token на 7 дней
-    "JWT_ALLOW_REFRESH": True,  # Разрешить обновление токена
-}
+from .config.auth.jwt import JWT_TOKENS
 
+JWT_AUTH = JWT_TOKENS
 
 """
 CUSTOM MODEL USER
@@ -211,84 +192,14 @@ AUTH_USER_MODEL = "users.CustomUser"
 """
 LOGGING
 """
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "file_format": {
-            "format": "[%(asctime)s] %(levelname)s|%(module)s: %(message)s",
-            "datefmt": "%d.%m.%Y %H:%M:%S",
-        },
-        "error_format": {
-            "format": "[%(asctime)s - %(levelname)s] %(message)s, PATH: %(pathname)s, line: %(lineno)d",
-            "datefmt": "%d.%m.%Y %H:%M:%S",
-        },
-        "security_error": {
-            "format": "[%(asctime)s] - [%(levelname)s] - [%(module)s] - %(message)s",
-            "datefmt": "%d/%m/%Y %H:%M:%S",
-        },
-    },
-    "handlers": {
-        "errors": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(BASE_DIR, "logs/errors.log"),
-            "maxBytes": 1024 * 1024 * 5,
-            "backupCount": 5,
-            "formatter": "error_format",
-            "level": "ERROR",
-        },
-        "security": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(BASE_DIR, "logs/security.log"),
-            "maxBytes": 1024 * 1024 * 5,
-            "backupCount": 5,
-            "formatter": "security_error",
-            "level": "INFO",
-        },
-        "telegram_bot": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(BASE_DIR, "logs/telegram_bot.log"),
-            "maxBytes": 1024 * 1024 * 5,
-            "backupCount": 5,
-            "formatter": "error_format",
-            "level": "ERROR",
-        },
-        "payment_create": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(BASE_DIR, "logs/payment_create.log"),
-            "maxBytes": 1024 * 1024 * 5,
-            "backupCount": 5,
-            "formatter": "error_format",
-            "level": "ERROR",
-        },
-    },
-    "loggers": {
-        "django.request": {"handlers": ["errors"], "level": "ERROR", "propagate": True},
-        "django.security": {
-            "handlers": ["security"],
-            "level": "INFO",
-            "propagate": True,
-        },
-        "tg_bot": {
-            "handlers": ["telegram_bot"],
-            "level": "ERROR",
-            "propagate": True,
-        },
-        "payment_create": {
-            "handlers": ["payment_create"],
-            "level": "ERROR",
-            "propagate": True,
-        },
-    },
-}
+from .config.log.logging import SET_LOGGING
 
+LOGGING = SET_LOGGING
 
 """
 MAIL SETTINGS
 """
-# if DEBUG:
-#     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-# else:
+
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.yandex.ru"
 EMAIL_PORT = os.getenv("EMAIL_PORT")
@@ -316,10 +227,9 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 """
 SMS SETTINGS
 """
-SMS_RU = {
-    "API_ID": os.getenv("SMS_RU_API_ID"),
-    "FROM": os.getenv("SMSRU_FROM"),
-}
+from .config.SMS.smsru import SMS_SETTINGS
+
+SMS_RU = SMS_SETTINGS
 
 
 """
@@ -329,137 +239,12 @@ YOOKASSA_ACCOUNT_ID = os.getenv("YOOKASSA_ACCOUNT_ID")
 YOOKASSA_SECRET = os.getenv("YOOKASSA_SECRET")
 
 # ADMIN SETTINGS
-JAZZMIN_SETTINGS = {
-    # Настройка сайта
-    "site_title": "Антураж",
-    "site_header": "Антураж",
-    "welcome_sign": "Добро пожаловать в Антураж",
-    "copyright": "Антураж",
-    "site_logo_classes": "img-center",
-    # Панель управления
-    # моадльное окно
-    "related_modal_active": True,
-    # Панель кастомизации(только на время разработки)
-    "show_ui_builder": True,
-    # гугл шрифты
-    "use_google_fonts_cdn": True,
-    # Навигация(sidebar)
-    "navigation_expanded": True,
-    # Models icons
-    "icons": {
-        "auth": "fas fa-users-cog",
-        "users.CustomUser": "fas fa-users",
-        "auth.Group": "fas fa-users",
-        "DB.Product": "fas fa-vest",
-        "DB.Catalog": "fas fa-list-ul",
-        "DB.Tags": "fas fa-tags",
-        "DB.Color": "fas fa-palette",
-        "DB.Size": "fas fa-ruler",
-        "DB.ProductImage": "fas fa-image",
-        "order.Order": "fas fa-truck",
-        "order.Additionalservices": "fas fa-plus",
-        "reviews.Review": "fas fa-comment",
-        "sitedb.Slider": "fas fa-sliders-h",
-        "sitedb.News": "fas fa-newspaper",
-        "sitedb.Service": "fas fa-list",
-        "sitedb.OurWork": "fas fa-briefcase",
-        "sitedb.OurWorkImage": "fas fa-image",
-        "telegram.TelegramImage": "fas fa-image",
-        "telegram.TelegramNews": "fas fa-paper-plane",
-        "smsru.Log": "fas fa-sms",
-    },
-    # TOP MENU
-    "topmenu_links": [
-        # Url that gets reversed (Permissions can be added)
-        {"name": "Главная", "url": "admin:index", "permissions": ["auth.view_user"]},
-        # external url that opens in a new window (Permissions can be added)
-        {
-            "name": "Поддержка(DEV)",
-            "url": "admin:index",
-            "new_window": False,
-        },
-        {"name": "books"},
-        # model admin to link to (Permissions checked against model)
-        # {"model": "order.Order"}, вывод конкретной модели
-        # App with dropdown menu to all its models pages (Permissions checked against models)
-        # {"app": "DB"}, вывод полного списка моделей приложения
-    ],
-    # FORMS
-    "changeform_format": "horizontal_tabs",
-    "changeform_format_overrides": {
-        "auth.user": "collapsible",
-        "auth.group": "vertical_tabs",
-    },
-    # SIDE BAR LIST MODELS AND APP
-    "order_with_respect_to": [
-        "DB",
-        "DB.Product",
-        "DB.Catalog",
-        "DB.SubCatalog",
-        "DB.Tags",
-        "DB.Color",
-        "DB.Size",
-        "DB.ProductImage",
-        "Support",
-        "order",
-        "order.Order",
-        "sitedb",
-        "sitedb.Slider",
-        "sitedb.News",
-        "sitedb.Service",
-        "sitedb.OurWork",
-        "telegram",
-        "telegram.TelegramNews",
-    ],
-    "custom_links": {
-        "books": [
-            {
-                # Any Name you like
-                "name": "Тест",
-                # url name e.g `admin:index`, relative urls e.g `/admin/index` or absolute urls e.g `https://domain.com/admin/index`
-                "url": "admin:index",
-                # any font-awesome icon, see list here https://fontawesome.com/icons?d=gallery&m=free&v=5.0.0,5.0.1,5.0.10,5.0.11,5.0.12,5.0.13,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.13.0,5.12.0,5.11.2,5.11.1,5.10.0,5.9.0,5.8.2,5.8.1,5.7.2,5.7.1,5.7.0,5.6.3,5.5.0,5.4.2 (optional)
-                "icon": "fas fa-comments",
-                # a list of permissions the user must have to see this link (optional)
-            }
-        ]
-    },
-    #
-    # Скрыть модели
-    "hide_apps": ["auth", "AuthToken"],
-    "hide_models": ["auth.groups", "auth.tokens.Tokens", "DB.Type"],
-    # "language_chooser": True,
-    "search_model": ["DB.Product"],
-}
+from .config.admins.Settings.settings import JAZZ_SETTINGS
+
+JAZZMIN_SETTINGS = JAZZ_SETTINGS
+
+
 # UI ADMIN
-JAZZMIN_UI_TWEAKS = {
-    "navbar_small_text": False,
-    "footer_small_text": False,
-    "body_small_text": False,
-    "brand_small_text": False,
-    "brand_colour": False,
-    "accent": "accent-primary",
-    "navbar": "navbar-white navbar-light",
-    "no_navbar_border": False,
-    "navbar_fixed": False,
-    "layout_boxed": False,
-    "footer_fixed": False,
-    "sidebar_fixed": False,
-    "sidebar": "sidebar-dark-primary",
-    "sidebar_nav_small_text": False,
-    "sidebar_disable_expand": False,
-    "sidebar_nav_child_indent": False,
-    "sidebar_nav_compact_style": False,
-    "sidebar_nav_legacy_style": True,
-    "sidebar_nav_flat_style": False,
-    "theme": "pulse",
-    "dark_mode_theme": None,
-    "button_classes": {
-        "primary": "btn-outline-primary",
-        "secondary": "btn-outline-secondary",
-        "info": "btn-info",
-        "warning": "btn-warning",
-        "danger": "btn-danger",
-        "success": "btn-success",
-    },
-}
+from .config.admins.UI.SettingsUI import UI_SETTINGS
+
+JAZZMIN_UI_TWEAKS = UI_SETTINGS

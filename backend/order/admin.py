@@ -14,6 +14,9 @@ class OrderItemsInline(admin.TabularInline):
     model = OrderItems
     extra = 0
 
+    # def get_fields(self, request, obj=None):
+    #     return ["product", "quantity", "total_cost"]
+
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):

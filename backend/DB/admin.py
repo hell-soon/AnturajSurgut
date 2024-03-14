@@ -1,6 +1,11 @@
 from django.contrib import admin
 from .models import *
 from django.utils.html import format_html
+from django.forms import ClearableFileInput
+
+from django import forms
+from .Setup.widgets.Preview.ProductPreview import ImageWidget
+from .Setup.forms.ProductAdminForm.ProductForm import ProductAdminForm
 
 
 class SubCatalogAdmin(admin.TabularInline):
@@ -86,6 +91,7 @@ class ProductInfoInline(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
+    form = ProductAdminForm
     list_display = ("id", "name", "description", "show_image", "product_status")
     list_display_links = ("name", "id")
     inlines = [ProductInfoInline]
@@ -98,6 +104,31 @@ class ProductAdmin(admin.ModelAdmin):
     list_per_page = 40
     list_max_show_all = 300
     empty_value_display = "-"
+    actions = [
+        "change_product_status_action",
+        # "info_total_quanity_action",
+    ]
+
+    def info_total_quanity_action(self, request, queryset):
+        for product in queryset:
+            product_info = ProductInfo.objects.filter(product_id=product.id)
+            if product_info:
+                total_quanity = 0
+                for info in product_info:
+                    total_quanity += info.quantity
+                print(total_quanity)
+
+    info_total_quanity_action.short_description = "Информация о количестве"
+
+    def change_product_status_action(self, request, queryset):
+        for product in queryset:
+            if product.product_status:
+                product.product_status = False
+            else:
+                product.product_status = True
+            product.save()
+
+    change_product_status_action.short_description = "Изменить статус"
 
     def show_image(self, obj):
         if obj.image.exists():

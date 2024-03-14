@@ -104,7 +104,7 @@ class Order(models.Model):
         super(Order, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"Заказ от {self.created_at.strftime('%d.%m.%Y %H:%M')} - {self.user_initials}"
+        return f"Заказ: {self.order_number}"
 
 
 class OrderItems(models.Model):
