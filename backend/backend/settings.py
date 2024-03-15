@@ -14,7 +14,6 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from .config.database.db import SQLITE, POSTGRES
-import datetime
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,7 +29,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 
 # Application definition1
@@ -104,9 +103,11 @@ WSGI_APPLICATION = "backend.wsgi.application"
 """
 DATA BASE
 """
-
+# POSTGRESQL DATABASE Check ENV
 DATABASES = POSTGRES
 
+# Uncomment if you want to use sqlite
+# DATABASES = SQLITE
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -145,6 +146,11 @@ USE_TZ = True
 """
 STATIC SETTINGS
 """
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),
+#     os.path.join(BASE_DIR, "jazzmin/static"),
+# ]
+
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 

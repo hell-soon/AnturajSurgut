@@ -13,6 +13,3 @@ class ImageWidget(forms.SelectMultiple):
                 html += f'<a href="{image.image.url}"><img class="block-image" src="{image.image.url}" alt="{image.image.name}"></a>'
             html += "</div>"
         return mark_safe(html)
-
-
-# background-color: white; border: 1px solid #aaa; border-radius: 4px; cursor: text; padding-bottom: 5px; padding-right: 5px; position: relative;
