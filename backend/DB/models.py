@@ -121,13 +121,9 @@ class Type(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название")
     description = models.TextField(blank=True, verbose_name="Описание")
-    image = models.ManyToManyField(ProductImage, verbose_name="Изображение")
+    image = models.ManyToManyField(ProductImage, verbose_name="Изображение", blank=True)
     sub_catalog = models.ForeignKey(
-        SubCatalog,
-        on_delete=models.CASCADE,
-        verbose_name="Подкаталог",
-        blank=True,
-        null=True,
+        SubCatalog, on_delete=models.CASCADE, verbose_name="Подкаталог"
     )
     tags = models.ManyToManyField(Tags, verbose_name="Тэги", blank=True)
     product_status = models.BooleanField(default=True, verbose_name="Активен")

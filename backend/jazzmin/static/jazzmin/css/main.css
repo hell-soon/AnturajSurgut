@@ -951,7 +951,8 @@ body.jazzmin-login-page {
     padding-right: 5px;
     position: relative;
     margin-top: 10px;
-    display: inline-block;
+    display: inherit;
+    max-width: max-content;
 }
 
 .select2-id_tags-container {
@@ -959,9 +960,9 @@ body.jazzmin-login-page {
 }
 
 .block-image {
-    max-width: 100px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
     margin: 10px;
-    max-height: 100px;
-    object-fit: contain;
-    border-radius: 10px
 }
