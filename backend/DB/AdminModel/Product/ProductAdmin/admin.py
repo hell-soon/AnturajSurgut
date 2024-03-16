@@ -7,8 +7,19 @@ from ....Setup.forms.ProductAdminForm.ProductForm import ProductAdminForm
 
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
-    list_display = ("id", "name", "description", "show_image", "product_status")
-    list_display_links = ("name", "id")
+    list_display = (
+        "id",
+        "name",
+        "description",
+        "sub_catalog",
+        "show_image",
+        "product_status",
+    )
+    list_display_links = (
+        "name",
+        "id",
+    )
+    list_select_related = ("sub_catalog",)
     inlines = [ProductInfoInline]
     list_filter = [
         "sub_catalog",
@@ -16,12 +27,13 @@ class ProductAdmin(admin.ModelAdmin):
     ]
     date_hierarchy = "created_at"
     search_fields = ["name", "id"]
+    preserve_filters = True
     list_per_page = 40
     list_max_show_all = 300
     empty_value_display = "-"
     actions = [
         "change_product_status_action",
-        # "info_total_quanity_action",
+        # "info_total_quanity_action", # TODO
     ]
 
     def info_total_quanity_action(self, request, queryset):

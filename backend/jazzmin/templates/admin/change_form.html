@@ -52,9 +52,9 @@
             {% if errors %}
                 <div class="alert alert-danger">
                     {% if errors|length == 1 %}
-                        {% trans "Please correct the error below." %}
+                        {% trans "Исправьте ошибку ниже" %}
                     {% else %}
-                        {% trans "Please correct the errors below." %}
+                        {% trans "Исправьте ошибки ниже" %}
                     {% endif %}
                 </div>
                 {% for error in adminform.form.non_field_errors %}

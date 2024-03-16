@@ -54,6 +54,14 @@ SET_LOGGING = {
             "formatter": "error_format",
             "level": "ERROR",
         },
+        "AdminPanel": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": os.path.join(BASE_DIR, "logs/Admin/AdminPanel.log"),
+            "maxBytes": 1024 * 1024 * 5,
+            "backupCount": 5,
+            "formatter": "error_format",
+            "level": "ERROR",
+        },
     },
     "loggers": {
         "django.request": {"handlers": ["errors"], "level": "ERROR", "propagate": True},
@@ -69,6 +77,11 @@ SET_LOGGING = {
         },
         "payment_create": {
             "handlers": ["payment_create"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+        "AdminPanel": {
+            "handlers": ["AdminPanel"],
             "level": "ERROR",
             "propagate": True,
         },

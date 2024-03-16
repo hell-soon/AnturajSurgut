@@ -4,6 +4,9 @@ from DB.utils.order_number_generator import generate_order_number
 from django.db.models import Q
 from users.models import CustomUser
 from icecream import ic
+from sitedb.models import Sertificate
+
+from django.core.exceptions import ValidationError
 
 
 class Additionalservices(models.Model):
@@ -77,30 +80,44 @@ class Order(models.Model):
         max_length=255, verbose_name="Номер отслеживания", blank=True
     )
     comment = models.TextField(verbose_name="Комментарии", blank=True)
-    user_register = models.BooleanField(default=False, verbose_name="Зарегистрирован")
+    sertificate = models.ForeignKey(
+        Sertificate,
+        verbose_name="Сертификат",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
 
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
 
+    def clean(self):
+        # Проверяем, что сертификат действителен
+        if self.sertificate:
+            try:
+                self.sertificate.use_sertificate()
+            except ValidationError as e:
+                raise ValidationError({"sertificate": e.message})
+
+        if self.user_phone:
+            if not self.user_phone.isdigit():
+                raise ValidationError("Номер телефона должен содержать только цифры.")
+            if len(self.user_phone) != 11:
+                raise ValidationError(
+                    "Номер телефона должен содержать минимум 11 цифр."
+                )
+        if not self.user_email and not self.user_phone:
+            raise ValidationError(
+                "Необходимо заполнить хотя бы одно из полей Электронная почта или Номер телефона"
+            )
+
     def save(self, *args, **kwargs):
+
         if self.order_type == "1":
             self.order_address = "Самовывоз"
             self.track_number = "Самовывоз"
-
-        try:
-            user = CustomUser.objects.get(
-                Q(email=self.user_email) | Q(phone=self.user_phone)
-            )
-            self.user_email = user.email
-            self.user_phone = user.phone
-            self.user_initials = f"{user.first_name} {user.last_name}"
-            self.user_register = True
-        except CustomUser.DoesNotExist:
-            pass
-
-        if not self.user_phone:
-            self.user_phone = "Телефон не указан"
+        self.full_clean()
         super(Order, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -125,6 +142,12 @@ class OrderItems(models.Model):
     class Meta:
         verbose_name = "Детали заказа"
         verbose_name_plural = "Детали заказа"
+
+    def clean(self):
+        if self.product.quantity < self.quantity:
+            raise ValidationError(
+                f"Количество {self.product.product.name} превышает количество на складе. В наличии {self.product.quantity}"
+            )
 
     def save(self, *args, **kwargs):
         """

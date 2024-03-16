@@ -159,4 +159,4 @@ class ProductInfo(models.Model):
         verbose_name_plural = "Линейка товара"
 
     def __str__(self):
-        return self.product.name
+        return f"{self.product.name} {self.color} {self.size}"
