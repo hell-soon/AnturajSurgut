@@ -2,6 +2,11 @@ from rest_framework import serializers
 from order.models import Additionalservices, Order, OrderItems
 from DB.models import ProductInfo
 from .OrderComponentSerializers import ProductQuantitySerializer
+from rest_framework.exceptions import ValidationError
+from sitedb.models import Sertificate
+
+from django.utils import timezone
+from icecream import ic
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -16,6 +21,7 @@ class OrderSerializer(serializers.ModelSerializer):
     )
     payment_type = serializers.CharField(required=True)
     created_at = serializers.DateTimeField(format="%d.%m.%Y %H:%M", read_only=True)
+    sertificate = serializers.CharField(required=False, allow_blank=True)
 
     class Meta:
         model = Order
@@ -34,6 +40,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "order_status",
             "track_number",
             "payment_type",
+            "sertificate",
         ]
         read_only_fields = ["created_at", "order_number"]
 
@@ -43,6 +50,22 @@ class OrderSerializer(serializers.ModelSerializer):
                 "Необходимо заполнить хотя бы одно из полей user_email или user_phone"
             )
         return data
+
+    def validate_sertificate(self, value):
+        if value:
+            try:
+                sertificate = Sertificate.objects.get(code=value)
+                if (
+                    not sertificate.status
+                    or sertificate.quanity <= 0
+                    or sertificate.end_date <= timezone.now()
+                ):
+                    raise ValidationError("Сертификат неактивен или закончился")
+                sertificate.quanity -= 1
+                sertificate.save()
+                return sertificate
+            except Sertificate.DoesNotExist:
+                raise ValidationError("Сертификат не найден")
 
     def validate_items(self, value):
         for item in value:

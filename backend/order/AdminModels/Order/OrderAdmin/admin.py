@@ -5,6 +5,7 @@ from order.models import OrderItems
 from django.db.models import Sum
 import logging
 
+from icecream import ic
 
 logger = logging.getLogger("AdminPanel")
 
@@ -47,35 +48,8 @@ class OrderAdmin(admin.ModelAdmin):
 
     # Подсчет общей стоимости заказа
     def show_total_price(self, obj):
-        if obj:
-            try:
-                # Используем аннотации для оптимизации запросов к базе данных
-                product_cost = (
-                    OrderItems.objects.filter(order=obj).aggregate(
-                        total_cost=Sum("total_cost")
-                    )["total_cost"]
-                    or 0
-                )
-                service_cost = (
-                    obj.order_additionalservices.aggregate(cost=Sum("cost"))["cost"]
-                    or 0
-                )
-                order_cost = Decimal(product_cost) + Decimal(service_cost)
-
-                if obj.sertificate:
-                    order_cost = order_cost * (Decimal(obj.sertificate.discount) / 100)
-
-                # Округляем до двух знаков после запятой
-                order_cost = order_cost.quantize(
-                    Decimal("0.01"), rounding=ROUND_HALF_UP
-                )
-
-                return f"{order_cost} руб."
-            except Exception as e:
-                logger.error(e)
-                return f"Произошла ошибка"
-        else:
-            return "Объект заказа не найден."
+        total = obj.total_cost()
+        return f"{total} руб."
 
     # Отображение трэк номера(если есть)
     def show_track(self, obj):

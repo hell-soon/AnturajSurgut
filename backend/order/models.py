@@ -120,6 +120,24 @@ class Order(models.Model):
         self.full_clean()
         super(Order, self).save(*args, **kwargs)
 
+    def total_cost(self):
+        # Инициализируем общую стоимость заказа
+        total = 0
+
+        # Суммируем стоимость товаров
+        for item in self.orderitems_set.all():
+            total += item.cost * item.quantity
+
+        # Суммируем стоимость дополнительных услуг
+        for service in self.order_additionalservices.all():
+            total += service.cost
+
+        # Если есть сертификат, применяем скидку
+        if self.sertificate:
+            total -= total * (self.sertificate.discount / 100)
+
+        return round(total, 2)
+
     def __str__(self):
         return f"Заказ: {self.order_number}"
 
