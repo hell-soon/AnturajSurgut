@@ -258,6 +258,6 @@ from .config import CKEDITOR_5_CONFIGS_SETTINGS
 
 CKEDITOR_5_CONFIGS = CKEDITOR_5_CONFIGS_SETTINGS
 
-CKEDITOR_5_FILE_STORAGE = "" 
- 
+CKEDITOR_5_FILE_STORAGE = "backend.config.ckreditor.storage.CustomStorage"
+
 BASE_API_URL = os.getenv("BASE_API_URL")
