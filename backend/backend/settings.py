@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from .config.database.db import SQLITE, POSTGRES
+from .config import SQLITE, POSTGRES
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -54,10 +54,11 @@ INSTALLED_APPS = [
     "django_filters",  # Filters
     "colorfield",  # color field
     "rest_framework",  # API
-    "rest_framework.authtoken",
+    "rest_framework.authtoken",  # Auth
     "rest_framework_swagger",  # swagger and docs
-    "drf_yasg",
-    "smsru",
+    "drf_yasg",  # swagger and docs
+    "smsru",  # SMS
+    "django_ckeditor_5",  # ckeditor
 ]
 
 MIDDLEWARE = [
@@ -146,10 +147,6 @@ USE_TZ = True
 """
 STATIC SETTINGS
 """
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),
-#     os.path.join(BASE_DIR, "jazzmin/static"),
-# ]
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
@@ -185,7 +182,7 @@ REST_FRAMEWORK = {
 """
 JWT TOKEN
 """
-from .config.auth.jwt import JWT_TOKENS
+from .config import JWT_TOKENS
 
 JWT_AUTH = JWT_TOKENS
 
@@ -198,7 +195,7 @@ AUTH_USER_MODEL = "users.CustomUser"
 """
 LOGGING
 """
-from .config.log.logging import SET_LOGGING
+from .config import SET_LOGGING
 
 LOGGING = SET_LOGGING
 
@@ -228,12 +225,14 @@ CELERY SETTINGS
 """
 CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
-
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = TIME_ZONE
 
 """
 SMS SETTINGS
 """
-from .config.SMS.smsru import SMS_SETTINGS
+from .config import SMS_SETTINGS
 
 SMS_RU = SMS_SETTINGS
 
@@ -245,12 +244,20 @@ YOOKASSA_ACCOUNT_ID = os.getenv("YOOKASSA_ACCOUNT_ID")
 YOOKASSA_SECRET = os.getenv("YOOKASSA_SECRET")
 
 # ADMIN SETTINGS
-from .config.admins.Settings.settings import JAZZ_SETTINGS
+from .config import JAZZ_SETTINGS
 
 JAZZMIN_SETTINGS = JAZZ_SETTINGS
 
 
 # UI ADMIN
-from .config.admins.UI.SettingsUI import UI_SETTINGS
+from .config import UI_SETTINGS
 
 JAZZMIN_UI_TWEAKS = UI_SETTINGS
+
+from .config import CKEDITOR_5_CONFIGS_SETTINGS
+
+CKEDITOR_5_CONFIGS = CKEDITOR_5_CONFIGS_SETTINGS
+
+CKEDITOR_5_FILE_STORAGE = "" 
+ 
+BASE_API_URL = os.getenv("BASE_API_URL")

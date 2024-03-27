@@ -7,6 +7,7 @@ from icecream import ic
 from sitedb.models import Sertificate
 
 from django.core.exceptions import ValidationError
+from .misc.upd_info import quantity_check
 
 
 class Additionalservices(models.Model):
@@ -18,7 +19,7 @@ class Additionalservices(models.Model):
         verbose_name_plural = "Доп.услуги"
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.cost} рублей"
 
 
 class Order(models.Model):
@@ -142,6 +143,9 @@ class Order(models.Model):
         return f"Заказ: {self.order_number}"
 
 
+from icecream import ic
+
+
 class OrderItems(models.Model):
     order = models.ForeignKey(
         Order, on_delete=models.CASCADE, verbose_name="номер заказа"
@@ -153,7 +157,7 @@ class OrderItems(models.Model):
     size = models.CharField(
         max_length=100, verbose_name="Размер", blank=True, null=True
     )
-    cost = models.FloatField(verbose_name="Цена", blank=True, null=True)
+    cost = models.FloatField(verbose_name="Цена за шт", blank=True, null=True)
     quantity = models.PositiveIntegerField(verbose_name="Количество")
     total_cost = models.FloatField(verbose_name="Общая цена", blank=True, null=True)
 
@@ -191,6 +195,21 @@ class OrderItems(models.Model):
             product_info.quantity -= self.quantity
             product_info.save()
 
+        if self.pk:
+            original_obj = OrderItems.objects.get(pk=self.pk)
+            if original_obj.quantity != self.quantity:
+                quantity_check(
+                    original_obj.quantity,
+                    self.quantity,
+                    ProductInfo.objects.get(pk=self.product.pk),
+                )
+                product = ProductInfo.objects.get(pk=self.product.pk)
+                if product.promotion:
+                    self.cost = self.product.promotion_cost
+                    self.total_cost = self.product.promotion_cost * self.quantity
+                else:
+                    self.cost = self.product.cost
+                    self.total_cost = round(self.cost * self.quantity, 2)
         super(OrderItems, self).save(*args, **kwargs)
 
     def __str__(self):

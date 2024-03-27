@@ -33,7 +33,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_max_show_all = 300
 
     date_hierarchy = "created_at"
-
+    filter_horizontal = ["order_additionalservices"]
     search_fields = (
         "order_number",
         "user_email",
@@ -41,7 +41,7 @@ class OrderAdmin(admin.ModelAdmin):
         "user_initials",
         "order_address",
     )
-
+    actions = ["update_order_items_action"]
     empty_value_display = "-"
 
     inlines = [OrderItemsInline]

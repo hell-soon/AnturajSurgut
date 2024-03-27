@@ -8,4 +8,6 @@ class OrderItemsInline(admin.TabularInline):
     readonly_fields = [
         "color",
         "size",
+        "cost",
+        "total_cost",
     ]

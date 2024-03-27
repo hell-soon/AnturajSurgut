@@ -1,8 +1,6 @@
 from django.db import models
 from colorfield.fields import ColorField
-
-
-# Create your models here.
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 class Catalog(models.Model):
@@ -120,15 +118,21 @@ class Type(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название")
-    description = models.TextField(blank=True, verbose_name="Описание")
+    description = CKEditor5Field("Описание", config_name="extends")
     image = models.ManyToManyField(ProductImage, verbose_name="Изображение", blank=True)
     sub_catalog = models.ForeignKey(
         SubCatalog, on_delete=models.CASCADE, verbose_name="Подкаталог"
     )
-    tags = models.ManyToManyField(Tags, verbose_name="Тэги", blank=True)
+    tags = models.ManyToManyField(
+        Tags, verbose_name="Тэги", blank=True, help_text="Тэги"
+    )
     product_status = models.BooleanField(default=True, verbose_name="Активен")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создан")
-    rating = models.IntegerField(default=0, verbose_name="Рейтинг")
+    rating = models.IntegerField(
+        default=0,
+        verbose_name="Рейтинг",
+        help_text="Рейтинг товара, заполняется автоматически",
+    )
 
     class Meta:
         verbose_name = "Товар"

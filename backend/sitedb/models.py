@@ -4,12 +4,14 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from .Utils.Code.Sertificate.sertificate_generator import generate_certificate_code
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 class Slider(models.Model):
     title = models.CharField(max_length=255, verbose_name="Заголовок")
+    text = CKEditor5Field("Текст", config_name="extends")
     image = models.ImageField(upload_to="slider/", verbose_name="Картинка")
-    url = models.URLField(blank=True, null=True, verbose_name="Ссылка")
+    is_active = models.BooleanField(default=True, verbose_name="Активен")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 
     def __str__(self):
@@ -75,7 +77,7 @@ class OurWork(models.Model):
 
 class Sertificate(models.Model):
     code = models.CharField(
-        default=generate_certificate_code,
+        default=generate_certificate_code(block_length=4, blocks=4, separator="-"),
         verbose_name="Код",
         unique=True,
         max_length=20,
@@ -84,9 +86,10 @@ class Sertificate(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     end_date = models.DateTimeField(verbose_name="Дата окончания")
     status = models.BooleanField(default=True, verbose_name="Статус")
-    text = models.TextField(
-        verbose_name="Текст",
-        help_text="Текст сертификата, который будет отправлен на почту пользователя",
+    personal = models.BooleanField(
+        default=False,
+        verbose_name="Персональный",
+        help_text="Сертификат не будет отправлен всем пользователям, которые подписались на рассылку",
     )
     discount = models.IntegerField(
         default=10,
