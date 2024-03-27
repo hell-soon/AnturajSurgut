@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django.utils.text import Truncator
 from DB.models import ProductInfo
 from ..ProductInline.inline import ProductInfoInline
 from ....Setup.forms.ProductAdminForm.ProductForm import ProductAdminForm
@@ -10,7 +11,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
-        "description",
+        "show_description",
         "sub_catalog",
         "show_image",
         "product_status",
@@ -61,7 +62,11 @@ class ProductAdmin(admin.ModelAdmin):
         else:
             return None
 
+    def show_description(self, obj):
+        return format_html(Truncator(obj.description).chars(150))
+
     # Short description
     show_image.short_description = "Изображение"
     change_product_status_action.short_description = "Изменить статус"
     info_total_quanity_action.short_description = "Информация о количестве"
+    show_description.short_description = "Описание"

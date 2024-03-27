@@ -12,6 +12,7 @@ class SertificateAdmin(admin.ModelAdmin):
         "status",
         "personal",
     )
+    list_filter = ["status", "personal"]
     # readonly_fields = ("status",)
     actions = ["send_notification_action"]
 

@@ -20,6 +20,10 @@ SET_LOGGING = {
             "format": "[%(asctime)s] - [%(levelname)s] - [%(module)s] - %(message)s",
             "datefmt": "%d/%m/%Y %H:%M:%S",
         },
+        "verbose": {
+            "format": "[%(asctime)s] - [%(levelname)s] - [%(module)s] - %(message)s",
+            "datefmt": "%d/%m/%Y %H:%M:%S",
+        },
     },
     "handlers": {
         "errors": {
@@ -62,6 +66,10 @@ SET_LOGGING = {
             "formatter": "error_format",
             "level": "ERROR",
         },
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
     },
     "loggers": {
         "django.request": {"handlers": ["errors"], "level": "ERROR", "propagate": True},
@@ -84,6 +92,10 @@ SET_LOGGING = {
             "handlers": ["AdminPanel"],
             "level": "ERROR",
             "propagate": True,
+        },
+        "debug": {
+            "handlers": ["console"],
+            "level": "INFO",
         },
     },
 }

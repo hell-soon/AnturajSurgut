@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from celery.schedules import crontab, timedelta
 from .config import SQLITE, POSTGRES
 
 load_dotenv()
@@ -261,3 +262,13 @@ CKEDITOR_5_CONFIGS = CKEDITOR_5_CONFIGS_SETTINGS
 CKEDITOR_5_FILE_STORAGE = "backend.config.ckreditor.storage.CustomStorage"
 
 BASE_API_URL = os.getenv("BASE_API_URL")
+
+
+# CELERY PEREODIC TASKS
+
+CELERY_BEAT_SCHEDULE = {
+    "check_sertificate": {
+        "task": "sitedb.tasks.check_sertificate",
+        "schedule": crontab(hour=8, minute=0),
+    },
+}

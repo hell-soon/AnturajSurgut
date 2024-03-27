@@ -29,7 +29,17 @@ services:
     depends_on:
       - main
       - redis
-
+  celery_beat:
+    restart: always
+    build:
+      context: .
+    command: celery -A backend beat -l info
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+      - celery
+      - main
   telegram_bot:
     build:
       context: .
