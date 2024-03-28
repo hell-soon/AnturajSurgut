@@ -28,6 +28,6 @@ var/
 *rdb
 .log
 # Django
-static/
+/backend/static
 logs/
 .env

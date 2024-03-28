@@ -1,60 +1,20 @@
 from django.contrib import admin
 from .models import *
+from .AdminModel.Product.ProductAdmin.admin import ProductAdmin
+from .AdminModel.Catalog.AdminCatalog.admin import CatalogAdmin
+from .AdminModel.Image.ProductImg.admin import ProductImageAdmin
+from .AdminModel.Color.admin import ColorAdmin
+from .AdminModel.Size.admin import SizeAdmin
+from .AdminModel.Tags.admin import TagsAdmin
 
-
-@admin.register(Catalog)
-class CatalogAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "image")
-
-
-@admin.register(SubCatalog)
-class SubCatalogAdmin(admin.ModelAdmin):
-    list_display = ("id", "catalog", "name", "image")
-    search_fields = ["id_1C"]
-
-
-@admin.register(Tags)
-class TagsAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "name",
-    )
-
-
-@admin.register(ProductImage)
-class ProductImageAdmin(admin.ModelAdmin):
-    list_display = ("image",)
-
-
-@admin.register(Color)
-class ColorAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "code")
-
-
-@admin.register(Size)
-class SizeAdmin(admin.ModelAdmin):
-    list_display = ("id", "name")
-
-
-@admin.register(Type)
-class TypeAdmin(admin.ModelAdmin):
-    list_display = ("id", "name")
-
-
-class ProductInfoInline(admin.TabularInline):
-    model = ProductInfo
-    extra = 0
-
-
-class ProductAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "name",
-    )
-    inlines = [ProductInfoInline]
-    list_filter = ("sub_catalog", "rating")
-    search_fields = ["name"]
-
-
+# Register your models here.
+admin.site.register(ProductImage, ProductImageAdmin)
+admin.site.register(Tags, TagsAdmin)
+admin.site.register(Size, SizeAdmin)
+admin.site.register(Color, ColorAdmin)
+admin.site.register(Catalog, CatalogAdmin)
 admin.site.register(Product, ProductAdmin)
-admin.site.register(ProductInfo)
+
+# Change the name of the admin site
+admin.site.site_title = "Антураж"
+admin.site.site_header = "Антураж"

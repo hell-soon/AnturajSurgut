@@ -1,12 +1,16 @@
+import os
+
 from celery import shared_task
-from users.models import CustomUser
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
+from users.models import CustomUser
+
+BASE_URL = os.getenv("BASE_URL")
 
 
 @shared_task
@@ -35,7 +39,7 @@ def send_link_for_change_pass(email):
     user = CustomUser.objects.get(email=email)
     token = default_token_generator.make_token(user)
     uid64 = urlsafe_base64_encode(force_bytes(user.pk))
-    reset_link = f"http://localhost:8000/reset-password/{uid64}/{token}/"
+    reset_link = f"{BASE_URL}reset-password/{uid64}/{token}/"
     data = {
         "reset_link": reset_link,
     }
@@ -49,4 +53,3 @@ def send_link_for_change_pass(email):
     )
     msg.attach_alternative(html_content, "text/html")
     msg.send()
-    print(data)

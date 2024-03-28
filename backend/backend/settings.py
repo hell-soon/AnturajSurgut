@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import datetime
+from celery.schedules import crontab, timedelta
+from .config import SQLITE, POSTGRES
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,12 +30,13 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 
 # Application definition1
 
 INSTALLED_APPS = [
+    "jazzmin.apps.JazzminConfig",  # ADMIN
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -49,15 +51,16 @@ INSTALLED_APPS = [
     "order.apps.OrderConfig",  # Order API
     "API.apps.ApiConfig",  # Product API
     "reviews.apps.ReviewsConfig",  # Reviews API
-    "django_filters",
-    "allauth",  # work with users
-    "allauth.account",
-    "allauth.socialaccount",
-    "rest_framework",
-    "rest_framework.authtoken",
+    "AdminPanel.apps.AdminpanelConfig",  # Admin Panel app
+    "django_filters",  # Filters
+    "colorfield",  # color field
+    "rest_framework",  # API
+    "rest_framework.authtoken",  # Auth
     "rest_framework_swagger",  # swagger and docs
-    "drf_yasg",
-    "smsru",
+    "drf_yasg",  # swagger and docs
+    "smsru",  # SMS
+    "django_ckeditor_5",  # ckeditor
+    "image_uploader_widget",
 ]
 
 MIDDLEWARE = [
@@ -68,7 +71,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -80,6 +82,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, "templates"),
             os.path.join(BASE_DIR, "users/templates"),
             os.path.join(BASE_DIR, "DB/templates"),
+            os.path.join(BASE_DIR, "sitedb/templates"),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -102,25 +105,13 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 
 """
-БАЗА ДАННЫХ
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("POSTGRES_HOST"),
-        "PORT": os.getenv("POSTGRES_PORT"),
-    }
-}
+DATA BASE
 """
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+# POSTGRESQL DATABASE Check ENV
+# DATABASES = POSTGRES
 
+# Uncomment if you want to use sqlite
+DATABASES = SQLITE
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -142,7 +133,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 # Internationalization
@@ -160,10 +150,9 @@ USE_TZ = True
 """
 STATIC SETTINGS
 """
+
 STATIC_URL = "static/"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 """
@@ -196,16 +185,9 @@ REST_FRAMEWORK = {
 """
 JWT TOKEN
 """
-JWT_AUTH = {
-    "JWT_EXPIRATION_DELTA": datetime.timedelta(
-        hours=5
-    ),  # Срок действия Access Token на 5 часов
-    "JWT_REFRESH_EXPIRATION_DELTA": datetime.timedelta(
-        days=7
-    ),  # Срок действия Refresh Token на 7 дней
-    "JWT_ALLOW_REFRESH": True,  # Разрешить обновление токена
-}
+from .config import JWT_TOKENS
 
+JWT_AUTH = JWT_TOKENS
 
 """
 CUSTOM MODEL USER
@@ -216,71 +198,14 @@ AUTH_USER_MODEL = "users.CustomUser"
 """
 LOGGING
 """
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "file_format": {
-            "format": "[%(asctime)s] %(levelname)s|%(module)s: %(message)s",
-            "datefmt": "%d.%m.%Y %H:%M:%S",
-        },
-        "error_format": {
-            "format": "[%(asctime)s - %(levelname)s] %(message)s, PATH: %(pathname)s, line: %(lineno)d",
-            "datefmt": "%d.%m.%Y %H:%M:%S",
-        },
-        "security_error": {
-            "format": "[%(asctime)s] - [%(levelname)s] - [%(module)s] - %(message)s",
-            "datefmt": "%d/%m/%Y %H:%M:%S",
-        },
-    },
-    "handlers": {
-        "errors": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(BASE_DIR, "logs/errors.log"),
-            "maxBytes": 1024 * 1024 * 5,
-            "backupCount": 5,
-            "formatter": "error_format",
-            "level": "ERROR",
-        },
-        "security": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(BASE_DIR, "logs/security.log"),
-            "maxBytes": 1024 * 1024 * 5,
-            "backupCount": 5,
-            "formatter": "security_error",
-            "level": "INFO",
-        },
-        "telegram_bot": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(BASE_DIR, "logs/telegram_bot.log"),
-            "maxBytes": 1024 * 1024 * 5,
-            "backupCount": 5,
-            "formatter": "error_format",
-            "level": "ERROR",
-        },
-    },
-    "loggers": {
-        "django.request": {"handlers": ["errors"], "level": "ERROR", "propagate": True},
-        "django.security": {
-            "handlers": ["security"],
-            "level": "INFO",
-            "propagate": True,
-        },
-        "tg_bot": {
-            "handlers": ["telegram_bot"],
-            "level": "ERROR",
-            "propagate": True,
-        },
-    },
-}
+from .config import SET_LOGGING
 
+LOGGING = SET_LOGGING
 
 """
 MAIL SETTINGS
 """
-# if DEBUG:
-#     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-# else:
+
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.yandex.ru"
 EMAIL_PORT = os.getenv("EMAIL_PORT")
@@ -303,12 +228,49 @@ CELERY SETTINGS
 """
 CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}"
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
-
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = TIME_ZONE
 
 """
 SMS SETTINGS
 """
-SMS_RU = {
-    "API_ID": os.getenv("SMS_RU_API_ID"),
-    "FROM": os.getenv("SMSRU_FROM"),
+from .config import SMS_SETTINGS
+
+SMS_RU = SMS_SETTINGS
+
+
+"""
+Yookassa
+"""
+YOOKASSA_ACCOUNT_ID = os.getenv("YOOKASSA_ACCOUNT_ID")
+YOOKASSA_SECRET = os.getenv("YOOKASSA_SECRET")
+
+# ADMIN SETTINGS
+from .config import JAZZ_SETTINGS
+
+JAZZMIN_SETTINGS = JAZZ_SETTINGS
+
+
+# UI ADMIN
+from .config import UI_SETTINGS
+
+JAZZMIN_UI_TWEAKS = UI_SETTINGS
+
+from .config import CKEDITOR_5_CONFIGS_SETTINGS
+
+CKEDITOR_5_CONFIGS = CKEDITOR_5_CONFIGS_SETTINGS
+
+CKEDITOR_5_FILE_STORAGE = "backend.config.ckreditor.storage.CustomStorage"
+
+BASE_API_URL = os.getenv("BASE_API_URL")
+
+
+# CELERY PEREODIC TASKS
+
+CELERY_BEAT_SCHEDULE = {
+    "check_sertificate": {
+        "task": "sitedb.tasks.check_sertificate",
+        "schedule": crontab(hour=8, minute=0),
+    },
 }

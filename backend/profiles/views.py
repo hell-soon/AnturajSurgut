@@ -1,11 +1,14 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from django.db import IntegrityError
-from .serializers import UserSerializer, ChangeUserInfo
-from rest_framework import generics
+
+
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from rest_framework import status
+
+from .serializers.Update.UserUpd import UserUpdateSerializer
+from .serializers.Users.UserSerializer import UserSerializer
 
 
 @swagger_auto_schema(
@@ -45,13 +48,12 @@ def user_info(request):
 )
 @api_view(["PATCH"])
 @permission_classes([IsAuthenticated])
-def change_info(request):
-    """
-    Представление API для изменения информации о пользователе
-    """
+def update_user_view(request):
     user = request.user
-    serializer = ChangeUserInfo(user, data=request.data, partial=True)
+    serializer = UserUpdateSerializer(instance=user, data=request.data, partial=True)
+
     if serializer.is_valid():
         serializer.save()
-        return Response({"message": "Данные успешно изменены!"})
-    return Response(serializer.errors)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

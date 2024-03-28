@@ -2,6 +2,11 @@ from rest_framework import serializers
 from order.models import Additionalservices, Order, OrderItems
 from DB.models import ProductInfo
 from .OrderComponentSerializers import ProductQuantitySerializer
+from rest_framework.exceptions import ValidationError
+from sitedb.models import Sertificate
+
+from django.utils import timezone
+from icecream import ic
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -9,9 +14,14 @@ class OrderSerializer(serializers.ModelSerializer):
     user_phone = serializers.CharField(required=False, allow_blank=True)
     items = ProductQuantitySerializer(many=True, write_only=True)
     order_additionalservices = serializers.PrimaryKeyRelatedField(
-        queryset=Additionalservices.objects.all(), many=True, write_only=True
+        queryset=Additionalservices.objects.all(),
+        many=True,
+        write_only=True,
+        required=False,
     )
+    payment_type = serializers.CharField(required=True)
     created_at = serializers.DateTimeField(format="%d.%m.%Y %H:%M", read_only=True)
+    sertificate = serializers.CharField(required=False, allow_blank=True)
 
     class Meta:
         model = Order
@@ -29,6 +39,8 @@ class OrderSerializer(serializers.ModelSerializer):
             "comment",
             "order_status",
             "track_number",
+            "payment_type",
+            "sertificate",
         ]
         read_only_fields = ["created_at", "order_number"]
 
@@ -39,6 +51,22 @@ class OrderSerializer(serializers.ModelSerializer):
             )
         return data
 
+    def validate_sertificate(self, value):
+        if value:
+            try:
+                sertificate = Sertificate.objects.get(code=value)
+                if (
+                    not sertificate.status
+                    or sertificate.quanity <= 0
+                    or sertificate.end_date <= timezone.now()
+                ):
+                    raise ValidationError("Сертификат неактивен или закончился")
+                sertificate.quanity -= 1
+                sertificate.save()
+                return sertificate
+            except Sertificate.DoesNotExist:
+                raise ValidationError("Сертификат не найден")
+
     def validate_items(self, value):
         for item in value:
             product_info_id = item["product_info_id"]
@@ -48,7 +76,7 @@ class OrderSerializer(serializers.ModelSerializer):
                 product_quantity = info.quantity
                 if quantity > product_quantity:
                     raise serializers.ValidationError(
-                        f"Количество товара '{info.product.name}' в заказе превышает количество на складе"
+                        "Количество товара в заказе, превышает его количетсво на складе"
                     )
             except ProductInfo.DoesNotExist:
                 raise serializers.ValidationError("Такого товара больше не существует")

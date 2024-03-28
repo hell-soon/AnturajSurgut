@@ -1,6 +1,6 @@
 from django.db import models
-
-# Create your models here.
+from colorfield.fields import ColorField
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 class Catalog(models.Model):
@@ -24,7 +24,12 @@ class Catalog(models.Model):
 
 class SubCatalog(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название подкаталога")
-    image = models.ImageField(upload_to="subcatalog_images/", blank=True, null=True)
+    image = models.ImageField(
+        upload_to="subcatalog_images/",
+        blank=True,
+        null=True,
+        verbose_name="Загрузить картинку",
+    )
     catalog = models.ForeignKey(
         Catalog, on_delete=models.CASCADE, verbose_name="Каталог", blank=True, null=True
     )
@@ -60,7 +65,7 @@ class Tags(models.Model):
 
 class ProductImage(models.Model):
     image = models.ImageField(
-        upload_to="product_images/", verbose_name="Картинки товаров"
+        upload_to="product_images/", verbose_name="Загрузить картинку"
     )
     verbose_name = "Изображение"
     verbose_name_plural = "Изображения"
@@ -74,10 +79,8 @@ class ProductImage(models.Model):
 
 
 class Color(models.Model):
-    name = models.CharField(max_length=20, verbose_name="Цвет")
-    code = models.CharField(max_length=20, verbose_name="Код цвета")
-    verbose_name = "Цвет"
-    verbose_name_plural = "Цвета"
+    name = models.CharField(max_length=20, verbose_name="Название")
+    color = ColorField(default="#FFFFFF", verbose_name="Код")
 
     class Meta:
         verbose_name = "Цвет"
@@ -115,19 +118,21 @@ class Type(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название")
-    description = models.TextField(blank=True, verbose_name="Описание")
-    image = models.ManyToManyField(ProductImage, verbose_name="Изображение")
+    description = CKEditor5Field("Описание", config_name="extends")
+    image = models.ManyToManyField(ProductImage, verbose_name="Изображение", blank=True)
     sub_catalog = models.ForeignKey(
-        SubCatalog,
-        on_delete=models.CASCADE,
-        verbose_name="Подкаталог",
-        blank=True,
-        null=True,
+        SubCatalog, on_delete=models.CASCADE, verbose_name="Подкаталог"
     )
-    tags = models.ManyToManyField(Tags, verbose_name="Тэги", blank=True)
+    tags = models.ManyToManyField(
+        Tags, verbose_name="Тэги", blank=True, help_text="Тэги"
+    )
     product_status = models.BooleanField(default=True, verbose_name="Активен")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создан")
-    rating = models.IntegerField(default=0, verbose_name="Рейтинг")
+    rating = models.IntegerField(
+        default=0,
+        verbose_name="Рейтинг",
+        help_text="Рейтинг товара, заполняется автоматически",
+    )
 
     class Meta:
         verbose_name = "Товар"
@@ -155,7 +160,7 @@ class ProductInfo(models.Model):
 
     class Meta:
         verbose_name = "Информация о продукте"
-        verbose_name_plural = "Информация о продуктах"
+        verbose_name_plural = "Линейка товара"
 
     def __str__(self):
-        return f"{self.product.name} - {self.id}"
+        return f"{self.product.name} {self.color} {self.size}"
