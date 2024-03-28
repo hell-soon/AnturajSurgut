@@ -1,5 +1,6 @@
 import random
 import string
+from django.apps import apps
 
 
 def generate_certificate_code(block_length=4, blocks=4, separator="-"):
@@ -14,3 +15,12 @@ def generate_certificate_code(block_length=4, blocks=4, separator="-"):
     code = separator.join(code_blocks)
 
     return code
+
+
+def generate_certificate():
+    Sertificate = apps.get_model("sitedb", "Sertificate")
+
+    while True:
+        code = generate_certificate_code()
+        if not Sertificate.objects.filter(code=code).exists():
+            return code

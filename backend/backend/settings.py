@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "drf_yasg",  # swagger and docs
     "smsru",  # SMS
     "django_ckeditor_5",  # ckeditor
+    "image_uploader_widget",
 ]
 
 MIDDLEWARE = [
@@ -81,6 +82,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, "templates"),
             os.path.join(BASE_DIR, "users/templates"),
             os.path.join(BASE_DIR, "DB/templates"),
+            os.path.join(BASE_DIR, "sitedb/templates"),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -106,10 +108,10 @@ WSGI_APPLICATION = "backend.wsgi.application"
 DATA BASE
 """
 # POSTGRESQL DATABASE Check ENV
-DATABASES = POSTGRES
+# DATABASES = POSTGRES
 
 # Uncomment if you want to use sqlite
-# DATABASES = SQLITE
+DATABASES = SQLITE
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

@@ -10,11 +10,8 @@ services:
       - .:/db
     ports:
       - "8000:8000"
-    depends_on:
-      - db
   redis:
     image: redis:latest
-
   celery:
     restart: always
     build:
@@ -47,9 +44,3 @@ services:
     depends_on:
       - main
       - redis
-  db:
-    image: postgres
-    environment:
-      POSTGRES_DB: Antur
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 7089010POUTose

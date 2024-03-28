@@ -1,6 +1,5 @@
 from django.db import models
 from DB.models import ProductInfo
-from DB.utils.order_number_generator import generate_order_number
 from django.db.models import Q
 from users.models import CustomUser
 from icecream import ic
@@ -8,6 +7,7 @@ from sitedb.models import Sertificate
 
 from django.core.exceptions import ValidationError
 from .misc.upd_info import quantity_check
+from .misc.code_generator import generate_order_number
 
 
 class Additionalservices(models.Model):

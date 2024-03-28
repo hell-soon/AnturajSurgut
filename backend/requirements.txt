@@ -17,3 +17,5 @@ yookassa==3.0.1
 django-colorfield
 psycopg2-binary
 django-localflavor==4.0
+django-ckeditor-5==0.2.12
+django-image-uploader-widget==0.4.4

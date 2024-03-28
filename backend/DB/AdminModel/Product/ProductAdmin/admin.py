@@ -48,17 +48,21 @@ class ProductAdmin(admin.ModelAdmin):
                 print(total_quanity)
 
     def change_product_status_action(self, request, queryset):
-        for product in queryset:
-            if product.product_status:
-                product.product_status = False
+        for item in queryset:
+            if item.product_status:
+                item.product_status = False
             else:
-                product.product_status = True
-            product.save()
+                item.product_status = True
+            item.save()
 
     def show_image(self, obj):
         if obj.image.exists():
             image = obj.image.first()
-            return format_html('<img src="{}" width="75" height="75" />'.format(image))
+            return format_html(
+                '<img src="{}" style="width: 100px; height: 100px; object-fit: cover;" />'.format(
+                    image
+                )
+            )
         else:
             return None
 

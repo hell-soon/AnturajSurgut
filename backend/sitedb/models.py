@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from .Utils.Code.Sertificate.sertificate_generator import generate_certificate_code
+from .Utils.Code.Sertificate.sertificate_generator import generate_certificate
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django_ckeditor_5.fields import CKEditor5Field
@@ -77,7 +77,7 @@ class OurWork(models.Model):
 
 class Sertificate(models.Model):
     code = models.CharField(
-        default=generate_certificate_code(block_length=4, blocks=4, separator="-"),
+        default=generate_certificate,
         verbose_name="Код",
         unique=True,
         max_length=20,
