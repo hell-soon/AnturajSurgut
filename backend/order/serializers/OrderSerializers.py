@@ -4,9 +4,10 @@ from DB.models import ProductInfo
 from .OrderComponentSerializers import ProductQuantitySerializer
 from rest_framework.exceptions import ValidationError
 from sitedb.models import Sertificate
-
+from django.db.models import Q
 from django.utils import timezone
 from icecream import ic
+from django.shortcuts import get_object_or_404
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -45,9 +46,9 @@ class OrderSerializer(serializers.ModelSerializer):
         read_only_fields = ["created_at", "order_number"]
 
     def validate(self, data):
-        if not data.get("user_email") and not data.get("user_phone"):
+        if not any(data.get(field) for field in ["user_email", "user_phone"]):
             raise serializers.ValidationError(
-                "Необходимо заполнить хотя бы одно из полей user_email или user_phone"
+                {"user_error": "Необходимо заполнить хотя бы одно из полей"}
             )
         return data
 
@@ -55,31 +56,61 @@ class OrderSerializer(serializers.ModelSerializer):
         if value:
             try:
                 sertificate = Sertificate.objects.get(code=value)
-                if (
-                    not sertificate.status
-                    or sertificate.quanity <= 0
-                    or sertificate.end_date <= timezone.now()
-                ):
-                    raise ValidationError("Сертификат неактивен или закончился")
-                sertificate.quanity -= 1
-                sertificate.save()
-                return sertificate
             except Sertificate.DoesNotExist:
-                raise ValidationError("Сертификат не найден")
+                raise ValidationError(
+                    {"sertificate": "Сертификат с таким кодом не найден."}
+                )
 
+            current_date = timezone.now()
+            if (
+                not sertificate.status
+                or sertificate.quanity <= 0
+                or sertificate.end_date <= current_date
+            ):
+                if not sertificate.status:
+                    raise ValidationError("Сертификат неактивен.")
+                elif sertificate.quanity <= 0:
+                    raise ValidationError({"sertificate": "Сертификат закончился"})
+                else:
+                    raise ValidationError("Срок действия сертификата истек.")
+
+            return sertificate
+
+    # V1
+    # def validate_items(self, value):
+    #     for item in value:
+    #         product_info_id = item["product_info_id"]
+    #         quantity = item["quantity"]
+    #         try:
+    #             info = ProductInfo.objects.get(id=product_info_id)
+    #             if quantity > info.quantity:
+    #                 raise serializers.ValidationError(
+    #                     "Количество товара в заказе, превышает его количетсво на складе"
+    #                 )
+    #         except ProductInfo.DoesNotExist:
+    #             raise serializers.ValidationError("Такого товара больше не существует")
+    #     return value
+    
     def validate_items(self, value):
-        for item in value:
-            product_info_id = item["product_info_id"]
-            quantity = item["quantity"]
-            try:
-                info = ProductInfo.objects.get(id=product_info_id)
-                product_quantity = info.quantity
-                if quantity > product_quantity:
-                    raise serializers.ValidationError(
-                        "Количество товара в заказе, превышает его количетсво на складе"
-                    )
-            except ProductInfo.DoesNotExist:
-                raise serializers.ValidationError("Такого товара больше не существует")
+        errors = {}
+        for index, item in enumerate(value):
+            product_info_id = item.get("product_info_id")
+            quantity = item.get("quantity")
+            if not product_info_id or not quantity:
+                errors[index] = (
+                    "Необходимо указать product_info_id и quantity для каждого товара."
+                )
+                continue
+
+            info = get_object_or_404(ProductInfo, id=product_info_id)
+            if quantity > info.quantity:
+                errors[index] = (
+                    f"Количество товара в заказе превышает его количество на складе ({info.quantity} шт. на складе)."
+                )
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
         return value
 
     def create(self, validated_data):

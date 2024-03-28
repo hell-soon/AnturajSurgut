@@ -107,7 +107,7 @@ class Sertificate(models.Model):
             self.quanity -= 1
             self.save()
         else:
-            raise ValidationError("Сертификат неактивен или закончился")
+            pass
 
     def __str__(self):
         return self.code

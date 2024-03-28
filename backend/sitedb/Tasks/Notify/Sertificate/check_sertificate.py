@@ -1,22 +1,13 @@
-import logging
 from celery import shared_task
-from icecream import ic
+from django.db.models import Q
 from sitedb.models import Sertificate
 from django.utils import timezone
 
-logger = logging.getLogger("debug")
 
-
+# TODO FIX
 @shared_task
-def check_sertificate():
-    sertificate = Sertificate.objects.filter(status=True)
-
-    for item in sertificate:
-        if item.quanity <= 0:
-            item.status = False
-            item.save()
-        else:
-            current_date = timezone.now()
-            if current_date > item.end_date:
-                item.status = False
-                item.save()
+def test():
+    current_date = timezone.now()
+    Sertificate.objects.filter(
+        Q(status=True) & (Q(quanity__lte=0) | Q(end_date__lt=current_date))
+    ).update(status=False)

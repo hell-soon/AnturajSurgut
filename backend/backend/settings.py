@@ -108,10 +108,10 @@ WSGI_APPLICATION = "backend.wsgi.application"
 DATA BASE
 """
 # POSTGRESQL DATABASE Check ENV
-# DATABASES = POSTGRES
+DATABASES = POSTGRES
 
 # Uncomment if you want to use sqlite
-DATABASES = SQLITE
+# DATABASES = SQLITE
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -272,5 +272,6 @@ CELERY_BEAT_SCHEDULE = {
     "check_sertificate": {
         "task": "sitedb.tasks.check_sertificate",
         "schedule": crontab(hour=8, minute=0),
+        # "schedule": timedelta(seconds=30),
     },
 }

@@ -8,6 +8,8 @@ from sitedb.models import Sertificate
 from django.core.exceptions import ValidationError
 from .misc.upd_info import quantity_check
 from .misc.code_generator import generate_order_number
+from django.db.models import F
+from decimal import Decimal
 
 
 class Additionalservices(models.Model):
@@ -93,25 +95,52 @@ class Order(models.Model):
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
 
+    # def clean(self):
+    #     # Проверяем, что сертификат действителен
+    #     if self.sertificate:
+    #         try:
+    #             self.sertificate.use_sertificate()
+    #         except ValidationError as e:
+    #             raise ValidationError({"sertificate": e.message})
+
+    #     if self.user_phone:
+    #         if not self.user_phone.isdigit():
+    #             raise ValidationError("Номер телефона должен содержать только цифры.")
+    #         if len(self.user_phone) != 11:
+    #             raise ValidationError(
+    #                 "Номер телефона должен содержать минимум 11 цифр."
+    #             )
+    #     if not self.user_email and not self.user_phone:
+    #         raise ValidationError(
+    #             "Необходимо заполнить хотя бы одно из полей Электронная почта или Номер телефона"
+    #         )
+
+    # V2 Need Tests
     def clean(self):
+        errors = {}
+
         # Проверяем, что сертификат действителен
         if self.sertificate:
             try:
                 self.sertificate.use_sertificate()
             except ValidationError as e:
-                raise ValidationError({"sertificate": e.message})
+                errors["sertificate"] = e.message
 
+        # Проверяем номер телефона
         if self.user_phone:
             if not self.user_phone.isdigit():
-                raise ValidationError("Номер телефона должен содержать только цифры.")
+                errors["user_phone"] = "Номер телефона должен содержать только цифры."
             if len(self.user_phone) != 11:
-                raise ValidationError(
-                    "Номер телефона должен содержать минимум 11 цифр."
-                )
+                errors["user_phone"] = "Номер телефона должен содержать 11 цифр."
+
+        # Проверяем, что заполнено хотя бы одно из полей
         if not self.user_email and not self.user_phone:
-            raise ValidationError(
+            errors["__all__"] = (
                 "Необходимо заполнить хотя бы одно из полей Электронная почта или Номер телефона"
             )
+
+        if errors:
+            raise ValidationError(errors)
 
     def save(self, *args, **kwargs):
 
@@ -121,17 +150,34 @@ class Order(models.Model):
         self.full_clean()
         super(Order, self).save(*args, **kwargs)
 
+    # def total_cost(self):
+    #     # Инициализируем общую стоимость заказа
+    #     total = 0
+
+    #     # Суммируем стоимость товаров
+    #     for item in self.orderitems_set.all():
+    #         total += item.cost * item.quantity
+
+    #     # Суммируем стоимость дополнительных услуг
+    #     for service in self.order_additionalservices.all():
+    #         total += service.cost
+
+    #     # Если есть сертификат, применяем скидку
+    #     if self.sertificate:
+    #         total -= total * (self.sertificate.discount / 100)
+
+    #     return round(total, 2)
+
+    # V2
     def total_cost(self):
         # Инициализируем общую стоимость заказа
         total = 0
 
         # Суммируем стоимость товаров
-        for item in self.orderitems_set.all():
-            total += item.cost * item.quantity
+        total += sum(item.cost * item.quantity for item in self.orderitems_set.all())
 
         # Суммируем стоимость дополнительных услуг
-        for service in self.order_additionalservices.all():
-            total += service.cost
+        total += sum(service.cost for service in self.order_additionalservices.all())
 
         # Если есть сертификат, применяем скидку
         if self.sertificate:
@@ -141,9 +187,6 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Заказ: {self.order_number}"
-
-
-from icecream import ic
 
 
 class OrderItems(models.Model):
@@ -171,29 +214,23 @@ class OrderItems(models.Model):
                 f"Количество {self.product.product.name} превышает количество на складе. В наличии {self.product.quantity}"
             )
 
+    def calculate_price(self):
+        if self.product.promotion:
+            self.cost = self.product.promotion_cost
+            self.total_cost = round(self.product.promotion_cost * self.quantity, 2)
+        else:
+            self.cost = self.product.cost
+            self.total_cost = round(self.cost * self.quantity, 2)
+
     def save(self, *args, **kwargs):
-        """
-        Сохранение объекта, проверяеться акционный ли продукт и высчитаываеться общая цена лота в заказе(с учетом акции), Можно добавить Вычет НДС и тд
-        total_cost - общая цена лота
-        cost - цена товара за 1 шт
-        quantity - кол-во единиц в лоте
-        """
         if self.pk is None:  # Проверяем, что это новый объект
-            # Товар акционный?
-            if self.product.promotion:
-                self.cost = self.product.promotion_cost
-                self.total_cost = self.product.promotion_cost * self.quantity
-            else:
-                # Товар без акции
-                self.cost = self.product.cost
-                self.total_cost = self.cost * self.quantity
+            self.calculate_price()
             self.color = self.product.color.name
             self.size = self.product.size.name
 
             # Списание товара со склада
-            product_info = self.product
-            product_info.quantity -= self.quantity
-            product_info.save()
+            self.product.quantity -= self.quantity
+            self.product.save(update_fields=["quantity"])
 
         if self.pk:
             original_obj = OrderItems.objects.get(pk=self.pk)
@@ -203,13 +240,7 @@ class OrderItems(models.Model):
                     self.quantity,
                     ProductInfo.objects.get(pk=self.product.pk),
                 )
-                product = ProductInfo.objects.get(pk=self.product.pk)
-                if product.promotion:
-                    self.cost = self.product.promotion_cost
-                    self.total_cost = self.product.promotion_cost * self.quantity
-                else:
-                    self.cost = self.product.cost
-                    self.total_cost = round(self.cost * self.quantity, 2)
+                self.calculate_price()
         super(OrderItems, self).save(*args, **kwargs)
 
     def __str__(self):
