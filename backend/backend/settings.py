@@ -108,10 +108,10 @@ WSGI_APPLICATION = "backend.wsgi.application"
 DATA BASE
 """
 # POSTGRESQL DATABASE Check ENV
-DATABASES = POSTGRES
+# DATABASES = POSTGRES
 
 # Uncomment if you want to use sqlite
-# DATABASES = SQLITE
+DATABASES = SQLITE
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
