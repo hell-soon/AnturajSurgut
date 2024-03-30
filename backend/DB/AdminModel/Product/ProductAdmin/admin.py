@@ -8,7 +8,15 @@ from DB.Setup.forms.ProductAdminForm.ProductForm import ProductAdminForm
 
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
-    fields = ["name", "description", "sub_catalog", "tags", "image", "product_status"]
+    fields = [
+        "name",
+        "description",
+        "sub_catalog",
+        "tags",
+        "image",
+        "product_status",
+        "rating",
+    ]
     list_display = (
         "id",
         "name",

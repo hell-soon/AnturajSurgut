@@ -24,7 +24,7 @@ urlpatterns = [
     path("telegram/", include("telegram.urls")),
     path(f"{settings.BASE_API_URL}/review/", include("reviews.urls")),
     path("ckeditor5/", include("django_ckeditor_5.urls")),
-    path(f"{settings.BASE_API_URL}/test/", include("sitedb.urls")),
+    path(f"{settings.BASE_API_URL}/site/", include("sitedb.urls")),
     # path("adminpanel/", include("AdminPanel.urls")),
 ]
 

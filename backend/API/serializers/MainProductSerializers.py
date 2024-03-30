@@ -13,7 +13,7 @@ class ProductSerializer(serializers.ModelSerializer):
     tags = TagsSerializer(many=True)
     image = ProductImageSerializer(many=True)
     sub_catalog = SubCatalogSerializer()
-    created_at = serializers.DateTimeField(format="%d.%m.%Y")
+    created_at = serializers.DateTimeField(format="%d.%m.%Y", read_only=True)
 
     class Meta:
         model = Product
@@ -24,7 +24,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "image",
             "sub_catalog",
             "tags",
-            "product_status",
             "created_at",
         )
 

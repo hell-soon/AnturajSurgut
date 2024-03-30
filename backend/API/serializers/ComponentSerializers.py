@@ -19,7 +19,7 @@ class SubCatalogSerializer(serializers.ModelSerializer):
 class TagsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tags
-        fields = ["name"]
+        fields = ["id", "name"]
 
 
 class ColorSerializer(serializers.ModelSerializer):

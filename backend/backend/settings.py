@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     "drf_yasg",  # swagger and docs
     "smsru",  # SMS
     "django_ckeditor_5",  # ckeditor
-    "image_uploader_widget",
+    "image_uploader_widget",  # Image Widget
 ]
 
 MIDDLEWARE = [
