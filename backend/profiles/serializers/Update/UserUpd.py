@@ -13,10 +13,19 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=False)
     password1 = serializers.CharField(write_only=True, required=False)
     password2 = serializers.CharField(write_only=True, required=False)
+    user_tg_id = serializers.IntegerField(required=False)
 
     class Meta:
         model = get_user_model()
-        fields = ["first_name", "last_name", "phone", "email", "password1", "password2"]
+        fields = [
+            "first_name",
+            "last_name",
+            "phone",
+            "email",
+            "password1",
+            "password2",
+            "user_tg_id",
+        ]
 
     def validate(self, data):
         # Проверяем, что если один из паролей был предоставлен, то оба должны быть предоставлены
@@ -32,14 +41,9 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             if data["password1"] != data["password2"]:
                 raise serializers.ValidationError({"error": "Пароли не совпадают"})
 
-            if data["password1"].isdigit():
+            if data["password1"].isdigit() or data["password1"].isalpha():
                 raise serializers.ValidationError(
-                    {"error": "Пароль не может состоять только из цифр"}
-                )
-
-            if data["password1"].isalpha():
-                raise serializers.ValidationError(
-                    {"error": "Пароль не может состоять только из букв"}
+                    {"error": "Пароль должен содержать буквы и цифры"}
                 )
 
             if len(data["password1"]) < 8:
@@ -53,11 +57,11 @@ class UserUpdateSerializer(serializers.ModelSerializer):
                 {"error": "Телефон может содержать только цифры и знак '+'"}
             )
 
-        # Проверяем имя и фамилию
-        if not data.get("first_name") and not data.get("last_name"):
-            raise serializers.ValidationError(
-                {"error": "Имя и фамилия не могут быть пустыми одновременно"}
-            )
+        # Проверяем имя и фамилию TODO FIX
+        # if not data.get("first_name") and not data.get("last_name"):
+        #     raise serializers.ValidationError(
+        #         {"error": "Имя и фамилия не могут быть пустыми одновременно"}
+        #     )
 
         # Проверяем email на уникальность
         if (
@@ -70,13 +74,18 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
         return data
 
+    def validate_user_tg_id(self, value):
+        if value == self.instance.user_tg_id:
+            raise serializers.ValidationError("Аккаунт уже привязан")
+        return value
+
     def update(self, instance, validated_data):
         # Обновляем имя, фамилию, телефон и email
-        instance.first_name = validated_data.get("first_name", instance.first_name)
-        instance.last_name = validated_data.get("last_name", instance.last_name)
+        # instance.first_name = validated_data.get("first_name", instance.first_name)
+        # instance.last_name = validated_data.get("last_name", instance.last_name)
         instance.phone = validated_data.get("phone", instance.phone)
         instance.email = validated_data.get("email", instance.email)
-
+        instance.user_tg_id = validated_data.get("user_tg_id", instance.user_tg_id)
         # Обновляем пароль, если он был предоставлен
         new_password = validated_data.get("password1")
         if new_password:

@@ -20,11 +20,13 @@ class UserLoginSerializer(serializers.Serializer):
             user = authenticate(email=email, password=password)
             if not user:
                 raise serializers.ValidationError(
-                    "Email или пароль были указаны неверно"
+                    {"login_error": "Email или пароль были указаны неверно"}
                 )
         else:
             raise serializers.ValidationError(
-                "Для входа в учетную запись нужно указать Email и пароль"
+                {
+                    "miss_field": "Для входа в учетную запись нужно указать Email и пароль"
+                }
             )
 
         data["user"] = user

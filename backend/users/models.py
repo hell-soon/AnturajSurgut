@@ -26,6 +26,9 @@ class CustomUser(AbstractUser):
     phone = models.CharField(
         max_length=20, verbose_name="Номер телефона", blank=True, null=True
     )
+    user_tg_id = models.IntegerField(
+        verbose_name="ID в Телеграм", blank=True, null=True
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

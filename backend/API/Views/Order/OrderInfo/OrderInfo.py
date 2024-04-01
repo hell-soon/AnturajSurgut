@@ -8,6 +8,9 @@ from order.serializers.OrderSerializers import OrderSerializer
 
 class OrderInfoView(APIView):
     def get(self, request, order_number):
-        order = Order.objects.get(order_number=order_number)
-        serializer = OrderSerializer(order)
-        return Response(serializer.data)
+        try:
+            order = Order.objects.get(order_number=order_number)
+            serializer = OrderSerializer(order)
+            return Response(serializer.data)
+        except Order.DoesNotExist:
+            raise NotFound("Заказ не найден")
