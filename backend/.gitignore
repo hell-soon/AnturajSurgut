@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+.venv
 env/
 build/
 develop-eggs/
@@ -23,7 +24,10 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
-
-
+.plaintext
+*rdb
+.log
 # Django
-static/
+/backend/static
+logs/
+.env

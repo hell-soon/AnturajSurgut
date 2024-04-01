@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Изменение Статуса Заказа</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .content {
+            margin-top: 20px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #333;
+            color: #fff;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Изменение статуса заказа</h1>
+        </div>
+        <div class="content">
+            <p>Здравствуйте, {{ initials }},</p>
+            <p>Статус вашего заказа был обновлен.</p>
+            <p>Номер вашего заказа: {{ order_number }}</p>
+            <p>Текущий статус: <strong>{{ order_status }}</strong></p>
+            <p>Адрес доставки: <strong>{{ order_address }}</strong></p>
+            <p>Дата создания: <strong>{{ created_at|date:" d.m.Y " }}</strong></p>
+        </div>
+        <div class="footer">
+            <p>Это письмо сформировано автоматически. Пожалуйста, не отвечайте на него.</p>
+        </div>
+    </div>
+</body>
+
+</html>

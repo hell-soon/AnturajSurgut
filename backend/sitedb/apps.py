@@ -2,6 +2,9 @@ from django.apps import AppConfig
 
 
 class SitedbConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'sitedb'
-    verbose_name = 'Настройки сайта'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "sitedb"
+    verbose_name = "Настройки сайта"
+
+    def ready(self):
+        from . import signals
