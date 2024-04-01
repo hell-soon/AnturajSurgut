@@ -1,14 +1,22 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from DB.models import ProductImage
+from django.db import models
+from image_uploader_widget.widgets import ImageUploaderWidget
 
 
 class ProductImageAdmin(admin.ModelAdmin):
     list_display = ("id", "image_preview")
     list_display_links = ("id", "image_preview")
     search_fields = ("id",)
-    readonly_fields = ("image_preview",)
+    formfield_overrides = {
+        models.ImageField: {"widget": ImageUploaderWidget},
+    }
+
+    class Media:
+        css = {
+            "all": ("css/ImageUploader.css",),
+        }
 
     def image_preview(self, obj):
         if obj.image:

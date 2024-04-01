@@ -9,6 +9,7 @@ from rest_framework import status
 
 from .serializers.Update.UserUpd import UserUpdateSerializer
 from .serializers.Users.UserSerializer import UserSerializer
+from users.models import CustomUser
 
 
 @swagger_auto_schema(
@@ -57,3 +58,15 @@ def update_user_view(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+def get_user_by_tg_id(request, tg_id):
+    try:
+        user = CustomUser.objects.get(user_tg_id=tg_id)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+    except CustomUser.DoesNotExist:
+        return Response(
+            {"detail": "Пользователь не найден"}, status=status.HTTP_404_NOT_FOUND
+        )

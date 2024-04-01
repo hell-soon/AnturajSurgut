@@ -17,6 +17,9 @@ class SliderAdmin(admin.ModelAdmin):
         "change_slider_status_action",
     ]
 
+    class Media:
+        css = {"all": ("css/ImageUploader.css",)}
+
     def show_image(self, obj):
         image = obj.image.url
         return format_html(
@@ -25,13 +28,16 @@ class SliderAdmin(admin.ModelAdmin):
             )
         )
 
+    # def change_slider_status_action(self, request, queryset):
+    #     for item in queryset:
+    #         if item.is_active:
+    #             item.is_active = False
+    #         else:
+    #             item.is_active = True
+    #         item.save()
+
     def change_slider_status_action(self, request, queryset):
-        for item in queryset:
-            if item.is_active:
-                item.is_active = False
-            else:
-                item.is_active = True
-            item.save()
+        queryset.update(is_active=not queryset.values_list("is_active", flat=True)[0])
 
     show_image.short_description = "Изображение"
     change_slider_status_action.short_description = "Изменить статус"

@@ -1,5 +1,5 @@
-from sitedb.models import Slider
 from rest_framework import serializers
+from sitedb.models import Slider
 
 
 class SliderSerializer(serializers.ModelSerializer):
@@ -7,4 +7,4 @@ class SliderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Slider
-        fields = ["id", "is_active", "text", "image", "created_at"]
+        fields = ["id", "text", "image", "created_at"]

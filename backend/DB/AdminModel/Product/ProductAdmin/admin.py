@@ -3,11 +3,20 @@ from django.utils.html import format_html
 from django.utils.text import Truncator
 from DB.models import ProductInfo
 from ..ProductInline.inline import ProductInfoInline
-from ....Setup.forms.ProductAdminForm.ProductForm import ProductAdminForm
+from DB.Setup.forms.ProductAdminForm.ProductForm import ProductAdminForm
 
 
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
+    fields = [
+        "name",
+        "description",
+        "sub_catalog",
+        "tags",
+        "image",
+        "product_status",
+        "rating",
+    ]
     list_display = (
         "id",
         "name",
@@ -48,12 +57,9 @@ class ProductAdmin(admin.ModelAdmin):
                 print(total_quanity)
 
     def change_product_status_action(self, request, queryset):
-        for item in queryset:
-            if item.product_status:
-                item.product_status = False
-            else:
-                item.product_status = True
-            item.save()
+        queryset.update(
+            product_status=not queryset.values_list("product_status", flat=True)[0]
+        )
 
     def show_image(self, obj):
         if obj.image.exists():

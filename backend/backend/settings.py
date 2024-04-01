@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     "drf_yasg",  # swagger and docs
     "smsru",  # SMS
     "django_ckeditor_5",  # ckeditor
-    "image_uploader_widget",
+    "image_uploader_widget",  # Image Widget
 ]
 
 MIDDLEWARE = [
@@ -151,9 +151,13 @@ USE_TZ = True
 STATIC SETTINGS
 """
 
-STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
+# STATIC_URL = "static/"
+# STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 """
 MEDIA SETTINGS

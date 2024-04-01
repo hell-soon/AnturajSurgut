@@ -90,7 +90,7 @@ class OrderSerializer(serializers.ModelSerializer):
     #         except ProductInfo.DoesNotExist:
     #             raise serializers.ValidationError("Такого товара больше не существует")
     #     return value
-    
+
     def validate_items(self, value):
         errors = {}
         for index, item in enumerate(value):
