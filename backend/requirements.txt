@@ -19,3 +19,4 @@ psycopg2-binary
 django-localflavor==4.0
 django-ckeditor-5==0.2.12
 django-image-uploader-widget==0.4.4
+gunicorn==21.2.0

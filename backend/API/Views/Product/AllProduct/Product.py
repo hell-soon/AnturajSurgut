@@ -8,7 +8,7 @@ from API.filters.filter import ProductFilter
 
 
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 30  # TODO change to 20
+    page_size = 20  # TODO change to 20
     page_size_query_param = "page_size"
     max_page_size = 100
 
