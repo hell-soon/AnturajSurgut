@@ -1,48 +1,11 @@
-# version: '3.9'
-# services:
-
-#   main:
-#     build: .
-#     command: python manage.py runserver 0.0.0.0:8000
-#     env_file:
-#       - /.env
-#     ports:
-#       - "8000:8000"
-#   redis:
-#     image: redis:latest
-#   celery:
-#
-#     build:
-#       context: .
-#     command: celery -A backend worker -l info
-#     environment:
-#       - CELERY_BROKER_URL=redis://redis:6379/0
-#     volumes:
-#       - .:/backend
-#     env_file:
-#       - /.env
-#     depends_on:
-#       - main
-#       - redis
-#   celery_beat:
-#
-#     build:
-#       context: .
-#     command: celery -A backend beat -l info
-#     environment:
-#       - CELERY_BROKER_URL=redis://redis:6379/0
-#     depends_on:
-#       - redis
-#       - celery
-#       - main
-
 version: '3.9'
 services:
   backend:
     build: ./backend
-
     volumes:
       - .:/backend
+    env_file:
+      - backend/.env
     expose:
       - "8000"
 
@@ -67,26 +30,24 @@ services:
 
   redis:
     image: redis:latest
+    container_name: redis01
+
   celery:
-    build:
-      context: ./backend
+    build: ./backend
     command: celery -A backend worker -l info
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
     volumes:
       - ./backend:/backend
     env_file:
-      - ./backend/.env
+      - backend/.env
     depends_on:
+      - redis
       - backend
-      - redis
 
-  celery_beat:
-    build:
-      context: ./backend
+  celery-beat:
+    build: ./backend
     command: celery -A backend beat -l info
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
     depends_on:
       - redis
-      - celery
+      - backend
+    volumes:
+      - ./backend:/backend
