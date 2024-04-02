@@ -1,2 +1,2 @@
-from .Order.OrderAdmin.admin import OrderAdmin
+from .Order import OrderAdmin, UtilsAdmin
 from .Services.admin import AdditionalservicesAdmin

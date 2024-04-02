@@ -1,5 +1,10 @@
 from django.urls import path
-from .views import create_order, update_order, get_additional_services
+from .views import (
+    create_order,
+    update_order,
+    get_additional_services,
+    order_utils,
+)
 from .Payment.Optional.Create.CreateOptionalPayment import create_peyment, check_payment
 from .Payment.Optional.Refund.RefundOptionalPayment import refund_payment
 
@@ -14,4 +19,5 @@ urlpatterns = [
         refund_payment,
         name="refund_payment",
     ),
+    path("test/", order_utils, name="test"),
 ]

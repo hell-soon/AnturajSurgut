@@ -1,13 +1,5 @@
 from django.contrib import admin
-from ..OrderInline.inline import OrderItemsInline
-from decimal import Decimal, ROUND_HALF_UP
-from order.models import OrderItems
-from django.db.models import Sum
-import logging
-
-from icecream import ic
-
-logger = logging.getLogger("AdminPanel")
+from .inline import OrderItemsInline
 
 
 class OrderAdmin(admin.ModelAdmin):

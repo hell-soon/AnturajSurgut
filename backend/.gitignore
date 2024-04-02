@@ -25,14 +25,13 @@ var/
 .installed.cfg
 *.egg
 .plaintext
-*rdb
 .log
 # Django
 media/
 staticfiles
-logs/
 .env
 *.bak
 *.dat
 *.dir
 *.rdb
+celerybeat-schedule

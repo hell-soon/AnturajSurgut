@@ -1,5 +1,12 @@
 from rest_framework import serializers
-from order.models import Additionalservices, Order, OrderItems
+from order.models import (
+    Additionalservices,
+    Order,
+    OrderItems,
+    PaymentType,
+    OrderType,
+    OrderFace,
+)
 from DB.models import ProductInfo
 from .OrderComponentSerializers import ProductQuantitySerializer
 from rest_framework.exceptions import ValidationError
@@ -20,9 +27,17 @@ class OrderSerializer(serializers.ModelSerializer):
         write_only=True,
         required=False,
     )
-    payment_type = serializers.CharField(required=True)
+    payment_type = serializers.PrimaryKeyRelatedField(
+        queryset=PaymentType.objects.all(), required=True
+    )
     created_at = serializers.DateTimeField(format="%d.%m.%Y %H:%M", read_only=True)
     sertificate = serializers.CharField(required=False, allow_blank=True)
+    order_type = serializers.PrimaryKeyRelatedField(
+        queryset=OrderType.objects.all(), required=True
+    )
+    order_face = serializers.PrimaryKeyRelatedField(
+        queryset=OrderFace.objects.all(), required=True
+    )
 
     class Meta:
         model = Order
@@ -76,21 +91,6 @@ class OrderSerializer(serializers.ModelSerializer):
 
             return sertificate
 
-    # V1
-    # def validate_items(self, value):
-    #     for item in value:
-    #         product_info_id = item["product_info_id"]
-    #         quantity = item["quantity"]
-    #         try:
-    #             info = ProductInfo.objects.get(id=product_info_id)
-    #             if quantity > info.quantity:
-    #                 raise serializers.ValidationError(
-    #                     "Количество товара в заказе, превышает его количетсво на складе"
-    #                 )
-    #         except ProductInfo.DoesNotExist:
-    #             raise serializers.ValidationError("Такого товара больше не существует")
-    #     return value
-
     def validate_items(self, value):
         errors = {}
         for index, item in enumerate(value):
@@ -114,6 +114,7 @@ class OrderSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
+        ic(validated_data)
         items_data = validated_data.pop("items")
         additional_services_data = validated_data.pop("order_additionalservices")
 

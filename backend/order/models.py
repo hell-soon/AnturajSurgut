@@ -24,16 +24,40 @@ class Additionalservices(models.Model):
         return f"{self.name} - {self.cost} рублей"
 
 
+class OrderType(models.Model):
+    name = models.CharField(max_length=50, verbose_name="Тип")
+
+    class Meta:
+        verbose_name = "Тип заказа"
+        verbose_name_plural = "Типы заказов"
+
+    def __str__(self):
+        return self.name
+
+
+class OrderFace(models.Model):
+    name = models.CharField(max_length=50, verbose_name="Название")
+
+    class Meta:
+        verbose_name = "Тип заказчика"
+        verbose_name_plural = "Типы заказчиков"
+
+    def __str__(self):
+        return self.name
+
+
+class PaymentType(models.Model):
+    name = models.CharField(max_length=50, verbose_name="Название")
+
+    class Meta:
+        verbose_name = "Тип оплаты"
+        verbose_name_plural = "Типы оплаты"
+
+    def __str__(self):
+        return self.name
+
+
 class Order(models.Model):
-    CHOICES_TYPES = (
-        ("1", "Самовывоз"),
-        ("2", "Доставка до двери"),
-        ("3", "Доставка транспортной компанией"),
-    )
-    CHOICES_FACE = (
-        ("1", "Юридическое лицо"),
-        ("2", "Физическое лицо"),
-    )
     CHOICES_STATUS = (
         ("1", "Не готов"),
         ("2", "Готов к выдаче"),
@@ -41,10 +65,6 @@ class Order(models.Model):
         ("4", "Доставлен"),
         ("5", "Отменен"),
         ("6", "Завершен"),
-    )
-    PAYMENT_STATUS = (
-        ("1", "Онланй платеж"),
-        ("2", "При получении"),
     )
     user_initials = models.CharField(max_length=100, verbose_name="Инициалы покупателя")
     user_email = models.EmailField(
@@ -60,18 +80,18 @@ class Order(models.Model):
         unique=True,
         default=generate_order_number,
     )
-    order_type = models.CharField(
-        max_length=1, choices=CHOICES_TYPES, default="1", verbose_name="Тип доставки"
+    order_type = models.ForeignKey(
+        OrderType, verbose_name="Тип доставки", on_delete=models.CASCADE
     )
-    payment_type = models.CharField(
-        max_length=1, choices=PAYMENT_STATUS, default="1", verbose_name="Способ оплаты"
+    payment_type = models.ForeignKey(
+        PaymentType, verbose_name="Способ оплаты", on_delete=models.CASCADE
     )
     order_paymant = models.BooleanField(default=False, verbose_name="Оплачен")
     order_address = models.CharField(
         max_length=255, verbose_name="Адрес доставки", blank=True
     )
-    order_face = models.CharField(
-        max_length=1, choices=CHOICES_FACE, default="1", verbose_name="Тип лица"
+    order_face = models.ForeignKey(
+        OrderFace, verbose_name="Тип лица", on_delete=models.CASCADE
     )
     order_status = models.CharField(
         max_length=1, choices=CHOICES_STATUS, default="1", verbose_name="Статус"
