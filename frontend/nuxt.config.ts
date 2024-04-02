@@ -3,10 +3,7 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
-  modules: [
-    "@pinia/nuxt",  
-    '@nuxt/eslint',
-  ],
+  modules: ['@pinia/nuxt', '@nuxt/eslint'],
   imports: {
     autoImport: true,
   },
