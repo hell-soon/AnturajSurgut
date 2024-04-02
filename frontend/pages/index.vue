@@ -1,16 +1,23 @@
 <script setup lang="ts">
 const route = useRoute()
-const a = ref(0)
 </script>
 
 <template>
-  <div>
-    <h1>Nuxt Routing set up successfully!</h1>
+  <v-app>
+    <h1 class="text-center">
+      Сургут епта!
+    </h1>
     <p>
-      Current route: {{ route.path }}, {{ a }}
+      Current route: {{ route.path }}
     </p>
-    <NuxtLink to="/">
-      Learn more about Nuxt Routing
+    <NuxtLink to="/about">
+      Перейти на 404
     </NuxtLink>
-  </div>
+  </v-app>
 </template>
+
+<style lang="scss">
+h1 {
+  color: red;
+}
+</style>
