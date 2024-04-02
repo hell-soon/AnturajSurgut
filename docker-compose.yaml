@@ -2,8 +2,11 @@ version: '3.9'
 services:
   backend:
     build: ./backend
+    command: bash -c "python manage.py collectstatic --noinput && gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 1"
     volumes:
-      - .:/backend
+      - ./backend:/backend
+      - static:/backend/staticfiles
+      - media:/backend/media
     env_file:
       - backend/.env
     expose:
@@ -16,18 +19,6 @@ services:
       - 3000:3000
     depends_on:
       - backend
-
-  nginx:
-    image: nginx:latest
-    container_name: ng01
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./backend:/backend
-      - ./nginx:/etc/nginx/conf.d
-    depends_on:
-      - backend
-
   redis:
     image: redis:latest
     container_name: redis01

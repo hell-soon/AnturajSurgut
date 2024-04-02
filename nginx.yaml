@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  nginx:
+    image: nginx:1.13
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static:/backend/staticfiles
+      - media:/backend/media
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  static:
+  media:
