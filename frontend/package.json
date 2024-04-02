@@ -14,9 +14,14 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "dependencies": {
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.11.6",
+    "@nuxt/eslint": "0.3.0-beta.7",
+    "@pinia/nuxt": "^0.5.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-format": "^0.1.0",
     "nuxt": "^3.11.1",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "typescript": "^5.4.3",
+    "@unocss/eslint-plugin": "^0.58.8"
   }
 }
