@@ -35,3 +35,4 @@ staticfiles
 *.dir
 *.rdb
 celerybeat-schedule
+.vscode

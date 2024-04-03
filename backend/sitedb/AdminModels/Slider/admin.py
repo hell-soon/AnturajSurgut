@@ -28,14 +28,6 @@ class SliderAdmin(admin.ModelAdmin):
             )
         )
 
-    # def change_slider_status_action(self, request, queryset):
-    #     for item in queryset:
-    #         if item.is_active:
-    #             item.is_active = False
-    #         else:
-    #             item.is_active = True
-    #         item.save()
-
     def change_slider_status_action(self, request, queryset):
         queryset.update(is_active=not queryset.values_list("is_active", flat=True)[0])
 

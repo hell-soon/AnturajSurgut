@@ -111,3 +111,29 @@ class Sertificate(models.Model):
 
     def __str__(self):
         return self.code
+
+
+class Contact(models.Model):
+    phone = models.CharField(max_length=255, verbose_name="Телефон")
+    fax = models.CharField(max_length=255, verbose_name="Факс")
+    email = models.EmailField(max_length=255, verbose_name="Email")
+
+    class Meta:
+        verbose_name = "Контакт"
+        verbose_name_plural = "Контакты"
+
+    def __str__(self):
+        return self.phone
+
+
+class SocialAccount(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Название")
+    url = models.CharField(max_length=255, verbose_name="Ссылка")
+    icon = models.ImageField(upload_to="social/", verbose_name="Иконка")
+
+    class Meta:
+        verbose_name = "Социальная сеть"
+        verbose_name_plural = "Социальные сети"
+
+    def __str__(self):
+        return self.name

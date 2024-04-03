@@ -11,7 +11,7 @@ from DB.models import ProductInfo
 from .OrderComponentSerializers import ProductQuantitySerializer
 from rest_framework.exceptions import ValidationError
 from sitedb.models import Sertificate
-from django.db.models import Q
+from django.db import transaction
 from django.utils import timezone
 from icecream import ic
 from django.shortcuts import get_object_or_404
@@ -72,9 +72,7 @@ class OrderSerializer(serializers.ModelSerializer):
             try:
                 sertificate = Sertificate.objects.get(code=value)
             except Sertificate.DoesNotExist:
-                raise ValidationError(
-                    {"sertificate": "Сертификат с таким кодом не найден."}
-                )
+                raise ValidationError("Сертификат с таким кодом не найден.")
 
             current_date = timezone.now()
             if (
@@ -85,7 +83,7 @@ class OrderSerializer(serializers.ModelSerializer):
                 if not sertificate.status:
                     raise ValidationError("Сертификат неактивен.")
                 elif sertificate.quanity <= 0:
-                    raise ValidationError({"sertificate": "Сертификат закончился"})
+                    raise ValidationError("Сертификат закончился")
                 else:
                     raise ValidationError("Срок действия сертификата истек.")
 
@@ -102,11 +100,15 @@ class OrderSerializer(serializers.ModelSerializer):
                 )
                 continue
 
-            info = get_object_or_404(ProductInfo, id=product_info_id)
-            if quantity > info.quantity:
-                errors[index] = (
-                    f"Количество товара в заказе превышает его количество на складе ({info.quantity} шт. на складе)."
-                )
+            try:
+                info = ProductInfo.objects.get(id=product_info_id)
+                if quantity > info.quantity:
+                    errors[index] = (
+                        f"Количество товара в заказе превышает его количество на складе ({info.quantity} шт. на складе)."
+                    )
+            except ProductInfo.DoesNotExist:
+                errors[index] = "Такого товара больше не существует"
+                continue
 
         if errors:
             raise serializers.ValidationError(errors)
@@ -114,7 +116,6 @@ class OrderSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        ic(validated_data)
         items_data = validated_data.pop("items")
         additional_services_data = validated_data.pop("order_additionalservices")
 
