@@ -38,3 +38,10 @@ class TypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Type
         fields = ["id", "name"]
+
+
+class SubSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SubCatalog
+        fields = ["id", "name", "image"]

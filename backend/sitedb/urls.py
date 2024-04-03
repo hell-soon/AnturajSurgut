@@ -5,5 +5,8 @@ from django.urls import include
 
 router = routers.DefaultRouter()
 router.register(r"slider", SliderViewSet)
+router.register(r"contact", ContactViewSet)
 
-urlpatterns = [path("", include(router.urls))]
+urlpatterns = [
+    path("", include(router.urls)),
+]

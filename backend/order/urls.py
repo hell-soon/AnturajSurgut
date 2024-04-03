@@ -19,5 +19,5 @@ urlpatterns = [
         refund_payment,
         name="refund_payment",
     ),
-    path("test/", order_utils, name="test"),
+    path("types/", order_utils),
 ]
