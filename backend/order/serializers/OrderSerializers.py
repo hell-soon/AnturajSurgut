@@ -6,9 +6,15 @@ from order.models import (
     PaymentType,
     OrderType,
     OrderFace,
+    OrderAddress,
+    LegalDate,
 )
 from DB.models import ProductInfo
-from .OrderComponentSerializers import ProductQuantitySerializer
+from .OrderComponentSerializers import (
+    ProductQuantitySerializer,
+    OrderAddressSerializer,
+    LegalDateSerializer,
+)
 from rest_framework.exceptions import ValidationError
 from sitedb.models import Sertificate
 from django.db import transaction
@@ -38,6 +44,8 @@ class OrderSerializer(serializers.ModelSerializer):
     order_face = serializers.PrimaryKeyRelatedField(
         queryset=OrderFace.objects.all(), required=True
     )
+    address = OrderAddressSerializer(write_only=True)
+    legal = LegalDateSerializer(required=False)
 
     class Meta:
         model = Order
@@ -49,7 +57,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "created_at",
             "order_number",
             "order_type",
-            "order_address",
+            "address",
             "order_face",
             "order_additionalservices",
             "comment",
@@ -57,10 +65,15 @@ class OrderSerializer(serializers.ModelSerializer):
             "track_number",
             "payment_type",
             "sertificate",
+            "legal",
         ]
         read_only_fields = ["created_at", "order_number"]
 
     def validate(self, data):
+        type = data.get("order_type")
+        if type.name == "Самовывоз":
+            data["address"] = None
+
         if not any(data.get(field) for field in ["user_email", "user_phone"]):
             raise serializers.ValidationError(
                 {"user_error": "Необходимо заполнить хотя бы одно из полей"}
@@ -118,9 +131,16 @@ class OrderSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         items_data = validated_data.pop("items")
         additional_services_data = validated_data.pop("order_additionalservices")
+        address_data = validated_data.pop("address")
+        legal_data = validated_data.pop("legal")
 
         order = Order.objects.create(**validated_data)
         order.order_additionalservices.set(additional_services_data)
+        if address_data:
+            OrderAddress.objects.get_or_create(order=order, **address_data)
+
+        if legal_data:
+            LegalDate.objects.get_or_create(order=order, **legal_data)
 
         for item_data in items_data:
             product_info_id = item_data["product_info_id"]

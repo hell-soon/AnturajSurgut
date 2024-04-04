@@ -248,3 +248,31 @@ class OrderAddress(models.Model):
         return (
             f"{self.region}, {self.city}, {self.street}, {self.house}, {self.apartment}"
         )
+
+
+class LegalDate(models.Model):
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, verbose_name="номер заказа"
+    )
+    name = models.CharField(max_length=255, verbose_name="Название Юр. лица")
+    inn = models.CharField(max_length=255, verbose_name="ИНН")
+    ogrn = models.CharField(max_length=255, verbose_name="ОГРН/ЕГРП")
+    kpp = models.CharField(max_length=255, verbose_name="КПП")
+    bik = models.CharField(max_length=255, verbose_name="БИК")
+    bank_name = models.CharField(max_length=255, verbose_name="Название банка")
+    cores_account = models.CharField(
+        max_length=255, verbose_name="Корреспондентский счет", blank=True
+    )
+    ras_check = models.CharField(
+        max_length=255, verbose_name="Расчётный счет", blank=True
+    )
+    legal_address = models.CharField(
+        max_length=255, verbose_name="Юридический адрес", blank=True
+    )
+
+    class Meta:
+        verbose_name = "Юридические данные"
+        verbose_name_plural = "Юридические данные"
+
+    def __str__(self):
+        return f"{self.order}"

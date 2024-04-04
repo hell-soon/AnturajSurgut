@@ -1,6 +1,12 @@
 from rest_framework import serializers
-from order.models import Additionalservices, OrderType, OrderFace, PaymentType
-
+from order.models import (
+    Additionalservices,
+    OrderType,
+    OrderFace,
+    PaymentType,
+    OrderAddress,
+    LegalDate,
+)
 from sitedb.models import Sertificate
 
 
@@ -43,3 +49,33 @@ class CombinedDataSerializer(serializers.Serializer):
     order_type = OrderTypeSerializer(many=True)
     order_face = OrderFaceSerializer(many=True)
     payment_type = PaymentTypeSerializer(many=True)
+
+
+class OrderAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderAddress
+        fields = [
+            "region",
+            "city",
+            "street",
+            "house",
+            "apartment",
+            "floor",
+            "post_index",
+        ]
+
+
+class LegalDateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LegalDate
+        fields = [
+            "name",
+            "inn",
+            "ogrn",
+            "kpp",
+            "bik",
+            "bank_name",
+            "cores_account",
+            "ras_check",
+            "legal_address",
+        ]

@@ -14,6 +14,8 @@ from .serializers.OrderComponentSerializers import (
     AdditionalservicesSerializer,
     CombinedDataSerializer,
 )
+from icecream import ic
+from .Payment.Online.create import create_online_check
 
 
 @swagger_auto_schema(
@@ -35,18 +37,20 @@ from .serializers.OrderComponentSerializers import (
 )
 @api_view(["POST"])
 def create_order(request):
-    if request.method == "POST":
-        serializer = OrderSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                {
-                    "message": "Заказ успешно создан",
-                    "order_number": serializer.data["order_number"],
-                },
-                status=status.HTTP_201_CREATED,
-            )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer = OrderSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    order = serializer.save()
+
+    response_data = {
+        "message": "Заказ успешно создан",
+        "order_number": order.order_number,
+    }
+
+    if order.payment_type.name == "Онлайн оплата":
+        payment = create_online_check(order)
+        response_data["payment_url"] = payment["confirmation"]["confirmation_url"]
+
+    return Response(response_data, status=status.HTTP_201_CREATED)
 
 
 @swagger_auto_schema(

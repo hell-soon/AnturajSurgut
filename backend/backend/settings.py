@@ -283,3 +283,6 @@ CELERY_BEAT_SCHEDULE = {
         # "schedule": timedelta(seconds=30),
     },
 }
+
+
+SITE_URL = os.getenv("SITE_URL")

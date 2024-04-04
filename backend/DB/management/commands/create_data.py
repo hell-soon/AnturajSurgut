@@ -19,12 +19,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         User = get_user_model()
-
-        User.objects.create_superuser(
-            username="admin",
-            email="admin@admin.ru",
-            password="admin",
-        )
+        try:
+            User.objects.create_superuser(
+                username="admin",
+                email="admin@admin.ru",
+                password="admin",
+            )
+        except Exception as e:
+            ic(e)
 
         catalog_creator = CatalogsCreator()
         catalogs = catalog_creator.create()
