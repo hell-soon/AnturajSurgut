@@ -15,8 +15,8 @@ devDependencies:
     specifier: 0.3.0-beta.7
     version: 0.3.0-beta.7(eslint@8.57.0)(nuxt@3.11.1)(typescript@5.4.3)(vite@5.2.7)
   '@nuxt/image':
-    specifier: ^1.4.0
-    version: 1.4.0
+    specifier: ^1.5.0
+    version: 1.5.0
   '@pinia/nuxt':
     specifier: ^0.5.1
     version: 0.5.1(typescript@5.4.3)(vue@3.4.21)
@@ -1294,8 +1294,8 @@ packages:
       - vite
     dev: true
 
-  /@nuxt/image@1.4.0:
-    resolution: {integrity: sha512-ZEGHjX8UZY/Wt/jWm+66QuUQA14E0dTwdi7n9BoZ1cJdinL8QdRMm3FcbwJvCj2quvD85c9LT2wvNA8l6hOMOA==}
+  /@nuxt/image@1.5.0:
+    resolution: {integrity: sha512-k1QvuGb3GCkpy35t8lpYjOjCDMajIIZ+vKw2XgRg89WlLDlpMNRPNBpSCn/9ixuly1LyjB4k5vggRJ2RxWVvsw==}
     engines: {node: ^14.16.0 || >=16.11.0}
     dependencies:
       '@nuxt/kit': 3.11.1

@@ -1,3 +1,5 @@
+@import './fonts.scss';
+
 html {
   padding: 0;
   margin: 0 auto;
@@ -46,4 +48,68 @@ body {
       background-position: 0% 50%;
     }
   }
+}
+
+h1 {
+  font-family: NEXT-ART;
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 700;
+  line-height: clamp(38px, 4vw, 56px);
+  text-transform: lowercase;
+}
+
+h2 {
+  font-family: NEXT-ART;
+  font-size: clamp(26px, 4vw, 40px);
+  font-weight: 600;
+  line-height: clamp(30px, 4vw, 44px);
+  text-transform: lowercase;
+  text-overflow: ellipsis;
+}
+
+h3 {
+  font-family: Onest;
+  font-size: clamp(22px, 4vw, 32px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: clamp(26px, 4vw, 36px);
+}
+
+.bodyBold,
+.body,
+.footnote,
+.smallFootnote,
+.verySmallFootnot,
+.footnoteText {
+  font-family: Onest;
+}
+
+.bodyBold {
+  font-size: clamp(18px, 4vw, 24px);
+  font-weight: 700;
+  line-height: clamp(18px, 4vw, 28px);
+}
+
+.body {
+  font-size: clamp(18px, 4vw, 24px);
+  font-weight: 400;
+  line-height: clamp(18px, 4vw, 28px);
+}
+
+.footnote {
+  font-size: clamp(14px, 3vw, 20px);
+  font-weight: 400;
+  line-height: clamp(18px, 3vw, 24px);
+}
+
+.smallFootnote {
+  font-size: clamp(12px, 3vw, 16px);
+  font-weight: 500;
+  line-height: clamp(16px, 3vw, 20px);
+}
+
+.verySmallFootnot {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
 }
