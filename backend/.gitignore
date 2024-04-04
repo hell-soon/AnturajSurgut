@@ -37,3 +37,4 @@ staticfiles
 *.rdb
 celerybeat-schedule
 .vscode
+backend/config/db.sqlite3

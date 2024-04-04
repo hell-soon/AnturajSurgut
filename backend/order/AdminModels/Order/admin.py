@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .inline import OrderItemsInline
+from .inline import OrderItemsInline, OrderAddressInline
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -36,7 +36,7 @@ class OrderAdmin(admin.ModelAdmin):
     actions = ["update_order_items_action"]
     empty_value_display = "-"
 
-    inlines = [OrderItemsInline]
+    inlines = [OrderItemsInline, OrderAddressInline]
 
     # Подсчет общей стоимости заказа
     def show_total_price(self, obj):
@@ -61,3 +61,7 @@ class OrderAdmin(admin.ModelAdmin):
     get_additional_services.short_description = "Дополнительные услуги"
     show_track.short_description = "Трэк номер"
     show_total_price.short_description = "Общая цена заказа"
+
+
+class AdressAdmin(admin.ModelAdmin):
+    list_display = ("city", "region")

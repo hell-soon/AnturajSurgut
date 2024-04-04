@@ -1,5 +1,5 @@
 from django.contrib import admin
-from order.models import OrderItems
+from order.models import OrderItems, OrderAddress
 
 
 class OrderItemsInline(admin.TabularInline):
@@ -11,3 +11,14 @@ class OrderItemsInline(admin.TabularInline):
         "cost",
         "total_cost",
     ]
+
+
+class OrderAddressInline(admin.TabularInline):
+    model = OrderAddress
+    extra = 1
+    fields = ["region", "city", "street", "house", "apartment", "floor", "post_index"]
+
+    class Media:
+        css = {
+            "all": ("css/Fields.css",),
+        }
