@@ -5,19 +5,19 @@ const route = useRoute()
 <template>
   <v-app>
     <h1>
-      Сургут Епта!
+      Profile
     </h1>
     <p>
       Current route: {{ route.path }}
     </p>
-    <NuxtLink to="/profile">
-      Перейти в профиль
+    <NuxtLink to="/profile/sadas">
+      Перейти на 1 профиль
     </NuxtLink>
   </v-app>
 </template>
 
 <style scoped lang="scss">
 h1 {
-  color: #000;
+  color: red;
 }
 </style>

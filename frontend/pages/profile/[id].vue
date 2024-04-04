@@ -1,23 +1,23 @@
 <script setup lang="ts">
-const route = useRoute()
+
 </script>
 
 <template>
   <v-app>
     <h1>
-      Сургут Епта!
+      Profile 1
     </h1>
     <p>
-      Current route: {{ route.path }}
+      Current route: {{ $route.path }}
     </p>
-    <NuxtLink to="/profile">
-      Перейти в профиль
+    <NuxtLink to="/">
+      Вернуться на главную
     </NuxtLink>
   </v-app>
 </template>
 
 <style scoped lang="scss">
 h1 {
-  color: #000;
+  color: red;
 }
 </style>
