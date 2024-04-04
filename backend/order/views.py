@@ -2,11 +2,20 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.decorators import api_view
 from rest_framework import status
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Order, Additionalservices
+from .models import Order, Additionalservices, OrderFace, OrderType, PaymentType
 from .serializers.OrderSerializers import OrderSerializer
 from .serializers.OrderUpdateSerializers import UpdateOrderSerializer
-from .serializers.OrderComponentSerializers import AdditionalservicesSerializer
+from .serializers.OrderComponentSerializers import (
+    OrderFaceSerializer,
+    OrderTypeSerializer,
+    PaymentTypeSerializer,
+    AdditionalservicesSerializer,
+    CombinedDataSerializer,
+)
+from icecream import ic
+from .Payment.Online.create import create_online_check
 
 
 @swagger_auto_schema(
@@ -28,18 +37,20 @@ from .serializers.OrderComponentSerializers import AdditionalservicesSerializer
 )
 @api_view(["POST"])
 def create_order(request):
-    if request.method == "POST":
-        serializer = OrderSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                {
-                    "message": "Заказ успешно создан",
-                    "order_number": serializer.data["order_number"],
-                },
-                status=status.HTTP_201_CREATED,
-            )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer = OrderSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    order = serializer.save()
+
+    response_data = {
+        "message": "Заказ успешно создан",
+        "order_number": order.order_number,
+    }
+
+    if order.payment_type.name == "Онлайн оплата":
+        payment = create_online_check(order)
+        response_data["payment_url"] = payment["confirmation"]["confirmation_url"]
+
+    return Response(response_data, status=status.HTTP_201_CREATED)
 
 
 @swagger_auto_schema(
@@ -56,7 +67,7 @@ def create_order(request):
             ),
         ),
         400: openapi.Response(
-            description="Возвращается сообщение о том, что заказ не может быть обновлен, если его статус отличен от оличаеться От 'Не готов'",
+            description="Возвращается сообщение о том, что заказ не может быть обновлен, если его статус отличен От 'Не готов'",
             schema=openapi.Schema(
                 type=openapi.TYPE_OBJECT,
                 properties={
@@ -80,8 +91,50 @@ def update_order(request, order_number):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(
+    methods=["get"],
+    responses={
+        200: openapi.Response(
+            description="Список доступных услуг к заказу",
+            schema=AdditionalservicesSerializer(),
+        ),
+    },
+)
 @api_view(["GET"])
 def get_additional_services(request):
     additional_services = Additionalservices.objects.all()
     serializer = AdditionalservicesSerializer(additional_services, many=True)
     return Response(serializer.data)
+
+
+@swagger_auto_schema(
+    methods=["get"],
+    responses={
+        200: openapi.Response(
+            description="Список типов заказов, типов лиц и типов оплат",
+            schema=CombinedDataSerializer(),
+        ),
+    },
+)
+@api_view(["GET"])
+def order_utils(request):
+    order_types = OrderType.objects.all()
+    order_faces = OrderFace.objects.all()
+    payment_types = PaymentType.objects.all()
+
+    # Сериализация данных
+    order_type_serializer = OrderTypeSerializer(order_types, many=True)
+    order_face_serializer = OrderFaceSerializer(order_faces, many=True)
+    payment_type_serializer = PaymentTypeSerializer(payment_types, many=True)
+
+    # Объединение данных в один словарь
+    combined_data = {
+        "order_type": order_type_serializer.data,
+        "order_face": order_face_serializer.data,
+        "payment_type": payment_type_serializer.data,
+    }
+
+    # Сериализация объединенных данных
+    # combined_data_serializer = CombinedDataSerializer(combined_data)
+
+    return Response(combined_data)

@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     "order.apps.OrderConfig",  # Order API
     "API.apps.ApiConfig",  # Product API
     "reviews.apps.ReviewsConfig",  # Reviews API
-    "AdminPanel.apps.AdminpanelConfig",  # Admin Panel app
     "django_filters",  # Filters
     "colorfield",  # color field
     "rest_framework",  # API
@@ -275,7 +274,6 @@ CKEDITOR_5_FILE_STORAGE = "backend.config.ckreditor.storage.CustomStorage"
 
 BASE_API_URL = os.getenv("BASE_API_URL")
 
-
 # CELERY PEREODIC TASKS
 
 CELERY_BEAT_SCHEDULE = {
@@ -285,3 +283,6 @@ CELERY_BEAT_SCHEDULE = {
         # "schedule": timedelta(seconds=30),
     },
 }
+
+
+SITE_URL = os.getenv("SITE_URL")

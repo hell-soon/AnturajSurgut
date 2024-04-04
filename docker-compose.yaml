@@ -2,7 +2,7 @@ version: '3.9'
 services:
   backend:
     build: ./backend
-    command: bash -c "python manage.py collectstatic --noinput && gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 1"
+    command: bash -c "python manage.py migrate && python manage.py create_data && python manage.py collectstatic --noinput && gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 1"
     volumes:
       - ./backend:/backend
       - static:/backend/staticfiles

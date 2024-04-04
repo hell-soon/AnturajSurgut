@@ -12,6 +12,8 @@ urlpatterns = [
     path(f"{settings.BASE_API_URL}/auth/", include("users.urls")),
     path(f"{settings.BASE_API_URL}/profile/", include("profiles.urls")),
     path(f"{settings.BASE_API_URL}/order/", include("order.urls")),
+    path(f"{settings.BASE_API_URL}/review/", include("reviews.urls")),
+    path(f"{settings.BASE_API_URL}/site/", include("sitedb.urls")),
     path(
         "api/docs/",
         schema_view.with_ui("swagger", cache_timeout=0),
@@ -22,10 +24,7 @@ urlpatterns = [
     ),
     path("smsru/", include("smsru.urls")),
     path("telegram/", include("telegram.urls")),
-    path(f"{settings.BASE_API_URL}/review/", include("reviews.urls")),
     path("ckeditor5/", include("django_ckeditor_5.urls")),
-    path(f"{settings.BASE_API_URL}/site/", include("sitedb.urls")),
-    # path("adminpanel/", include("AdminPanel.urls")),
 ]
 
 

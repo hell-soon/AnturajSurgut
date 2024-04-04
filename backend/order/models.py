@@ -24,16 +24,40 @@ class Additionalservices(models.Model):
         return f"{self.name} - {self.cost} рублей"
 
 
+class OrderType(models.Model):
+    name = models.CharField(max_length=50, verbose_name="Тип")
+
+    class Meta:
+        verbose_name = "Тип заказа"
+        verbose_name_plural = "Типы заказов"
+
+    def __str__(self):
+        return self.name
+
+
+class OrderFace(models.Model):
+    name = models.CharField(max_length=50, verbose_name="Название")
+
+    class Meta:
+        verbose_name = "Тип заказчика"
+        verbose_name_plural = "Типы заказчиков"
+
+    def __str__(self):
+        return self.name
+
+
+class PaymentType(models.Model):
+    name = models.CharField(max_length=50, verbose_name="Название")
+
+    class Meta:
+        verbose_name = "Тип оплаты"
+        verbose_name_plural = "Типы оплаты"
+
+    def __str__(self):
+        return self.name
+
+
 class Order(models.Model):
-    CHOICES_TYPES = (
-        ("1", "Самовывоз"),
-        ("2", "Доставка до двери"),
-        ("3", "Доставка транспортной компанией"),
-    )
-    CHOICES_FACE = (
-        ("1", "Юридическое лицо"),
-        ("2", "Физическое лицо"),
-    )
     CHOICES_STATUS = (
         ("1", "Не готов"),
         ("2", "Готов к выдаче"),
@@ -41,10 +65,6 @@ class Order(models.Model):
         ("4", "Доставлен"),
         ("5", "Отменен"),
         ("6", "Завершен"),
-    )
-    PAYMENT_STATUS = (
-        ("1", "Онланй платеж"),
-        ("2", "При получении"),
     )
     user_initials = models.CharField(max_length=100, verbose_name="Инициалы покупателя")
     user_email = models.EmailField(
@@ -60,18 +80,18 @@ class Order(models.Model):
         unique=True,
         default=generate_order_number,
     )
-    order_type = models.CharField(
-        max_length=1, choices=CHOICES_TYPES, default="1", verbose_name="Тип доставки"
+    order_type = models.ForeignKey(
+        OrderType,
+        verbose_name="Тип доставки",
+        on_delete=models.CASCADE,
+        help_text="""При выборе "Самовывоз" адрес заполняется автоматически""",
     )
-    payment_type = models.CharField(
-        max_length=1, choices=PAYMENT_STATUS, default="1", verbose_name="Способ оплаты"
+    payment_type = models.ForeignKey(
+        PaymentType, verbose_name="Способ оплаты", on_delete=models.CASCADE
     )
     order_paymant = models.BooleanField(default=False, verbose_name="Оплачен")
-    order_address = models.CharField(
-        max_length=255, verbose_name="Адрес доставки", blank=True
-    )
-    order_face = models.CharField(
-        max_length=1, choices=CHOICES_FACE, default="1", verbose_name="Тип лица"
+    order_face = models.ForeignKey(
+        OrderFace, verbose_name="Тип лица", on_delete=models.CASCADE
     )
     order_status = models.CharField(
         max_length=1, choices=CHOICES_STATUS, default="1", verbose_name="Статус"
@@ -95,27 +115,6 @@ class Order(models.Model):
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
 
-    # def clean(self):
-    #     # Проверяем, что сертификат действителен
-    #     if self.sertificate:
-    #         try:
-    #             self.sertificate.use_sertificate()
-    #         except ValidationError as e:
-    #             raise ValidationError({"sertificate": e.message})
-
-    #     if self.user_phone:
-    #         if not self.user_phone.isdigit():
-    #             raise ValidationError("Номер телефона должен содержать только цифры.")
-    #         if len(self.user_phone) != 11:
-    #             raise ValidationError(
-    #                 "Номер телефона должен содержать минимум 11 цифр."
-    #             )
-    #     if not self.user_email and not self.user_phone:
-    #         raise ValidationError(
-    #             "Необходимо заполнить хотя бы одно из полей Электронная почта или Номер телефона"
-    #         )
-
-    # V2 Need Tests
     def clean(self):
         errors = {}
 
@@ -143,43 +142,17 @@ class Order(models.Model):
             raise ValidationError(errors)
 
     def save(self, *args, **kwargs):
-
-        if self.order_type == "1":
-            self.order_address = "Самовывоз"
-            self.track_number = "Самовывоз"
         self.full_clean()
+
         super(Order, self).save(*args, **kwargs)
 
-    # def total_cost(self):
-    #     # Инициализируем общую стоимость заказа
-    #     total = 0
-
-    #     # Суммируем стоимость товаров
-    #     for item in self.orderitems_set.all():
-    #         total += item.cost * item.quantity
-
-    #     # Суммируем стоимость дополнительных услуг
-    #     for service in self.order_additionalservices.all():
-    #         total += service.cost
-
-    #     # Если есть сертификат, применяем скидку
-    #     if self.sertificate:
-    #         total -= total * (self.sertificate.discount / 100)
-
-    #     return round(total, 2)
-
-    # V2
     def total_cost(self):
-        # Инициализируем общую стоимость заказа
         total = 0
 
-        # Суммируем стоимость товаров
         total += sum(item.cost * item.quantity for item in self.orderitems_set.all())
 
-        # Суммируем стоимость дополнительных услуг
         total += sum(service.cost for service in self.order_additionalservices.all())
 
-        # Если есть сертификат, применяем скидку
         if self.sertificate:
             total -= total * (self.sertificate.discount / 100)
 
@@ -209,10 +182,16 @@ class OrderItems(models.Model):
         verbose_name_plural = "Детали заказа"
 
     def clean(self):
-        if self.product.quantity < self.quantity:
-            raise ValidationError(
-                f"Количество {self.product.product.name} превышает количество на складе. В наличии {self.product.quantity}"
-            )
+        if self.product_id is None:  # Проверяем, что товар выбран
+            raise ValidationError("Выберите товар")
+        else:
+            try:
+                if self.product.quantity < self.quantity:
+                    raise ValidationError(
+                        f"Количество {self.product.product.name} превышает количество на складе. В наличии {self.product.quantity}"
+                    )
+            except ProductInfo.DoesNotExist:
+                raise ValidationError("Товар не найден")
 
     def calculate_price(self):
         if self.product.promotion:
@@ -244,4 +223,56 @@ class OrderItems(models.Model):
         super(OrderItems, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.order.order_number} - {self.product}"
+        return f"{self.product}"
+
+
+class OrderAddress(models.Model):
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, verbose_name="номер заказа"
+    )
+    city = models.CharField(max_length=100, verbose_name="Город")
+    region = models.CharField(max_length=100, verbose_name="Область", blank=True)
+    street = models.CharField(max_length=100, verbose_name="Улица")
+    house = models.CharField(max_length=10, verbose_name="Дом")
+    apartment = models.CharField(max_length=10, verbose_name="Квартира", blank=True)
+    floor = models.IntegerField(verbose_name="Этаж", blank=True, null=True)
+    post_index = models.CharField(
+        max_length=6, verbose_name="Почтовый индекс", blank=True
+    )
+
+    class Meta:
+        verbose_name = "Адрес"
+        verbose_name_plural = "Адрес"
+
+    def __str__(self):
+        return (
+            f"{self.region}, {self.city}, {self.street}, {self.house}, {self.apartment}"
+        )
+
+
+class LegalDate(models.Model):
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, verbose_name="номер заказа"
+    )
+    name = models.CharField(max_length=255, verbose_name="Название Юр. лица")
+    inn = models.CharField(max_length=255, verbose_name="ИНН")
+    ogrn = models.CharField(max_length=255, verbose_name="ОГРН/ЕГРП")
+    kpp = models.CharField(max_length=255, verbose_name="КПП")
+    bik = models.CharField(max_length=255, verbose_name="БИК")
+    bank_name = models.CharField(max_length=255, verbose_name="Название банка")
+    cores_account = models.CharField(
+        max_length=255, verbose_name="Корреспондентский счет", blank=True
+    )
+    ras_check = models.CharField(
+        max_length=255, verbose_name="Расчётный счет", blank=True
+    )
+    legal_address = models.CharField(
+        max_length=255, verbose_name="Юридический адрес", blank=True
+    )
+
+    class Meta:
+        verbose_name = "Юридические данные"
+        verbose_name_plural = "Юридические данные"
+
+    def __str__(self):
+        return f"{self.order}"

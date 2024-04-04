@@ -1,10 +1,23 @@
 from rest_framework import serializers
-from order.models import Additionalservices, Order, OrderItems
+from order.models import (
+    Additionalservices,
+    Order,
+    OrderItems,
+    PaymentType,
+    OrderType,
+    OrderFace,
+    OrderAddress,
+    LegalDate,
+)
 from DB.models import ProductInfo
-from .OrderComponentSerializers import ProductQuantitySerializer
+from .OrderComponentSerializers import (
+    ProductQuantitySerializer,
+    OrderAddressSerializer,
+    LegalDateSerializer,
+)
 from rest_framework.exceptions import ValidationError
 from sitedb.models import Sertificate
-from django.db.models import Q
+from django.db import transaction
 from django.utils import timezone
 from icecream import ic
 from django.shortcuts import get_object_or_404
@@ -20,9 +33,19 @@ class OrderSerializer(serializers.ModelSerializer):
         write_only=True,
         required=False,
     )
-    payment_type = serializers.CharField(required=True)
+    payment_type = serializers.PrimaryKeyRelatedField(
+        queryset=PaymentType.objects.all(), required=True
+    )
     created_at = serializers.DateTimeField(format="%d.%m.%Y %H:%M", read_only=True)
     sertificate = serializers.CharField(required=False, allow_blank=True)
+    order_type = serializers.PrimaryKeyRelatedField(
+        queryset=OrderType.objects.all(), required=True
+    )
+    order_face = serializers.PrimaryKeyRelatedField(
+        queryset=OrderFace.objects.all(), required=True
+    )
+    address = OrderAddressSerializer(write_only=True)
+    legal = LegalDateSerializer(required=False)
 
     class Meta:
         model = Order
@@ -34,7 +57,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "created_at",
             "order_number",
             "order_type",
-            "order_address",
+            "address",
             "order_face",
             "order_additionalservices",
             "comment",
@@ -42,10 +65,15 @@ class OrderSerializer(serializers.ModelSerializer):
             "track_number",
             "payment_type",
             "sertificate",
+            "legal",
         ]
         read_only_fields = ["created_at", "order_number"]
 
     def validate(self, data):
+        type = data.get("order_type")
+        if type.name == "Самовывоз":
+            data["address"] = None
+
         if not any(data.get(field) for field in ["user_email", "user_phone"]):
             raise serializers.ValidationError(
                 {"user_error": "Необходимо заполнить хотя бы одно из полей"}
@@ -57,9 +85,7 @@ class OrderSerializer(serializers.ModelSerializer):
             try:
                 sertificate = Sertificate.objects.get(code=value)
             except Sertificate.DoesNotExist:
-                raise ValidationError(
-                    {"sertificate": "Сертификат с таким кодом не найден."}
-                )
+                raise ValidationError("Сертификат с таким кодом не найден.")
 
             current_date = timezone.now()
             if (
@@ -70,26 +96,11 @@ class OrderSerializer(serializers.ModelSerializer):
                 if not sertificate.status:
                     raise ValidationError("Сертификат неактивен.")
                 elif sertificate.quanity <= 0:
-                    raise ValidationError({"sertificate": "Сертификат закончился"})
+                    raise ValidationError("Сертификат закончился")
                 else:
                     raise ValidationError("Срок действия сертификата истек.")
 
             return sertificate
-
-    # V1
-    # def validate_items(self, value):
-    #     for item in value:
-    #         product_info_id = item["product_info_id"]
-    #         quantity = item["quantity"]
-    #         try:
-    #             info = ProductInfo.objects.get(id=product_info_id)
-    #             if quantity > info.quantity:
-    #                 raise serializers.ValidationError(
-    #                     "Количество товара в заказе, превышает его количетсво на складе"
-    #                 )
-    #         except ProductInfo.DoesNotExist:
-    #             raise serializers.ValidationError("Такого товара больше не существует")
-    #     return value
 
     def validate_items(self, value):
         errors = {}
@@ -102,11 +113,15 @@ class OrderSerializer(serializers.ModelSerializer):
                 )
                 continue
 
-            info = get_object_or_404(ProductInfo, id=product_info_id)
-            if quantity > info.quantity:
-                errors[index] = (
-                    f"Количество товара в заказе превышает его количество на складе ({info.quantity} шт. на складе)."
-                )
+            try:
+                info = ProductInfo.objects.get(id=product_info_id)
+                if quantity > info.quantity:
+                    errors[index] = (
+                        f"Количество товара в заказе превышает его количество на складе ({info.quantity} шт. на складе)."
+                    )
+            except ProductInfo.DoesNotExist:
+                errors[index] = "Такого товара больше не существует"
+                continue
 
         if errors:
             raise serializers.ValidationError(errors)
@@ -116,9 +131,16 @@ class OrderSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         items_data = validated_data.pop("items")
         additional_services_data = validated_data.pop("order_additionalservices")
+        address_data = validated_data.pop("address")
+        legal_data = validated_data.pop("legal")
 
         order = Order.objects.create(**validated_data)
         order.order_additionalservices.set(additional_services_data)
+        if address_data:
+            OrderAddress.objects.get_or_create(order=order, **address_data)
+
+        if legal_data:
+            LegalDate.objects.get_or_create(order=order, **legal_data)
 
         for item_data in items_data:
             product_info_id = item_data["product_info_id"]
