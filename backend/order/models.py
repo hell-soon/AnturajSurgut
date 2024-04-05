@@ -245,9 +245,7 @@ class OrderAddress(models.Model):
         verbose_name_plural = "Адрес"
 
     def __str__(self):
-        return (
-            f"{self.region}, {self.city}, {self.street}, {self.house}, {self.apartment}"
-        )
+        return f"{self.region}, {self.city}, {self.street}, {self.house}, {self.apartment}, {self.floor}, Почтовый индекс: {self.post_index}"
 
 
 class LegalDate(models.Model):

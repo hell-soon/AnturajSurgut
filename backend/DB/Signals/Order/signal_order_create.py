@@ -20,7 +20,8 @@ def send_email_order(sender, instance, created, **kwargs):
     Отправляет клиенту письмо на указанный email или Смс на телефон с номером заказа
     """
     if created:
-        if instance.order_face == "1":
+        print(instance.order_face.name)
+        if instance.order_face.name == "Юридическое лицо":
             send_email_for_manager.delay(instance.order_number)
         else:
             pass
