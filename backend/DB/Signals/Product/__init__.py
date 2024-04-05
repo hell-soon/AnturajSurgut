@@ -1,2 +1,2 @@
-from .Quanity.upd_quanity import cancel_order
-from .Rating.upd_rating import upd_product_rating_quantity
+from .upd_quanity import cancel_order
+from .upd_rating import upd_product_rating_quantity

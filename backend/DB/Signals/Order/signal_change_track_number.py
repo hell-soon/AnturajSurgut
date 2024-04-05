@@ -2,10 +2,10 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from order.models import Order
 
-from DB.Tasks.Email.TypesEmail.Order.Change.Status.change_status import (
+from DB.Tasks.Email.TypesEmail.Order.change_status import (
     send_email_for_change_order_status,
 )
-from DB.Tasks.Email.TypesEmail.Order.Change.TrackNumber.change_track_number import (
+from DB.Tasks.Email.TypesEmail.Order.change_track_number import (
     send_email_for_track_number,
 )
 from DB.Tasks.Sms.send_sms import send_sms_to_user
@@ -13,10 +13,6 @@ from DB.Tasks.Sms.send_sms import send_sms_to_user
 
 @receiver(pre_save, sender=Order)
 def order_change_track_number(sender, instance, **kwargs):
-    """
-    Проверяем, изменился ли трэк-номер заказа. Если нет проверка на статус заказа.
-    Отправляеться Письмо на Почту с трэк-номером или СМС на телефон
-    """
     try:
         old_instance = Order.objects.get(pk=instance.pk)
     except Order.DoesNotExist:

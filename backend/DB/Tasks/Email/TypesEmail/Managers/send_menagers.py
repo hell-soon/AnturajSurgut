@@ -1,7 +1,7 @@
 from celery import shared_task
 from django.contrib.auth.models import Group
 from order.models import Order
-from ....Send.send_html import send_html_email
+from ...Send.send_html import send_html_email
 
 
 @shared_task
@@ -14,7 +14,7 @@ def send_email_for_manager(order_number):
         "user_email": order.user_email,
         "user_phone": order.user_phone,
         "order_number": order.order_number,
-        "order_address": order.order_address,
+        # "order_address": order.order_address,
         "order_status": order.order_status,
         "order_comment": order.comment,
     }

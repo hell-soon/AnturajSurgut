@@ -3,10 +3,10 @@ from django.dispatch import receiver
 
 from order.models import Order
 
-from DB.Tasks.Email.TypesEmail.Managers.EntityEmail.send_menagers import (
+from DB.Tasks.Email.TypesEmail.Managers.send_menagers import (
     send_email_for_manager,
 )
-from DB.Tasks.Email.TypesEmail.Order.Confirm.confirm_email import (
+from DB.Tasks.Email.TypesEmail.Order.confirm_email import (
     send_order_confirmation_email,
 )
 from DB.Tasks.Sms.send_sms import send_sms_to_user
