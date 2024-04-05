@@ -16,19 +16,16 @@ class SliderViewSet(viewsets.ModelViewSet):
 class ContactViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-    http_method_names = ["get"]
 
     def list(self, request, *args, **kwargs):
+        include_social = (
+            request.query_params.get("include_social", "false").lower() == "true"
+        )
         contacts = Contact.objects.all()
         contact_serializer = ContactSerializer(contacts, many=True)
-        response_data = {
-            "contacts": contact_serializer.data,
-        }
+        response_data = {"contacts": contact_serializer.data}
 
-        if (
-            request.query_params.get("include_social").lower() == "true"
-            or request.query_params.get("include_social") == "1"
-        ):
+        if include_social:
             social_accounts = SocialAccount.objects.all()
             social_serializer = SocialAccountSerializer(social_accounts, many=True)
             response_data["social_accounts"] = social_serializer.data
