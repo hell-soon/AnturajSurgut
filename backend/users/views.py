@@ -1,3 +1,4 @@
+import uuid
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_str, force_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
@@ -154,19 +155,19 @@ def email_for_change_pass(request):
     },
 )
 @api_view(["POST"])
-def change_password(request, uid64, token):
+def change_password(request, uidb64, token):
     """
     Endpoint для окончательной смены пароля пользователя.
     """
     try:
-        uid = force_str(urlsafe_base64_decode(uid64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         user = CustomUser.objects.get(pk=uid)
 
         if default_token_generator.check_token(user, token):
             serializer = UserUpdatePasswordSerializer(data=request.data)
             if serializer.is_valid():
                 # Обновление пароля пользователя
-                user.set_password(serializer.validated_data["password"])
+                user.set_password(serializer.validated_data["password1"])
                 user.save()
                 return Response(
                     {"message": "Пароль успешно обновлен"}, status=status.HTTP_200_OK
