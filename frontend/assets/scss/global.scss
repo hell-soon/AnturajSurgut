@@ -1,27 +1,5 @@
 @import './fonts.scss';
-
-html {
-  padding: 0;
-  margin: 0 auto;
-  height: 100%;
-  border: none;
-}
-
-body {
-  margin: 0;
-  text-size-adjust: 100%;
-  overscroll-behavior: none;
-  box-sizing: border-box;
-
-  *,
-  *::before,
-  *::after {
-    margin: 0;
-    text-decoration: none;
-    box-sizing: border-box;
-    overscroll-behavior: none;
-  }
-}
+@import './reset.scss';
 
 .loading-lazy {
   &:not(.loaded),
@@ -44,6 +22,12 @@ body {
       background-position: 0% 50%;
     }
   }
+}
+
+.container {
+  max-width: 1440px;
+  width: 100%;
+  margin-inline: auto;
 }
 
 h1 {
