@@ -36,7 +36,7 @@
     "vuetify": "^3.5.13"
   },
   "simple-git-hooks": {
-    "pre-commit": "cd front && npx lint-staged && npm run typecheck",
+    "pre-commit": "cd frontend && npx lint-staged && npm run typecheck",
     "post-commit": "git status"
   },
   "lint-staged": {

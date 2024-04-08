@@ -8,8 +8,6 @@ async function fetch<Res>(url: string, options?: any, headers?: any) {
 
     const result = data.value as Res
 
-    console.log(status.value)
-
     if (status.value !== 'success') {
       throw createError({
         statusCode: 500,
