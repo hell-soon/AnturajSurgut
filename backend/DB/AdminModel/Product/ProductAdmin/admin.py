@@ -7,7 +7,7 @@ from DB.Setup.forms.ProductAdminForm.ProductForm import ProductAdminForm
 
 
 class ProductAdmin(admin.ModelAdmin):
-    form = ProductAdminForm
+    # form = ProductAdminForm # FIX 
     fields = [
         "name",
         "description",
@@ -45,7 +45,7 @@ class ProductAdmin(admin.ModelAdmin):
         "change_product_status_action",
         # "info_total_quanity_action", # TODO
     ]
-    filter_horizontal = ("tags", "image")
+    filter_horizontal = ["tags", "image",]
 
     def info_total_quanity_action(self, request, queryset):
         for product in queryset:
