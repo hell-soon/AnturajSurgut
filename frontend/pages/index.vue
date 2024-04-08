@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const route = useRoute()
 </script>
 
 <template>
@@ -8,7 +7,7 @@ const route = useRoute()
       Сургут Епта!
     </h1>
     <p>
-      Current route: {{ route.path }}
+      Current route
     </p>
     <NuxtLink to="/profile">
       Перейти в профиль

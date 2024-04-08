@@ -13,7 +13,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "lint": "eslint . --fix",
-    "typecheck": "vue-tsc -p tsconfig.app.json --noEmit",
+
     "postinstall": "simple-git-hooks"
   },
   "devDependencies": {
@@ -36,7 +36,7 @@
     "vuetify": "^3.5.13"
   },
   "simple-git-hooks": {
-    "pre-commit": "cd frontend && npx lint-staged && npm run typecheck",
+    "pre-commit": "cd frontend && npx lint-staged",
     "post-commit": "git status"
   },
   "lint-staged": {

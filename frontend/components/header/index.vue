@@ -1,17 +1,93 @@
 <script setup lang="ts">
-api.product()
+interface ListItem {
+  name: string
+  link?: string
+}
+
+const listMain: ListItem[] = [
+  {
+    name: 'Товары',
+    link: '/products',
+  },
+  {
+    name: 'Услуги',
+    link: '/services',
+  },
+  {
+    name: 'Оптовикам',
+    link: '/wholesalers',
+  },
+  {
+    name: 'О нас',
+    link: '/about',
+  },
+]
+
+const listSecond: ListItem[] = [
+  {
+    name: 'profile',
+    link: '/profile',
+  },
+  {
+    name: 'search',
+  },
+  {
+    name: 'shopping-cart',
+  },
+]
 </script>
 
 <template>
   <header>
     <div class="container">
-      <h1>Header</h1>
+      <div class="list">
+        <nuxt-link
+          v-for="(item, index) in listMain"
+          :key="index"
+          class="body"
+          :to="item.link"
+        >
+          {{ item.name }}
+        </nuxt-link>
+      </div>
+      <div class="logo">
+        <nuxt-link to="/">
+          <NuxtImg
+            width="200"
+            height="47"
+            src="/logo.svg"
+          />
+        </nuxt-link>
+      </div>
+      <div class="list">
+        <nuxt-link
+          v-for="(item, index) in listSecond"
+          :key="index"
+          class="body"
+          :to="item.link"
+        >
+          <img :src="`/icons/${item.name}.svg`" alt="phone">
+        </nuxt-link>
+      </div>
     </div>
   </header>
 </template>
 
 <style scoped lang="scss">
 header {
-  background-color: $color-primary;
+  background: url('/public/img/header/green-texture.jpg');
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 37px 0 35px 0;
+}
+
+.list {
+  display: flex;
+  gap: 55px;
+  justify-content: center;
 }
 </style>
