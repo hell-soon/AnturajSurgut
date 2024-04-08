@@ -5,12 +5,10 @@ from ...Send.send_html import send_html_email
 
 
 @shared_task
-def send_email_for_manager(order_number):
-    try:
-        recipient_list = Group.objects.get(name="Менеджеры").user_set.all()
-    except Group.DoesNotExist:
-        recipient_list = []
-    order = Order.objects.get(order_number=order_number)
+def send_email_for_manager(pk):
+    group, _ = Group.objects.get_or_create(name="Менеджеры")
+    recipient_list = group.user_set.all()
+    order = Order.objects.get(pk=pk)
     address = OrderAddress.objects.get(order=order).__str__()
     data = {
         "id": order.id,

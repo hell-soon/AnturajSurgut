@@ -5,8 +5,8 @@ from ...Send.send_html import send_html_email
 
 
 @shared_task
-def send_email_for_change_order_status(order_number, order_status):
-    order = Order.objects.get(order_number=order_number)
+def send_email_for_change_order_status(pk, order_status):
+    order = Order.objects.get(pk=pk)
     address = OrderAddress.objects.get(order=order).__str__()
     recipient_list = [order.user_email]
     status_name = STATUS_MAP.get(order_status)

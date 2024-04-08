@@ -4,8 +4,8 @@ from ...Send.send_html import send_html_email
 
 
 @shared_task
-def send_order_confirmation_email(order_number):
-    order = Order.objects.get(order_number=order_number)
+def send_order_confirmation_email(pk):
+    order = Order.objects.get(pk=pk)
     address = OrderAddress.objects.get(order=order).__str__()
     recipient_list = [order.user_email]
     data = {

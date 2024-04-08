@@ -43,18 +43,6 @@ def update_user_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET"])
-def get_user_by_tg_id(request, tg_id):
-    try:
-        user = CustomUser.objects.get(user_tg_id=tg_id)
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
-    except CustomUser.DoesNotExist:
-        return Response(
-            {"detail": "Пользователь не найден"}, status=status.HTTP_404_NOT_FOUND
-        )
-
-
 def get_user_order(user):
     orders = Order.objects.filter(Q(user_email=user.email) | Q(user_phone=user.phone))
     order_list = []
@@ -67,6 +55,16 @@ def get_user_order(user):
             order_list.append(order_dict)
         return order_list
     return None
+
+
+@api_view(["POST"])
+def tg_order_buttons(request):
+    try:
+        user = CustomUser.objects.get(user_tg_id=request.data.get("tg_id"))
+        orders = get_user_order(user)
+    except CustomUser.DoesNotExist:
+        return Response({"orders": None})
+    return Response({"orders": orders})
 
 
 class UserInfoView(APIView):

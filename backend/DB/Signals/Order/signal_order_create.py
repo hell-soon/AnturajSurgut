@@ -22,11 +22,11 @@ def send_email_order(sender, instance, created, **kwargs):
     """
     if created:
         if instance.order_face.name == "Юридическое лицо":
-            send_email_for_manager.delay(instance.order_number)
+            send_email_for_manager.delay(instance.pk)
         else:
             pass
         if instance.user_email:
-            send_order_confirmation_email.delay(instance.order_number)
+            send_order_confirmation_email.delay(instance.pk)
         else:
             sms_text = f"Спасибо за заказ в Антураж.\n Номер вашего заказа: {instance.order_number}"
             send_sms_to_user.delay(instance.user_phone, sms_text)
