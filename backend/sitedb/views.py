@@ -1,10 +1,9 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets
 from .serializers.slider import SliderSerializer
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.decorators import api_view
-from .models import Slider, Contact, SocialAccount
+from .models import Slider, Contact, SocialAccount, Service
 from .serializers.info import SocialAccountSerializer, ContactSerializer
+from .serializers.service import ServiceSerializer
 
 
 class SliderViewSet(viewsets.ModelViewSet):
@@ -31,3 +30,8 @@ class ContactViewSet(viewsets.ModelViewSet):
             response_data["social_accounts"] = social_serializer.data
 
         return Response(response_data)
+
+
+class ServiceViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Service.objects.filter(is_active=True)
+    serializer_class = ServiceSerializer

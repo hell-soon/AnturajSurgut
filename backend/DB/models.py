@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from colorfield.fields import ColorField
 from django_ckeditor_5.fields import CKEditor5Field
@@ -75,7 +76,7 @@ class ProductImage(models.Model):
         verbose_name_plural = "Изображения"
 
     def __str__(self):
-        return self.image.url
+        return os.path.basename(self.image.name)
 
 
 class Color(models.Model):
