@@ -3,5 +3,7 @@
 </script>
 
 <template>
-  <h1>Footer</h1>
+  <footer class="container">
+    <h1>Footer</h1>
+  </footer>
 </template>

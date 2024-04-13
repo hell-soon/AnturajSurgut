@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
-  modules: ['@pinia/nuxt', '@nuxt/image', (_options, nuxt) => {
+  modules: ['@pinia/nuxt', '@nuxt/image', 'nuxt-swiper', (_options, nuxt) => {
     nuxt.hooks.hook('vite:extendConfig', (config) => {
       // @ts-expect-error: Explanation of why the error is necessary
       config.plugins.push(vuetify({ autoImport: true }))
