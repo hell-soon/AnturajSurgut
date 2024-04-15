@@ -7,28 +7,33 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django_ckeditor_5.fields import CKEditor5Field
 
+
 class SiteImage(models.Model):
     image = models.ImageField(upload_to="site/", verbose_name="Картинка")
-    
+
     def __str__(self):
         return os.path.basename(self.image.name)
-    
+
     class Meta:
         verbose_name = "Изображение"
         verbose_name_plural = "Изображения"
-        
+
+
 class OurWorkImage(models.Model):
     image = models.ImageField(upload_to="site/", verbose_name="Картинка")
+
     def __str__(self):
         return os.path.basename(self.image.name)
-    
+
     class Meta:
         verbose_name = "Изображение"
         verbose_name_plural = "Изображения"
-            
+
+
 class Slider(models.Model):
     title = models.CharField(max_length=255, verbose_name="Заголовок")
     text = CKEditor5Field("Текст", config_name="extends")
+    url = models.URLField(max_length=255, verbose_name="Ссылка")
     image = models.ImageField(upload_to="slider/", verbose_name="Картинка")
     is_active = models.BooleanField(default=True, verbose_name="Активен")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
@@ -57,13 +62,21 @@ class OurWork(models.Model):
 
 class Service(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название")
-    text = CKEditor5Field("Текст", config_name="extends", help_text="Текст который будет отображен в начале странице")
-    table = CKEditor5Field("Таблица", config_name="extends", help_text="Текст который будет отображен внизу страницы")
+    text = CKEditor5Field(
+        "Текст",
+        config_name="extends",
+        help_text="Текст который будет отображен в начале странице",
+    )
+    table = CKEditor5Field(
+        "Таблица",
+        config_name="table",
+        help_text="Текст который будет отображен внизу страницы",
+    )
     is_active = models.BooleanField(default=True, verbose_name="Активен")
     image = models.ImageField(upload_to="service/", verbose_name="Картинка", blank=True)
-    slider = models.ManyToManyField(SiteImage, verbose_name="Слайдер", blank=True)
-    our_work_is_active = models.BooleanField(default=True, verbose_name="Активен")
-    our_work = models.ManyToManyField(OurWork, verbose_name="Наши работы", blank=True)
+    our_work_is_active = models.BooleanField(
+        default=False, verbose_name="Отоброжать наши работы"
+    )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 
     def __str__(self):
@@ -72,6 +85,31 @@ class Service(models.Model):
     class Meta:
         verbose_name = "Услуга"
         verbose_name_plural = "Услуги"
+
+
+class ServiceSlider(models.Model):
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    site_image = models.ForeignKey(
+        SiteImage,
+        on_delete=models.CASCADE,
+        verbose_name="Картинки для слайдера",
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = "Слайдер"
+        verbose_name_plural = "Слайдеры"
+
+
+class ServiceOurWork(models.Model):
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    our_work = models.ForeignKey(
+        OurWork, on_delete=models.CASCADE, blank=True, verbose_name="Наши работы"
+    )
+
+    class Meta:
+        verbose_name = "Наша работа"
+        verbose_name_plural = "Наши работы"
 
 
 class Sertificate(models.Model):

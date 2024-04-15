@@ -131,6 +131,41 @@ CKEDITOR_5_CONFIGS_SETTINGS = {
         },
         "language": "ru",
     },
+    "table": {
+        "blockToolbar": [
+            "paragraph",
+            "heading1",
+            "heading2",
+            "heading3",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "|",
+            "blockQuote",
+        ],
+        "toolbar": [
+            "heading",
+            "|",
+            "outdent",
+            "indent",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "underline",
+            "strikethrough",
+            "code",
+            "subscript",
+            "superscript",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "todoList",
+            "|",
+            "blockQuote",
+            "insertTable",
+        ],
+        "language": "ru",
     "list": {
         "properties": {
             "styles": "true",
@@ -138,4 +173,5 @@ CKEDITOR_5_CONFIGS_SETTINGS = {
             "reversed": "true",
         }
     },
+}
 }
