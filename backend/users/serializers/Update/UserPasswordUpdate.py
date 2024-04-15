@@ -3,29 +3,40 @@ from rest_framework import serializers
 
 
 class UserUpdatePasswordSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True)
+    password1 = serializers.CharField(write_only=True, required=True)
+    password2 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = get_user_model()
-        fields = [
-            "password",
-        ]
-        extra_fields = {"password": {"write_only": True}}
+        fields = ["password1", "password2"]
+        extra_kwargs = {
+            "password1": {"write_only": True},
+            "password2": {"write_only": True},
+        }
 
-    def validate_password(self, value):
+    def validate(self, data):
         """
-        Проверка пароля на длинну
-        Можно добавить дополнительные проверки
-        :param str: value(password)
-        :return: str: value(password)
+        Проверка совпадения двух паролей и их длины
         """
-        if len(value) < 8:
+        if data["password1"] != data["password2"]:
+            raise serializers.ValidationError("Пароли не совпадают")
+
+        if len(data["password1"]) < 8:
             raise serializers.ValidationError(
                 "Пароль должен содержать не менее 8 символов"
             )
 
-        if value.isdigit():
+        if data["password1"].isdigit():
             raise serializers.ValidationError(
                 "Пароль не должен состоять только из цифр"
             )
-        return value
+
+        return data
+
+    def update(self, instance, validated_data):
+        """
+        Обновление пароля пользователя
+        """
+        instance.set_password(validated_data["password1"])
+        instance.save()
+        return instance

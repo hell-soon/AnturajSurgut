@@ -26,6 +26,9 @@ JAZZ_SETTINGS = {
         "DB.ProductImage": "fas fa-image",
         "order.Order": "fas fa-truck",
         "order.Additionalservices": "fas fa-plus",
+        "order.OrderType": "fas fa-receipt",
+        "order.OrderFace": "fas fa-id-badge",
+        "order.PaymentType": "fas fa-money-check",
         "reviews.Review": "fas fa-comment",
         "sitedb.Slider": "fas fa-sliders-h",
         "sitedb.News": "fas fa-newspaper",
@@ -43,12 +46,12 @@ JAZZ_SETTINGS = {
         {"name": "Главная", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"model": "auth.Group"},
         # external url that opens in a new window (Permissions can be added)
-        {
-            "name": "Поддержка(DEV)",
-            "url": "test",
-            "new_window": False,
-        },
-        {"name": "books"},
+        # {
+        #     "name": "Поддержка(DEV)",
+        #     "url": "test",
+        #     "new_window": False,
+        # },
+        # {"name": "books"},
         # model admin to link to (Permissions checked against model)
         # {"model": "order.Order"}, вывод конкретной модели
         # App with dropdown menu to all its models pages (Permissions checked against models)

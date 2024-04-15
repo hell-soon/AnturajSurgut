@@ -1,4 +1,6 @@
+from django.utils import timezone
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from order.models import (
     Additionalservices,
     Order,
@@ -9,18 +11,13 @@ from order.models import (
     OrderAddress,
     LegalDate,
 )
-from DB.models import ProductInfo
 from .OrderComponentSerializers import (
     ProductQuantitySerializer,
     OrderAddressSerializer,
     LegalDateSerializer,
 )
-from rest_framework.exceptions import ValidationError
+from DB.models import ProductInfo
 from sitedb.models import Sertificate
-from django.db import transaction
-from django.utils import timezone
-from icecream import ic
-from django.shortcuts import get_object_or_404
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -44,7 +41,7 @@ class OrderSerializer(serializers.ModelSerializer):
     order_face = serializers.PrimaryKeyRelatedField(
         queryset=OrderFace.objects.all(), required=True
     )
-    address = OrderAddressSerializer(write_only=True)
+    address = OrderAddressSerializer(write_only=True, required=False)
     legal = LegalDateSerializer(required=False)
 
     class Meta:
@@ -71,9 +68,24 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         type = data.get("order_type")
-        if type.name == "Самовывоз":
-            data["address"] = None
+        if type.name == "Самовывоз" and data.get("address"):
+            raise serializers.ValidationError(
+                {"address_error": "Нельзя указать адрес самовывоза"}
+            )
 
+        if type.name != "Самовывоз" and not data.get("address"):
+            raise serializers.ValidationError(
+                {"address_error": "Необходимо указать адрес"}
+            )
+
+        order_face = data.get("order_face")
+        legal_data = data.get("legal")
+        if order_face and order_face.name == "Юридическое лицо" and not legal_data:
+            raise serializers.ValidationError(
+                {
+                    "legal": 'Для заказа "Юридическое лицо" необходимо предоставить данные о юридическом лице.'
+                }
+            )
         if not any(data.get(field) for field in ["user_email", "user_phone"]):
             raise serializers.ValidationError(
                 {"user_error": "Необходимо заполнить хотя бы одно из полей"}
@@ -131,8 +143,8 @@ class OrderSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         items_data = validated_data.pop("items")
         additional_services_data = validated_data.pop("order_additionalservices")
-        address_data = validated_data.pop("address")
-        legal_data = validated_data.pop("legal")
+        address_data = validated_data.pop("address", None)
+        legal_data = validated_data.pop("legal", None)
 
         order = Order.objects.create(**validated_data)
         order.order_additionalservices.set(additional_services_data)

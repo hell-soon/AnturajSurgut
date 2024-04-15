@@ -1,5 +1,6 @@
 import random
-from DB.models import Product
+from DB.models import Product, ProductImage
+from django.db import transaction
 
 
 class ProductCreator:
@@ -13,8 +14,21 @@ class ProductCreator:
                     description=f"Описание для продукта {product_name}",
                     sub_catalog=sub_catalog,
                 )
-                product.save()
-                # Присвоение тэгов
-                product.tags.set(random.sample(tags, random.randint(1, len(tags))))
                 products.append(product)
-        return products
+
+        # Используем bulk_create для создания всех объектов за один раз
+        with transaction.atomic():
+            created_products = Product.objects.bulk_create(products)
+
+        # Присвоение тэгов после сохранения объектов
+        for product in created_products:
+            product.tags.set(random.sample(tags, random.randint(1, 7)))
+
+        # Присвоение случайных изображений после сохранения объектов
+        all_images = list(ProductImage.objects.all())
+        for product in created_products:
+            random_images = random.sample(all_images, 10)
+            for image in random_images:
+                product.image.add(image)
+
+        return created_products

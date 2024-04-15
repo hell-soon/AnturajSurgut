@@ -16,7 +16,7 @@ urlpatterns = [
     path("login/", user_login_view, name="user_login"),
     path("change/password/", email_for_change_pass, name="password_change_email"),
     path(
-        "change/password/<str:uid64>/<str:token>/",
+        "change/password/<str:uidb64>/<str:token>/",
         change_password,
         name="change_password",
     ),

@@ -1,6 +1,5 @@
 from .Sertificate.admin import SertificateAdmin
-from .Image.admin import OurWorkImageAdmin
-from .News.admin import NewsAdmin
+from .Image.admin import SiteImageAdmin
 from .OurWork.admin import OurWorkAdmin
 from .Service.admin import ServiceAdmin
 from .Slider.admin import SliderAdmin
