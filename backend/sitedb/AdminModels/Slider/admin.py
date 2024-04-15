@@ -10,7 +10,7 @@ class SliderAdmin(admin.ModelAdmin):
         models.ImageField: {"widget": ImageUploaderWidget},
     }
 
-    list_display = ("title", "show_image", "is_active", "created_at")
+    list_display = ("title", "show_image", "url", "is_active", "created_at")
     date_hierarchy = "created_at"
     search_fields = ("title", "text", "id")
     actions = [

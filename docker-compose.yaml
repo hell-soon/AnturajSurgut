@@ -2,15 +2,17 @@ version: '3.9'
 services:
   backend:
     build: ./backend
-    command: bash -c "python manage.py migrate && python manage.py create_data && python manage.py collectstatic --noinput && gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 1"
+    command: bash -c "python manage.py migrate && python manage.py create_data && python manage.py collectstatic --noinput && gunicorn backend.wsgi:application --bind 0.0.0.0:8080 --workers 1"
     volumes:
       - ./backend:/backend
       - static:/backend/staticfiles
       - media:/backend/media
     env_file:
       - backend/.env
+    ports:
+      - 8080:8080
     expose:
-      - "8000"
+      - "8080"
 
   frontend:
     build:
@@ -19,6 +21,7 @@ services:
       - 3000:3000
     depends_on:
       - backend
+
   redis:
     image: redis:latest
     container_name: redis01
@@ -42,3 +45,19 @@ services:
       - backend
     volumes:
       - ./backend:/backend
+
+  nginx:
+    image: nginx:1.13
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static:/backend/staticfiles
+      - media:/backend/media
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  static:
+  media:

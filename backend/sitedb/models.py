@@ -33,6 +33,7 @@ class OurWorkImage(models.Model):
 class Slider(models.Model):
     title = models.CharField(max_length=255, verbose_name="Заголовок")
     text = CKEditor5Field("Текст", config_name="extends")
+    url = models.URLField(max_length=255, verbose_name="Ссылка")
     image = models.ImageField(upload_to="slider/", verbose_name="Картинка")
     is_active = models.BooleanField(default=True, verbose_name="Активен")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
@@ -74,7 +75,7 @@ class Service(models.Model):
     is_active = models.BooleanField(default=True, verbose_name="Активен")
     image = models.ImageField(upload_to="service/", verbose_name="Картинка", blank=True)
     our_work_is_active = models.BooleanField(
-        default=True, verbose_name="Отоброжать наши работы"
+        default=False, verbose_name="Отоброжать наши работы"
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 

@@ -15,7 +15,7 @@ class OurWorkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OurWork
-        fields = ["id", "title", "image"]
+        fields = ["id", "image"]
 
 
 class ServiceOurWorkSerializer(serializers.ModelSerializer):
@@ -67,3 +67,10 @@ class ServiceSerializer(serializers.ModelSerializer):
             data.pop("our_works", None)
 
         return data
+
+
+class PreviewServiceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Service
+        fields = ["id", "name", "image"]

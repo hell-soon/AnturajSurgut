@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  backend:
+    build: .
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    ports:
+      - 8000:8000
+
+  celery:
+    build: .
+    restart: always
+    command: celery -A backend worker -l info
+    depends_on:
+      - backend
+      - redis
+  celery-beat:
+    build: .
+    restart: always
+    command: celery -A backend beat -l info
+    depends_on:
+      - backend
+      - redis
+      
+  redis:
+    image: redis:latest
