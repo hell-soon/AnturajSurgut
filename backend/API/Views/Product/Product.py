@@ -4,11 +4,11 @@ from rest_framework.pagination import PageNumberPagination
 
 from DB.models import Product
 from API.serializers.MainProductSerializers import ProductSerializer
-from API.filters.filter import ProductFilter
+from API.filters.ProductFilter import ProductFilter
 
 
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 20  # TODO change to 20
+    page_size = 20
     page_size_query_param = "page_size"
     max_page_size = 100
 

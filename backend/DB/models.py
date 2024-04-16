@@ -76,7 +76,7 @@ class ProductImage(models.Model):
         verbose_name_plural = "Изображения"
 
     def __str__(self):
-        return os.path.basename(self.image.name)
+        return self.image.url
 
 
 class Color(models.Model):

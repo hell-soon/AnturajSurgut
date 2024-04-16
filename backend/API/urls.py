@@ -3,6 +3,7 @@ from django.urls import path, include
 from .Views.Order import OrderInfoView
 from .Views.Product import ProductInfoView
 from .Routers.routers import router
+from DB.models import Product, SubCatalog
 
 
 urlpatterns = [
