@@ -15,7 +15,7 @@ const button: ButtonType = {
   <div class="slide">
     <img :src="slide.image">
     <div class="slide-text d-flex flex-column">
-      <h1>{{ slide.text }}</h1>
+      <h1 v-html="slide.text" />
       <Button :item="button" />
     </div>
   </div>

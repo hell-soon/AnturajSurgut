@@ -2,27 +2,26 @@
 import 'swiper/element/css/scrollbar'
 import 'swiper/element/css/autoplay'
 
-import { Autoplay, EffectCreative, Scrollbar } from 'swiper/modules'
+import { Autoplay, EffectCreative } from 'swiper/modules'
 import type { SwiperOptions } from 'swiper/types'
 import { register } from 'swiper/element-bundle'
 import Slide from './slide.vue'
 
 const _swiperOptions: SwiperOptions = {
-  modules: [EffectCreative, Scrollbar, Autoplay],
-  scrollbar: { hide: true },
-  autoplay: { delay: 10000, disableOnInteraction: false },
+  modules: [EffectCreative, Autoplay],
+  autoplay: { delay: 10000, pauseOnMouseEnter: true },
   autoHeight: true,
   loop: true,
   effect: 'creative',
-  // creativeEffect: {
-  //   prev: {
-  //     shadow: true,
-  //     translate: [0, 0, -400],
-  //   },
-  //   next: {
-  //     translate: ['100%', 0, 0],
-  //   },
-  // },
+  creativeEffect: {
+    prev: {
+      shadow: true,
+      translate: [0, 0, -400],
+    },
+    next: {
+      translate: ['100%', 0, 0],
+    },
+  },
 }
 
 register()
