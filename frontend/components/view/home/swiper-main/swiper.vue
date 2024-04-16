@@ -1,38 +1,59 @@
 <script setup lang="ts">
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Autoplay, EffectFade, Scrollbar } from 'swiper/modules'
+import 'swiper/element/css/scrollbar'
+import 'swiper/element/css/autoplay'
+
+import { Autoplay, EffectCreative, Scrollbar } from 'swiper/modules'
 import type { SwiperOptions } from 'swiper/types'
-import Slid from './slide.vue'
+import { register } from 'swiper/element-bundle'
+import Slide from './slide.vue'
 
-import 'swiper/scss'
-import 'swiper/scss/effect-fade'
-import 'swiper/scss/scrollbar'
-
-const swiperOptions = {
-  modules: [EffectFade, Scrollbar, Autoplay],
+const _swiperOptions: SwiperOptions = {
+  modules: [EffectCreative, Scrollbar, Autoplay],
   scrollbar: { hide: true },
-  autoplay: { delay: 5000 },
+  autoplay: { delay: 10000, disableOnInteraction: false },
+  autoHeight: true,
   loop: true,
-  effect: 'fade',
-} as SwiperOptions
+  effect: 'creative',
+  // creativeEffect: {
+  //   prev: {
+  //     shadow: true,
+  //     translate: [0, 0, -400],
+  //   },
+  //   next: {
+  //     translate: ['100%', 0, 0],
+  //   },
+  // },
+}
+
+register()
+
+const slider = ref()
+
+api.slider().then((res) => {
+  slider.value = res
+})
 </script>
 
 <template>
-  <div style="width: 100%">
-    <Swiper :options="swiperOptions" class="swiper">
-      <SwiperSlide>
-        <Slid>
-          <img src="https://swiperjs.com/demos/images/nature-1.jpg" alt="">
-        </Slid>
-      </SwiperSlide>
-      <SwiperSlide>
-        <Slid>
-          <img src="https://swiperjs.com/demos/images/nature-2.jpg" alt="">
-        </Slid>
-      </SwiperSlide>
-    </Swiper>
+  <div class="container">
+    <swiper-container :="_swiperOptions">
+      <swiper-slide v-for="item in slider" :key="item.id">
+        <Slide :slide="item" />
+      </swiper-slide>
+    </swiper-container>
   </div>
 </template>
 
 <style scoped lang="scss">
+.container {
+  margin-top: $cover-30;
+  margin-bottom: 90px;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
 </style>

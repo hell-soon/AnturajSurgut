@@ -1,5 +1,5 @@
-import { getProductList } from './service/product/product'
+import { getSiteSliderList } from './service/slider/slider'
 
 export const api = {
-  product: getProductList,
+  slider: getSiteSliderList,
 }

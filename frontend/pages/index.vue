@@ -3,7 +3,7 @@ import Swiper from '~/components/view/home/swiper-main/swiper.vue'
 </script>
 
 <template>
-  <v-app class="container">
+  <v-app>
     <Swiper />
   </v-app>
 </template>

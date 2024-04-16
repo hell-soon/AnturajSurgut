@@ -44,7 +44,7 @@ const listSecond: ListItem[] = [
         <nuxt-link
           v-for="(item, index) in listMain"
           :key="index"
-          class="body"
+          class="footnote"
           :to="item.link"
         >
           {{ item.name }}
@@ -74,10 +74,14 @@ const listSecond: ListItem[] = [
 
 <style scoped lang="scss">
 header {
-  background: url('/public/img/header/green-texture.jpg');
+  z-index: 2;
+  position: relative;
+  background: url('/img/header/green-texture.jpg');
+
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
-.body {
+.footnote {
   transition: text-shadow 0.3s ease-in-out;
   &:hover {
     text-shadow: 6px 6px 6px rgba(0, 0, 0, 0.5);
@@ -88,7 +92,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 37px 0 35px 0;
+  padding: 20px 0 20px 0;
 }
 
 .list {
