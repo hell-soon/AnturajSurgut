@@ -43,8 +43,5 @@ api.slider().then((res) => {
 </template>
 
 <style scoped lang="scss">
-.container {
-  margin-top: $cover-30;
-  margin-bottom: 90px;
-}
+
 </style>
