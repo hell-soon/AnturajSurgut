@@ -1,5 +1,5 @@
-import type { CatalogResponse } from '../../../../types/models/catalog.type'
+import type { CatalogResponse } from './catalog.type'
 
 export function getCatalogList() {
-  return getReq<CatalogResponse>('/list/catalog')
+  return getReq<CatalogResponse[]>('/list/catalog')
 }

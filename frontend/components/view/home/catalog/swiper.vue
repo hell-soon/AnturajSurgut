@@ -2,7 +2,7 @@
 import 'swiper/element/css/autoplay'
 
 import { Autoplay, EffectCoverflow } from 'swiper/modules'
-import type { SwiperOptions } from 'swiper/types'
+import type { Swiper, SwiperEvents, SwiperOptions } from 'swiper/types'
 import { register } from 'swiper/element-bundle'
 
 const _swiperOptions: SwiperOptions = {
@@ -14,7 +14,6 @@ const _swiperOptions: SwiperOptions = {
     depth: 100,
     stretch: 0,
     scale: 0.7,
-    modifier: 1,
   },
   slidesPerView: 3,
   effect: 'coverflow',
@@ -22,11 +21,16 @@ const _swiperOptions: SwiperOptions = {
 
 register()
 
+function onSlideChange(e: any) {
+  // eslint-disable-next-line no-console
+  console.log('slide changed', e.detail[0].realIndex)
+}
+
 const stores = setupStore('catalogList')
 </script>
 
 <template>
-  <swiper-container :="_swiperOptions">
+  <swiper-container :="_swiperOptions" @swiperslidechange-transitionstart="onSlideChange">
     <swiper-slide
       v-for="item in stores.catalogList"
       :key="item.id"

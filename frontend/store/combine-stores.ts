@@ -1,5 +1,5 @@
 import { useGlobalStore } from './common/global.store'
-import { useCatalogListStore } from './module/catalog-list.store'
+import { useCatalogListStore } from './module/home/catalog-list.store'
 
 type ExtractStoreId<T> = T extends { $id: infer U } ? U : never
 
