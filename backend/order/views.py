@@ -36,7 +36,7 @@ from .Payment.Online.create import create_online_check
     },
 )
 @api_view(["POST"])
-def create_order(request):
+def create_order(request):  #
     serializer = OrderSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     order = serializer.save()
@@ -133,8 +133,5 @@ def order_utils(request):
         "order_face": order_face_serializer.data,
         "payment_type": payment_type_serializer.data,
     }
-
-    # Сериализация объединенных данных
-    # combined_data_serializer = CombinedDataSerializer(combined_data)
 
     return Response(combined_data)
