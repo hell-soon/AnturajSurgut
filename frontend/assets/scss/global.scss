@@ -36,6 +36,7 @@ h1 {
   font-weight: 700;
   line-height: clamp(38px, 4vw, 56px);
   text-transform: lowercase;
+  color: $color-white;
 }
 
 h2 {
@@ -44,7 +45,8 @@ h2 {
   font-weight: 600;
   line-height: clamp(30px, 4vw, 44px);
   text-transform: lowercase;
-  text-overflow: ellipsis;
+
+  color: $color-white;
 }
 
 h3 {
@@ -53,6 +55,11 @@ h3 {
   font-style: normal;
   font-weight: 400;
   line-height: clamp(26px, 4vw, 36px);
+  color: $color-white;
+}
+
+.text-h4 {
+  font-family: NEXT-ART !important;
 }
 
 .bodyBold,

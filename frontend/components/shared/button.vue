@@ -27,6 +27,18 @@ defineProps<{ item: ButtonType }>()
   background: transparent;
   outline: none;
   transition: 1s ease-in-out;
+
+  &:hover {
+    transition: 1s ease-in-out;
+  }
+
+  &:hover svg {
+    stroke-dashoffset: -450;
+  }
+}
+
+.footnote {
+  color: black;
 }
 
 svg {
@@ -36,18 +48,9 @@ svg {
   left: 0;
   top: 0;
   fill: none;
-  stroke: $color-primary;
+  stroke: $color-secondary;
   stroke-dasharray: 170 480;
   stroke-dashoffset: 150;
   transition: 1s ease-in-out;
-}
-
-.button:hover {
-  background: $color-secondary;
-  transition: 1s ease-in-out;
-}
-
-.button:hover svg {
-  stroke-dashoffset: -450;
 }
 </style>

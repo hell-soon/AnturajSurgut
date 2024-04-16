@@ -9,13 +9,12 @@ import Slide from './slide.vue'
 
 const _swiperOptions: SwiperOptions = {
   modules: [EffectCreative, Autoplay],
-  autoplay: { delay: 10000, pauseOnMouseEnter: true },
+  autoplay: { delay: 100000000, pauseOnMouseEnter: true },
   autoHeight: true,
   loop: true,
   effect: 'creative',
   creativeEffect: {
     prev: {
-      shadow: true,
       translate: [0, 0, -400],
     },
     next: {
@@ -47,12 +46,5 @@ api.slider().then((res) => {
 .container {
   margin-top: $cover-30;
   margin-bottom: 90px;
-}
-
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
 }
 </style>

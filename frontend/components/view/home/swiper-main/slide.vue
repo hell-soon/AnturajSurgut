@@ -13,36 +13,45 @@ const button: ButtonType = {
 
 <template>
   <div class="slide">
-    <img :src="slide.image">
     <div class="slide-text d-flex flex-column">
-      <h1 v-html="slide.text" />
+      <p class="text-h4" v-html="slide.text" />
       <Button :item="button" />
+    </div>
+    <div class="slide-img">
+      <img :src="slide.image">
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .slide {
+  background-color: $color-white;
   position: relative;
-  height: 85vh;
+  justify-content: space-between;
+  display: flex;
+  height: 50vh;
   border-radius: 10px;
   overflow: hidden;
+  align-items: center;
 
-  img {
-    width: 100%;
+  &-img {
+    padding: $cover-30;
+    width: 1000px;
     height: 100%;
-    object-fit: cover;
+
+    img {
+      border-radius: 10px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   &-text {
-    position: absolute;
-    top: 35%;
-    left: 10%;
-    gap: 50px;
-
-    h1 {
-      color: $color-white;
-    }
+    max-width: 400px;
+    height: 100%;
+    justify-content: space-around;
+    padding: $cover-30;
   }
 }
 </style>
