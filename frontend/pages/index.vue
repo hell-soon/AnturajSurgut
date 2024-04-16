@@ -7,6 +7,7 @@ import Swiper from '~/components/view/home/swiper-main/swiper.vue'
     <div class="container">
       <Swiper />
       <ViewHomeText />
+      <ViewHomeCatalog />
     </div>
   </v-app>
 </template>

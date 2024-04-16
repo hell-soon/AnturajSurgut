@@ -9,7 +9,7 @@ import Slide from './slide.vue'
 
 const _swiperOptions: SwiperOptions = {
   modules: [EffectCreative, Autoplay],
-  autoplay: { delay: 100000000, pauseOnMouseEnter: true },
+  autoplay: { delay: 10000, pauseOnMouseEnter: true },
   autoHeight: true,
   loop: true,
   effect: 'creative',
@@ -41,7 +41,3 @@ api.slider().then((res) => {
     </swiper-container>
   </div>
 </template>
-
-<style scoped lang="scss">
-
-</style>

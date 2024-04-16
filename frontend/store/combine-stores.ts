@@ -1,15 +1,18 @@
 import { useGlobalStore } from './common/global.store'
+import { useCatalogListStore } from './module/catalog-list.store'
 
 type ExtractStoreId<T> = T extends { $id: infer U } ? U : never
 
 interface IStoreTypes {
   global: ReturnType<typeof useGlobalStore>
+  catalogList: ReturnType<typeof useCatalogListStore>
 }
 
 type StoreKeys = ExtractStoreId<IStoreTypes[keyof IStoreTypes]>
 
 export const stores: Readonly<{ [K in StoreKeys]: () => IStoreTypes[K] }> = Object.freeze({
   global: useGlobalStore,
+  catalogList: useCatalogListStore,
 })
 
 function setupStore<T extends StoreKeys>(key: T): Readonly<IStoreTypes[T]>
