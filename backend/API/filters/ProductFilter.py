@@ -38,7 +38,7 @@ class ProductFilter(FilterSet):
                 random_products = random.sample(list(products), 3)
                 return queryset.filter(
                     pk__in=[product.pk for product in random_products]
-                )
+                ).order_by("-rating")
             else:
                 return products
         else:
