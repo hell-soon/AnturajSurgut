@@ -280,7 +280,6 @@ CELERY_BEAT_SCHEDULE = {
     "check_sertificate": {
         "task": "sitedb.tasks.check_sertificate",
         "schedule": crontab(hour=8, minute=0),
-        # "schedule": timedelta(seconds=30),
     },
 }
 
