@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  <h1>Header</h1>
+  <HeaderWindow />
 </template>

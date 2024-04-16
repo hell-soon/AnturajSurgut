@@ -1,36 +1,10 @@
 @import './fonts.scss';
-
-html {
-  padding: 0;
-  margin: 0 auto;
-  height: 100%;
-  border: none;
-}
-
-body {
-  margin: 0;
-  text-size-adjust: 100%;
-  overscroll-behavior: none;
-  box-sizing: border-box;
-
-  *,
-  *::before,
-  *::after {
-    margin: 0;
-    text-decoration: none;
-    box-sizing: border-box;
-    overscroll-behavior: none;
-  }
-}
+@import './reset.scss';
 
 .loading-lazy {
   &:not(.loaded),
   &:not(.error) {
-    background: linear-gradient(
-      90deg,
-      #333682,
-      #333682, 
-    );
+    background: linear-gradient(90deg, #333682, #333682);
     background-size: 300% 200%;
     -webkit-animation: Shine 2.25s ease infinite;
     -moz-animation: Shine 2.25s ease infinite;
@@ -50,12 +24,19 @@ body {
   }
 }
 
+.container {
+  max-width: 1440px;
+  width: 100%;
+  margin-inline: auto;
+}
+
 h1 {
   font-family: NEXT-ART;
   font-size: clamp(30px, 4vw, 52px);
   font-weight: 700;
   line-height: clamp(38px, 4vw, 56px);
   text-transform: lowercase;
+  color: $color-white;
 }
 
 h2 {
@@ -64,7 +45,8 @@ h2 {
   font-weight: 600;
   line-height: clamp(30px, 4vw, 44px);
   text-transform: lowercase;
-  text-overflow: ellipsis;
+
+  color: $color-white;
 }
 
 h3 {
@@ -73,6 +55,11 @@ h3 {
   font-style: normal;
   font-weight: 400;
   line-height: clamp(26px, 4vw, 36px);
+  color: $color-white;
+}
+
+.text-h4 {
+  font-family: NEXT-ART !important;
 }
 
 .bodyBold,
@@ -94,12 +81,14 @@ h3 {
   font-size: clamp(18px, 4vw, 24px);
   font-weight: 400;
   line-height: clamp(18px, 4vw, 28px);
+  color: $color-white;
 }
 
 .footnote {
   font-size: clamp(14px, 3vw, 20px);
   font-weight: 400;
   line-height: clamp(18px, 3vw, 24px);
+  color: $color-white;
 }
 
 .smallFootnote {

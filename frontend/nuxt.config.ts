@@ -13,6 +13,7 @@ export default defineNuxtConfig({
   }],
   imports: {
     autoImport: true,
+    dirs: ['./utils/', './utils/api'],
   },
   build: {
     transpile: ['vuetify'],
@@ -23,6 +24,13 @@ export default defineNuxtConfig({
         transformAssetUrls,
       },
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "~/assets/scss/_variables.scss";',
+        },
+      },
+    },
   },
-  css: ['@/assets/scss/global.scss', '@/assets/scss/_variables.scss'],
+  css: ['~/assets/scss/global.scss'],
 })

@@ -1,23 +1,13 @@
 <script setup lang="ts">
-const route = useRoute()
+import Swiper from '~/components/view/home/swiper-main/swiper.vue'
 </script>
 
 <template>
   <v-app>
-    <h1>
-      Сургут Епта!
-    </h1>
-    <p>
-      Current route: {{ route.path }}
-    </p>
-    <NuxtLink to="/profile">
-      Перейти в профиль
-    </NuxtLink>
+    <Swiper />
   </v-app>
 </template>
 
 <style scoped lang="scss">
-h1 {
-  color: #000;
-}
+
 </style>

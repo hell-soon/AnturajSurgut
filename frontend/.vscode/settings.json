@@ -63,5 +63,6 @@
     "json",
     "jsonc",
     "yaml"
-  ]
+  ],
+  "vscord.enabled": true
 }

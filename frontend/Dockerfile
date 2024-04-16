@@ -1,19 +1,30 @@
-# Dockerfile
-FROM node:21.6.1-alpine
+# ---- Node modules ----- #
+FROM oven/bun AS node_modules
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+WORKDIR /opt/app
 
-# Install app dependencies
-RUN apk update && apk upgrade && apk add git
+COPY ./package*.json ./bun* ./
 
-ADD . /usr/src/app/
-RUN npm install
+RUN bun install --ignore-scripts
 
-# Build app
+# ---- Build ------------ #
+FROM node:20.9.0-bullseye-slim AS dist
+
+WORKDIR /opt/app
+
+COPY --from=node_modules /opt/app/node_modules ./node_modules
+COPY ./ .
+
+RUN npm run lint
 RUN npm run build
 
-ENV HOST 0.0.0.0
-EXPOSE 3000
+# ---- Release ---------- #
+FROM gcr.io/distroless/nodejs20-debian12
 
-CMD ["npm", "run", "dev"]
+WORKDIR /opt/app
+
+COPY --from=dist /opt/app/.nuxt .nuxt
+COPY --from=dist /opt/app/.output .output
+
+ENV HOST 0.0.0.0
+CMD [ "./.output/server/index.mjs" ]
