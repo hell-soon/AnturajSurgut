@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   }],
   imports: {
     autoImport: true,
-    dirs: ['./utils/', './utils/api'],
+    dirs: ['./utils/', './utils/api', './store/'],
   },
   build: {
     transpile: ['vuetify'],

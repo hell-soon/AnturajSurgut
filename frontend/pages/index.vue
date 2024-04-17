@@ -4,10 +4,19 @@ import Swiper from '~/components/view/home/swiper-main/swiper.vue'
 
 <template>
   <v-app>
-    <Swiper />
+    <div class="container">
+      <Swiper />
+      <ViewHomeText />
+      <ViewHomeCatalog />
+    </div>
   </v-app>
 </template>
 
 <style scoped lang="scss">
-
+.container {
+  margin-top: $cover-30;
+  display: flex;
+  flex-direction: column;
+  gap: 230px;
+}
 </style>

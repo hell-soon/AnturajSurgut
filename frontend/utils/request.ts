@@ -2,7 +2,7 @@ async function fetch<Res>(url: string, options?: any, headers?: any) {
   try {
     const reqUrl = import.meta.env.VITE_API_URL + url
 
-    const customHeaders = { token: useCookie('token').value, ...headers }
+    const customHeaders = { access: useCookie('access').value, ...headers }
 
     const { data, error, status } = await useFetch(reqUrl, { ...options, headers: customHeaders })
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import 'swiper/element/css/scrollbar'
 import 'swiper/element/css/autoplay'
 
 import { Autoplay, EffectCreative } from 'swiper/modules'
@@ -9,7 +8,7 @@ import Slide from './slide.vue'
 
 const _swiperOptions: SwiperOptions = {
   modules: [EffectCreative, Autoplay],
-  autoplay: { delay: 100000000, pauseOnMouseEnter: true },
+  autoplay: { delay: 10000, pauseOnMouseEnter: true },
   autoHeight: true,
   loop: true,
   effect: 'creative',
@@ -41,10 +40,3 @@ api.slider().then((res) => {
     </swiper-container>
   </div>
 </template>
-
-<style scoped lang="scss">
-.container {
-  margin-top: $cover-30;
-  margin-bottom: 90px;
-}
-</style>
