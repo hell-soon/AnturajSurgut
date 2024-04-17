@@ -2,8 +2,10 @@
 import 'swiper/element/css/autoplay'
 
 import { Autoplay, EffectCoverflow } from 'swiper/modules'
-import type { Swiper, SwiperEvents, SwiperOptions } from 'swiper/types'
+import type { SwiperOptions } from 'swiper/types'
 import { register } from 'swiper/element-bundle'
+
+const stores = setupStore(['productPopList', 'catalogList'])
 
 const _swiperOptions: SwiperOptions = {
   modules: [EffectCoverflow, Autoplay],
@@ -17,22 +19,21 @@ const _swiperOptions: SwiperOptions = {
   },
   slidesPerView: 3,
   effect: 'coverflow',
+  centeredSlides: true,
 }
 
 register()
 
 function onSlideChange(e: any) {
-  // eslint-disable-next-line no-console
-  console.log('slide changed', e.detail[0].realIndex)
+  const a = (e.detail[0].realIndex + 1) as number
+  stores.productPopList.catalog_id = a
 }
-
-const stores = setupStore('catalogList')
 </script>
 
 <template>
-  <swiper-container :="_swiperOptions" @swiperslidechange-transitionstart="onSlideChange">
+  <swiper-container :="_swiperOptions" @swiperslidechange="onSlideChange">
     <swiper-slide
-      v-for="item in stores.catalogList"
+      v-for="item in stores.catalogList.catalogList"
       :key="item.id"
       class="slide"
     >

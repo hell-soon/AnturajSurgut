@@ -1,8 +1,8 @@
-import type { CatalogResponse } from '~/utils/api/service/catalog/catalog.type'
+import type { Catalog } from '~/types/models/catalog'
 
 //* --- State ----------------------------------------------- *//
 interface CatalogListState {
-  catalogList: CatalogResponse[]
+  catalogList: Catalog[]
   error: unknown
 }
 

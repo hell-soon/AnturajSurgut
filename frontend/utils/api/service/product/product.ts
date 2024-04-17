@@ -1,5 +1,5 @@
-import type { ProductPopListResponse } from './product.type'
+import type { ProductPopList as ProductPopListResponse } from '~/types/models/product'
 
-export function getProductPopList() {
-  return getReq<ProductPopListResponse[]>('')
+export function getProductPopList(catalog_id: number) {
+  return getReq<ProductPopListResponse>('/list/product/', { catalog_id })
 }

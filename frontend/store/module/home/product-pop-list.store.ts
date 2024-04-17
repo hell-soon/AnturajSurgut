@@ -1,21 +1,23 @@
-import type { ProductPopListResponse } from '~/utils/api/service/product/product.type'
+import type { ProductPopList } from '~/types/models/product'
 
 //* --- State ----------------------------------------------- *//
 interface ProductPopListState {
-  productPopList: ProductPopListResponse[]
+  productPopList: ProductPopList | null
+  catalog_id: number
   error: unknown
 }
 
 //* --- Store ----------------------------------------------- *//
 export const useProductPopListStore = defineStore('productPopList', {
   state: (): ProductPopListState => ({
-    productPopList: [],
+    productPopList: null,
+    catalog_id: 1,
     error: {},
   }),
 
   actions: {
     async fetchProductPopList() {
-      await api.productPop()
+      await api.productPop(this.catalog_id)
         .then((res) => {
           this.productPopList = res
         })
