@@ -11,7 +11,7 @@ class ProductFilter(FilterSet):
         field_name="tags", to_field_name="id", queryset=Tags.objects.all()
     )
     high_rating = filters.BooleanFilter(
-        method="filter_high_rating", field_name="rating", label="По рейтингу"
+        method="filter_high_rating", field_name="rating", label="По рейтингу(Boolean)"
     )
     sub_catalog = filters.ModelChoiceFilter(queryset=SubCatalog.objects.all())
     created_at = filters.DateFilter(lookup_expr="gte")

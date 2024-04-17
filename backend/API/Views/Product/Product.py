@@ -9,7 +9,7 @@ from DB.models import Product
 from API.serializers.MainProductSerializers import ProductSerializer
 from API.serializers.SearchSerializers import SearchSerializer
 from API.filters.ProductFilter import ProductFilter
-
+from drf_yasg.utils import swagger_auto_schema
 
 from icecream import ic
 
@@ -33,6 +33,9 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 # TODO)) Если поисковой запрос пустой, то что-то придумать надо будет
 class GlobalSearch(APIView):
+    @swagger_auto_schema(
+        request_body=SearchSerializer, responses={200: ProductSerializer(many=True)}
+    )
     def post(self, request):
         search_serializer = SearchSerializer(data=request.data)
         if search_serializer.is_valid(raise_exception=True):
