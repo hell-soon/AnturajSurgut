@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
 from DB.models import *
 from DB.management.Classes.Catalogs.Catalogs import CatalogsCreator
 from DB.management.Classes.Catalogs.SubCatalogs import SubCatalogCreator
