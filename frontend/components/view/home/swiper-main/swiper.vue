@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import 'swiper/element/css/scrollbar'
 import 'swiper/element/css/autoplay'
 
 import { Autoplay, EffectCreative } from 'swiper/modules'

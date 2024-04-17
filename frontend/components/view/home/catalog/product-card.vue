@@ -2,10 +2,16 @@
 import type { ProductPop } from '~/types/models/product'
 
 defineProps<{ card: ProductPop }>()
+
+const a = ref(false)
 </script>
 
 <template>
-  <NuxtLink :to="`/product/${card.product.id}`" class="card">
+  <NuxtLink
+    :to="`/product/${card.product.id}`" class="card"
+    @mouseenter="a = true"
+    @mouseleave="a = false"
+  >
     <div class="card-img">
       <NuxtImg class="card-img" :src="card.product.image[0].image" alt="card" />
     </div>
@@ -14,26 +20,43 @@ defineProps<{ card: ProductPop }>()
         {{ card.product.name }}
       </span>
       <span class="card-contant__description" v-html="card.product.description" />
-      <!-- <div class="">
-        <span
-          v-for="tag in card.tags"
-          :key="tag.id"
-          class="body"
-        >
-          {{ tag.name }}
-        </span>
-      </div> -->
+      <Transition name="fade">
+        <div v-show="a" class="">
+          <span
+            v-for="tag in card.product.tags"
+            :key="tag.id"
+            class="body"
+          >
+            {{ tag.name }}
+          </span>
+        </div>
+      </Transition>
     </div>
   </NuxtLink>
 </template>
 
 <style scoped lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: transform 0.5s ease;
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  transform: translateY(0);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  transform: translateY(100%);
+}
+
 .body {
   color: black;
 }
 .card {
   max-width: 480px;
-  max-height: 600px;
+  height: 600px;
   display: flex;
   flex-direction: column;
   border-radius: 10px;
