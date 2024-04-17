@@ -19,6 +19,11 @@ class Catalog(models.Model):
         verbose_name = "Каталог"
         verbose_name_plural = "Каталоги"
 
+    def delete(self, *args, **kwargs):
+        if os.path.isfile(self.image.path):
+            os.remove(self.image.path)
+        super().delete(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -39,6 +44,11 @@ class SubCatalog(models.Model):
     )
     verbose_name = "Подкаталог"
     verbose_name_plural = "Подкаталоги"
+
+    def delete(self, *args, **kwargs):
+        if os.path.isfile(self.image.path):
+            os.remove(self.image.path)
+        super().delete(*args, **kwargs)
 
     class Meta:
         verbose_name = "Подкаталог"
@@ -74,6 +84,11 @@ class ProductImage(models.Model):
     class Meta:
         verbose_name = "Изображение"
         verbose_name_plural = "Изображения"
+
+    def delete(self, *args, **kwargs):
+        if os.path.isfile(self.image.path):
+            os.remove(self.image.path)
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.image.url
