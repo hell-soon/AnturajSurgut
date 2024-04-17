@@ -223,7 +223,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 """
 REDIS SETTINGS
 """
-REDIS_HOST = os.getenv("REDIS_HOST")
+REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
 REDIS_PORT = os.getenv("REDIS_PORT")
 REDIS_DB = os.getenv("REDIS_DB")
 
@@ -280,7 +280,6 @@ CELERY_BEAT_SCHEDULE = {
     "check_sertificate": {
         "task": "sitedb.tasks.check_sertificate",
         "schedule": crontab(hour=8, minute=0),
-        # "schedule": timedelta(seconds=30),
     },
 }
 

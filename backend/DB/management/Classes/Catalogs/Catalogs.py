@@ -1,7 +1,16 @@
+import os
+import random
+
+from django.core.files import File
+
 from DB.models import Catalog
+from DB.management.Utils.random_images import set_rangom_image
 
 
 class CatalogsCreator:
+    def __init__(self, dir):
+        self.dir = dir
+
     def create(self):
         catalogs = [
             Catalog(name="Одежда"),
@@ -14,5 +23,6 @@ class CatalogsCreator:
             Catalog(name="Фурнитура"),
             Catalog(name="Текстиль"),
         ]
-        Catalog.objects.bulk_create(catalogs)
+        data = Catalog.objects.bulk_create(catalogs)
+        set_rangom_image(self.dir, data)
         return catalogs

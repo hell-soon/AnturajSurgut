@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
 from DB.models import *
 from DB.management.Classes.Catalogs.Catalogs import CatalogsCreator
 from DB.management.Classes.Catalogs.SubCatalogs import SubCatalogCreator
@@ -15,7 +14,8 @@ from DB.management.Classes.Order.type import OrderTypeCreator
 from DB.management.Classes.Order.payment import PaymentTypeCreator
 from DB.management.Classes.Slider.slider import SliderCreator
 from DB.management.Classes.Info.info import InfoSiteCreator
-from icecream import ic
+from DB.management.Classes.Users.admin import AdminsCreator
+from DB.management.Classes.Users.groups import GroupCreator
 
 
 class Command(BaseCommand):
@@ -23,33 +23,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         User = get_user_model()
-        try:
-            User.objects.create_superuser(
-                username="admin",
-                email="admin@admin.ru",
-                password="admin",
-                first_name="admin",
-                last_name="admin",
-            )
-        except Exception as e:
-            pass
-
-        try:
-            Group.objects.create(name="Менеджеры")
-            Group.objects.create(name="Подписчики")
-        except Exception as e:
-            pass
-
-        try:
-            Group.objects.get(name="Менеджеры").user_set.add(
-                User.objects.get(username="admin")
-            )
-        except Exception as e:
-            pass
-        catalog_creator = CatalogsCreator()
+        test_data_dir = "media/TestDataImage"
+        catalog_creator = CatalogsCreator(test_data_dir)
         catalogs = catalog_creator.create()
 
-        sub_catalog_creator = SubCatalogCreator()
+        sub_catalog_creator = SubCatalogCreator(test_data_dir)
         sub_catalogs = sub_catalog_creator.create(catalogs)
 
         tags_creator = TagsCreator()
@@ -61,21 +39,8 @@ class Command(BaseCommand):
         size_creator = SizeCreator()
         size = size_creator.create()
 
-        image_creator = ProductImageCreator("media/TestDataImage")
-        image_creator.create(
-            [
-                "1.jpg",
-                "2.jpg",
-                "3.jpg",
-                "4.jpg",
-                "5.jpg",
-                "6.jpg",
-                "7.jpg",
-                "8.jpg",
-                "9.jpg",
-                "10.jpg",
-            ]
-        )
+        image_creator = ProductImageCreator(test_data_dir)
+        image_creator.create()
 
         product_creator = ProductCreator()
         products = product_creator.create(sub_catalogs, tags)
@@ -92,30 +57,21 @@ class Command(BaseCommand):
         payment_type_creator = PaymentTypeCreator()
         payment_type_creator.create()
 
-        image_creator = ProductImageCreator("media/TestDataImage")
-        image_creator.create(
-            [
-                "1.jpg",
-                "2.jpg",
-                "3.jpg",
-                "4.jpg",
-                "5.jpg",
-                "6.jpg",
-                "7.jpg",
-                "8.jpg",
-                "9.jpg",
-                "10.jpg",
-            ]
-        )
-
-        try:
-            slider_creator = SliderCreator()
-            slider_creator.create()
-        except Exception as e:
-            pass
+        slider_creator = SliderCreator(test_data_dir)
+        slider_creator.create()
 
         info_creator = InfoSiteCreator()
         info_creator.create_contact()
         info_creator.create_social()
+
+        # Use this because celery in docker depence_on: - backend_container
+        try:
+            admin_creator = AdminsCreator(User)
+            admin = admin_creator.create()
+
+            group_creator = GroupCreator()
+            groups = group_creator.create()
+        except Exception as e:
+            pass
 
         self.stdout.write(self.style.SUCCESS("Successfully created test data"))

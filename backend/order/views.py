@@ -48,7 +48,9 @@ def create_order(request):  #
 
     if order.payment_type.name == "Онлайн оплата":
         payment = create_online_check(order)
-        response_data["payment_url"] = payment["confirmation"]["confirmation_url"]
+        order.payment_id = payment.id
+        order.save()
+        response_data["payment_url"] = payment.confirmation.confirmation_url
 
     return Response(response_data, status=status.HTTP_201_CREATED)
 

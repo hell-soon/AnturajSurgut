@@ -110,6 +110,9 @@ class Order(models.Model):
         null=True,
         on_delete=models.SET_NULL,
     )
+    payment_id = models.CharField(
+        max_length=255, verbose_name="ID платежа в Юкассе", blank=True
+    )
 
     class Meta:
         verbose_name = "Заказ"

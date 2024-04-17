@@ -1,19 +1,16 @@
 from DB.models import ProductImage
 from django.core.files import File
+import os
 
 
 class ProductImageCreator:
-    def __init__(self, image_dir):
-        self.image_dir = image_dir
+    def __init__(self, dir):
+        self.dir = dir
 
-    def create(self, image_files):
-        for image_file in image_files:
-            # Создаем объект картинки
-            product_image = ProductImage()
-
-            # Открываем файл и загружаем его в модель
-            with open(f"{self.image_dir}/{image_file}", "rb") as f:
-                product_image.image.save(image_file, File(f))
-
-            # Сохраняем модель в базе данных
-            product_image.save()
+    def create(self):
+        for filename in os.listdir(self.dir):
+            file_path = os.path.join(self.dir, filename)
+            if os.path.isfile(file_path):
+                with open(file_path, "rb") as file:
+                    product_image = ProductImage(image=File(file))
+                    product_image.save()

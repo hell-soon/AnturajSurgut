@@ -3,9 +3,9 @@ version: '3.9'
 services:
   backend:
     build: .
-    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    command: bash -c "python manage.py migrate && python manage.py create_data && python manage.py collectstatic --noinput && gunicorn backend.wsgi:application --bind 0.0.0.0:8080 --workers 1"
     ports:
-      - 8000:8000
+      - 8080:8080
 
   celery:
     build: .
@@ -21,6 +21,6 @@ services:
     depends_on:
       - backend
       - redis
-      
+
   redis:
     image: redis:latest
