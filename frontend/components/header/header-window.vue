@@ -7,7 +7,7 @@ interface ListItem {
 const listMain: ListItem[] = [
   {
     name: 'Товары',
-    link: '/products',
+    link: '/product',
   },
   {
     name: 'Услуги',

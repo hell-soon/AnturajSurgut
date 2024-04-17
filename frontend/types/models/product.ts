@@ -16,8 +16,12 @@ export interface Product {
   id: number
   name: string
   description: string
-  image: string[]
+  image: ProductImage[]
   tags: TagsProduct[]
+}
+
+export interface ProductImage {
+  image: string
 }
 
 export interface TagsProduct {
