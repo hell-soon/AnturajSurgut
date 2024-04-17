@@ -28,7 +28,7 @@ var/
 .log
 # Django
 /logs
-# media/
+media/
 staticfiles
 .env
 *.bak
