@@ -1,13 +1,18 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 
 from API.serializers.DetailProductSerializers import DetailProductSerializer
 from API.serializers.MainProductSerializers import ProductSerializer
+from API.serializers.SchemasSerializers import SchemaInfoProductSerializer
 from DB.models import ProductInfo, Product
 
 
 class ProductInfoView(APIView):
+    @swagger_auto_schema(
+        responses={200: SchemaInfoProductSerializer, 404: "Товар не найден"},
+    )
     def get(self, request, product_id):
         try:
             product = Product.objects.get(id=product_id)
