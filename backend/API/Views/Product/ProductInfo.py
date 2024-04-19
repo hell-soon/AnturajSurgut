@@ -9,7 +9,7 @@ from DB.models import ProductInfo, Product
 
 
 class ProductInfoView(APIView):
-
+    # NOQA
     @swagger_auto_schema(
         responses={
             200: openapi.Response(
