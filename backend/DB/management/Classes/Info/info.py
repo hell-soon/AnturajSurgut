@@ -1,11 +1,26 @@
 from django.core.files import File
-from sitedb.models import Contact, SocialAccount
+from sitedb.models import Contact, SocialAccount, Address, Requisites, WokrTime
 
 
 class InfoSiteCreator:
     def create_contact(self):
         Contact.objects.create(
-            email="uytopt@yandex.ru", phone="8 (346) 221-44-40", fax="(3462) 582321"
+            email="uytopt@yandex.ru",
+            phone="8 (346) 221-44-40",
+            fax="(3462) 582321",
+        )
+        Address.objects.create(
+            address="628401, РФ, Тюменская область, ХМАО, г. Сургут, ул. И. Каролинского 13, вход со стороны дороги магазин «Галерея Текстиля Антураж»",
+            longitude=73.447445,
+            latitude=61.254702,
+        )
+        Requisites.objects.create(
+            ip="ИП Соловьева Алёна Анатольевна",
+            inn="ИНН 860222328184",
+            legal_address="Юридический адрес: 628415, РФ, Тюменская область, ХМАО, г. Сургут, ул. Приозерная, д. 3/1",
+        )
+        WokrTime.objects.create(
+            work_time="с 10:00 до 18:00, без выходных (перерыв с 12:30 до 13:30)"
         )
 
     def create_social(self):

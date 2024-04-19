@@ -150,6 +150,16 @@ class Sertificate(models.Model):
         return self.code
 
 
+class Requisites(models.Model):
+    ip = models.CharField(max_length=255, verbose_name="ИП")
+    inn = models.CharField(max_length=255, verbose_name="ИНН")
+    legal_address = models.CharField(max_length=255, verbose_name="Юридический адрес")
+
+    class Meta:
+        verbose_name = "Реквизиты"
+        verbose_name_plural = "Реквизиты"
+
+
 class Contact(models.Model):
     phone = models.CharField(max_length=255, verbose_name="Телефон")
     fax = models.CharField(max_length=255, verbose_name="Факс")
@@ -163,6 +173,30 @@ class Contact(models.Model):
         return self.phone
 
 
+class Address(models.Model):
+    address = models.CharField(max_length=255, verbose_name="Адрес")
+    longitude = models.CharField(max_length=100, verbose_name="Долгота")
+    latitude = models.CharField(max_length=100, verbose_name="Широта")
+
+    class Meta:
+        verbose_name = "Адрес"
+        verbose_name_plural = "Адреса"
+
+    def __str__(self):
+        return self.address
+
+
+class WokrTime(models.Model):
+    work_time = models.CharField(max_length=255, verbose_name="Время работы")
+
+    class Meta:
+        verbose_name = "Время работы"
+        verbose_name_plural = "Время работы"
+
+    def __str__(self):
+        return self.work_time
+
+
 class SocialAccount(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название")
     url = models.CharField(max_length=255, verbose_name="Ссылка")
@@ -174,3 +208,7 @@ class SocialAccount(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Vacancy(models.Model):
+    pass

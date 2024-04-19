@@ -1,9 +1,25 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from .serializers.slider import SliderSerializer
 from rest_framework.response import Response
-from .models import Slider, Contact, SocialAccount, Service
-from .serializers.info import SocialAccountSerializer, ContactSerializer
-from .serializers.service import ServiceSerializer, PreviewServiceSerializer
+from .models import (
+    Slider,
+    Contact,
+    SocialAccount,
+    Service,
+    Requisites,
+    Address,
+    WokrTime,
+)
+from .serializers.info import (
+    SocialAccountSerializer,
+    ContactSerializer,
+    FullInfoSerializer,
+    FooterSerializer,
+)
+from .serializers.service import (
+    ServiceSerializer,
+    PreviewServiceSerializer,
+)
 
 
 class SliderViewSet(viewsets.ModelViewSet):
@@ -17,18 +33,39 @@ class ContactViewSet(viewsets.ModelViewSet):
     serializer_class = ContactSerializer
 
     def list(self, request, *args, **kwargs):
+        full_info = request.query_params.get("full_info", "false").lower() == "true"
         include_social = (
             request.query_params.get("include_social", "false").lower() == "true"
         )
+        response_data = {}
+        response_data["contact"] = super().list(request, *args, **kwargs).data
         contacts = self.get_queryset()
-        contact_serializer = self.get_serializer(contacts, many=True)
-        response_data = {"contacts": contact_serializer.data}
 
         if include_social:
             social_accounts = SocialAccount.objects.all()
-            social_serializer = SocialAccountSerializer(social_accounts, many=True)
-            response_data["social_accounts"] = social_serializer.data
+            address = Address.objects.first()
+            data = {
+                "contact": contacts,
+                "social_accounts": social_accounts,
+                "address": address,
+            }
+            serializer = FooterSerializer(data)
+            return Response(serializer.data)
 
+        if full_info:
+            # social_accounts = SocialAccount.objects.all()
+            requisites = Requisites.objects.first()
+            address = Address.objects.first()
+            work_time = WokrTime.objects.first()
+            data = {
+                "contact": contacts,
+                # "social_accounts": social_accounts,
+                "requisites": requisites,
+                "address": address,
+                "work_time": work_time,
+            }
+            serializer = FullInfoSerializer(data)
+            return Response(serializer.data)
         return Response(response_data)
 
 
