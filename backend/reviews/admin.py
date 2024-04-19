@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Review
+from .models import Review, Feedback
+
+from .AdminModels.Feedback.admin import FeedbackAdmin
 
 
 @admin.register(Review)
@@ -10,3 +12,6 @@ class ReviewAdmin(admin.ModelAdmin):
         "rating",
         "created_at",
     )
+
+
+admin.site.register(Feedback, FeedbackAdmin)

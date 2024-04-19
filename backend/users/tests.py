@@ -1,90 +1,133 @@
-from django.test import TestCase
+from django.core.management import call_command
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework import status
 from .models import CustomUser
+from icecream import ic
 
 
-class CustomUserRegistrationTestCase(APITestCase):
-    def test_user_registration(self):
-        url = reverse("register")
-        data = {
-            "email": "testuser@example.com",
-            "password": "testpassword123",
-            "first_name": "Test",
-            "last_name": "User",
-        }
-        response = self.client.post(url, data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertTrue("email" in response.data)
-        self.assertEqual(response.data["email"], data["email"])
-        self.assertFalse("password" in response.data)
-        print("Успешная регистрация пользователя")
-
-    def test_user_login(self):
-        # Создание пользователя для аутентификации
-        CustomUser.objects.create_user(
-            email="loginuser@example.com",
-            password="loginpassword123",
-            first_name="Login",
+class Setup(APITestCase):
+    def setUp(self):
+        call_command("create_data")
+        self.user = CustomUser.objects.create_user(
+            email="nT0n7@example.com",
+            password="TestPassword123",
+            first_name="Test",
             last_name="User",
         )
 
-        # Авторизация пользователя
-        url = reverse("user_login")
-        data = {
-            "email": "loginuser@example.com",
-            "password": "loginpassword123",
-        }
-        response = self.client.post(url, data, format="json")
+        response = self.client.post(
+            reverse("login_user"),
+            data={
+                "email": self.user.email,
+                "password": "TestPassword123",
+            },
+        )
+        self.token = response.data["access"]
+        self.refresh = response.data["refresh"]
 
-        # Проверка успешной аутентификации
+
+# ТЕСТЫ НА ПРОВЕРКУ СИСТЕМУ АВТОРИЗАЦИИ
+class CustomUserRegistrationTestCase(Setup):
+    # Успешная авторизация
+    def test_successful_login(self):
+        response = self.client.post(
+            reverse("login_user"),
+            data={
+                "email": "nT0n7@example.com",
+                "password": "TestPassword123",
+            },
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertTrue("access" in response.data)
-        print("Успешная аутентификация пользователя")
+        return response.data
 
-    def test_user_info(self):
-        # Создание пользователя для аутентификации
-        user = CustomUser.objects.create_user(
-            email="infouser@example.com",
-            password="infopassword123",
-            first_name="Info",
-            last_name="User",
+    # Неуспешная авторизация
+    def test_unsuccessful_login(self):
+        response = self.client.post(
+            reverse("login_user"),
+            data={
+                "email": "nT0n7@example.com",
+                "password": "wrongpassword",
+            },
         )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-        # Получение токена JWT для созданного пользователя
-        url_login = reverse("user_login")
-        login_data = {
-            "email": "infouser@example.com",
-            "password": "infopassword123",
-        }
-        login_response = self.client.post(url_login, login_data, format="json")
-        access_token = login_response.data["access"]
-
-        # Использование токена JWT для аутентификации при запросе информации о пользователе
-        url_info = reverse(
-            "user_info"
-        )  # предполагается, что у вас есть URL с именем 'user_info'
-        self.client.credentials(HTTP_AUTHORIZATION="Bearer " + access_token)
-        info_response = self.client.get(url_info)
-
-        # Проверка получения информации о пользователе
-        self.assertEqual(info_response.status_code, status.HTTP_200_OK)
-        self.assertEqual(info_response.data["user"]["email"], user.email)
-        self.assertEqual(info_response.data["user"]["first_name"], user.first_name)
-        self.assertEqual(info_response.data["user"]["last_name"], user.last_name)
-        print("Успешный запрос информации о пользователе с использованием JWT токена")
-
-    def test_user_info_without_token(self):
-        user = CustomUser.objects.create_user(
-            email="infouser@example.com",
-            password="infopassword123",
-            first_name="Info",
-            last_name="User",
+    # Успешная регистрация
+    def test_successful_register_user(self):
+        response = self.client.post(
+            reverse("register_user"),
+            data={
+                "email": "Test@mail.com",
+                "password1": "TestPassworsadd123",
+                "password2": "TestPassworsadd123",
+                "first_name": "Test",
+                "last_name": "User",
+            },
         )
-        url_info = reverse("user_info")
-        info_response = self.client.get(url_info)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        # Проверка получения информации о пользователе
-        self.assertEqual(info_response.status_code, status.HTTP_401_UNAUTHORIZED)
-        print("Запрос без JWT токена невозможен")
+    # Неуспешная регистрация
+    def test_unsuccessful_register_user(self):
+        response = self.client.post(
+            reverse("register_user"),
+            data={
+                "email": "Test@mail.com",
+                "password1": "TestPassworsadd123",
+                "password2": "TestPassworsadd12",
+                "first_name": "Test",
+                "last_name": "User",
+            },
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_unsuccessful_register_user2(self):
+        response = self.client.post(
+            reverse("register_user"),
+            data={
+                "email": "nT0n7@example.com",
+                "password1": "TestPassworsadd123",
+                "password2": "TestPassworsadd123",
+                "first_name": "Test",
+                "last_name": "User",
+            },
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    # Успешная смена пароля
+    def test_successful_change_password(self):
+        response_first = self.client.post(
+            reverse("password_change_email"),
+            data={"email": "nT0n7@example.com"},
+        )
+        self.assertEqual(response_first.status_code, status.HTTP_200_OK)
+        uidb64 = response_first.data["uidb64"]
+        token = response_first.data["token"]
+
+        response_second = self.client.post(
+            reverse("change_password", kwargs={"uidb64": uidb64, "token": token}),
+            data={"password1": "TestPassworsadd123", "password2": "TestPassworsadd123"},
+        )
+        self.assertEqual(response_second.status_code, status.HTTP_200_OK)
+
+    # Аккаунт с такой почтой не существует в базе
+    def test_unsuccessful_change_password(self):
+        response = self.client.post(
+            reverse("password_change_email"),
+            data={"email": "nT0n7@example123.com"},
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_successful_refresh_token(self):
+        data = self.test_successful_login()
+        responce = self.client.post(
+            reverse("token_refresh"),
+            data={"refresh": data["refresh"]},
+        )
+        self.assertEqual(responce.status_code, status.HTTP_200_OK)
+
+    def test_unsuccessful_refresh_token(self):
+        responce = self.client.post(
+            reverse("token_refresh"),
+            data={"refresh": "wrongrefresh"},
+        )
+        self.assertEqual(responce.status_code, status.HTTP_401_UNAUTHORIZED)

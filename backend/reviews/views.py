@@ -7,6 +7,7 @@ from rest_framework import viewsets
 
 from .serializers.ReviewsMainSerializers import ReviewSerializer
 from .serializers.ReviewsChangeSerializers import ReviewChangeSerializer
+from .serializers.FeedbackSerializers import FeedBackSerializer
 from .models import Review
 
 from icecream import ic
@@ -69,3 +70,15 @@ def delete_review(request, review_id):
 
     review.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["POST"])
+def test(request):
+    serializer = FeedBackSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(
+            status=status.HTTP_201_CREATED,
+            data={"message": "Мы с вами свяжемся в ближайшее время"},
+        )
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
