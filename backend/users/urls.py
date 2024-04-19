@@ -12,8 +12,8 @@ from .views import (
 ENDPOINTS FOR AUTHENTICATION
 """
 urlpatterns = [
-    path("register/", register_user, name="register"),
-    path("login/", user_login_view, name="user_login"),
+    path("register/", register_user, name="register_user"),
+    path("login/", user_login_view, name="login_user"),
     path("change/password/", email_for_change_pass, name="password_change_email"),
     path(
         "change/password/<str:uidb64>/<str:token>/",

@@ -250,7 +250,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 """
 REDIS SETTINGS
 """
-REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+REDIS_HOST = os.getenv("REDIS_HOST", "127.0.0.1")
 REDIS_PORT = os.getenv("REDIS_PORT")
 REDIS_DB = os.getenv("REDIS_DB")
 

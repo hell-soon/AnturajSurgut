@@ -111,7 +111,7 @@ def user_login_view(request):
                 type=openapi.TYPE_OBJECT,
                 properties={
                     "message": openapi.Schema(type=openapi.TYPE_STRING),
-                    "uid": openapi.Schema(type=openapi.TYPE_STRING),
+                    "uidb64": openapi.Schema(type=openapi.TYPE_STRING),
                     "token": openapi.Schema(type=openapi.TYPE_STRING),
                 },
             ),
@@ -125,14 +125,14 @@ def email_for_change_pass(request):
     if serializer.is_valid():
         email = serializer.validated_data.get("email")
         try:
-            user = CustomUser.objects.get(email=email).exists()
+            user = CustomUser.objects.get(email=email)
             send_link_for_change_pass.delay(email)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
             return Response(
                 {
                     "message": "На указанную почту было отправленно письмо",
-                    "uid": uid,
+                    "uidb64": uidb64,
                     "token": token,
                 }
             )
