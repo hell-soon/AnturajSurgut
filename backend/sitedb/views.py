@@ -34,7 +34,7 @@ class ContactViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
-    def get_object(self):
+    def get_object(self) -> Contact | None:
         # Получаем один объект Contact
         return Contact.objects.first()
 

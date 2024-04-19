@@ -8,9 +8,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 class ReviewSerializer(serializers.ModelSerializer):
     user = ReviewsUsersSerializer(read_only=True)
     created_at = serializers.DateTimeField(read_only=True, format="%d.%m.%Y")
-    rating = serializers.DecimalField(
-        max_digits=3,
-        decimal_places=2,
+    rating = serializers.IntegerField(
         required=True,
         validators=[MinValueValidator(0), MaxValueValidator(5)],
     )
