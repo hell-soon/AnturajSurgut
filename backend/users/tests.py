@@ -1,4 +1,4 @@
-from django.test import TestCase, Client
+from django.core.management import call_command
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework import status
@@ -8,6 +8,7 @@ from icecream import ic
 
 class Setup(APITestCase):
     def setUp(self):
+        call_command("create_data")
         self.user = CustomUser.objects.create_user(
             email="nT0n7@example.com",
             password="TestPassword123",
