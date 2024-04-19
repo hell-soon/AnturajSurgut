@@ -19,8 +19,8 @@ const a = ref(false)
       <span class="card-contant__title body">
         {{ card.product.name }}
       </span>
-      <span class="card-contant__description" v-html="card.product.description" />
-      <Transition name="fade">
+      <span class="card-contant__description footnote" v-html="card.product.description" />
+      <!-- <Transition name="fade">
         <div v-show="a" class="">
           <span
             v-for="tag in card.product.tags"
@@ -30,7 +30,7 @@ const a = ref(false)
             {{ tag.name }}
           </span>
         </div>
-      </Transition>
+      </Transition> -->
     </div>
   </NuxtLink>
 </template>
@@ -51,12 +51,13 @@ const a = ref(false)
   transform: translateY(100%);
 }
 
-.body {
+.body,
+.footnote {
   color: black;
 }
 .card {
-  max-width: 480px;
-  height: 600px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   border-radius: 10px;
@@ -79,7 +80,7 @@ const a = ref(false)
     border-top: 0;
     border-radius: 0 0 10px 10px;
     width: 100%;
-    padding: 15px;
+    padding: 20px;
     height: 100%;
     display: flex;
     gap: 15px;

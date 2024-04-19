@@ -3,7 +3,9 @@
 </script>
 
 <template>
-  <Header />
-  <slot />
-  <Footer />
+  <v-app>
+    <Header />
+    <slot />
+    <Footer />
+  </v-app>
 </template>

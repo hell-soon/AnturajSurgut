@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import 'swiper/element/css/autoplay'
-
+import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Autoplay, EffectCoverflow } from 'swiper/modules'
-import type { SwiperOptions } from 'swiper/types'
-import { register } from 'swiper/element-bundle'
 
 const stores = setupStore(['productPopList', 'catalogList'])
 
-const _swiperOptions: SwiperOptions = {
+const _swiperOptions = {
   modules: [EffectCoverflow, Autoplay],
-  loop: true,
   autoplay: { delay: 20000, pauseOnMouseEnter: true },
+  loop: true,
   coverflowEffect: {
     rotate: 50,
     depth: 100,
@@ -22,25 +19,25 @@ const _swiperOptions: SwiperOptions = {
   centeredSlides: true,
 }
 
-register()
-
 function onSlideChange(e: any) {
-  const a = (e.detail[0].realIndex + 1) as number
+  const a = (e.realIndex + 1) as number
   stores.productPopList.catalog_id = a
 }
 </script>
 
 <template>
-  <swiper-container :="_swiperOptions" @swiperslidechange="onSlideChange">
-    <swiper-slide
-      v-for="item in stores.catalogList.catalogList"
-      :key="item.id"
-      class="slide"
-    >
-      <img v-if="item.image" :src="item.image">
-      <h3>{{ item.name }}</h3>
-    </swiper-slide>
-  </swiper-container>
+  <div>
+    <Swiper :="_swiperOptions" @slide-change="onSlideChange">
+      <SwiperSlide
+        v-for="item in stores.catalogList.catalogList"
+        :key="item.id"
+        class="slide"
+      >
+        <img v-if="item.image" :src="item.image">
+        <h3>{{ item.name }}</h3>
+      </SwiperSlide>
+    </Swiper>
+  </div>
 </template>
 
 <style scoped lang="scss">
