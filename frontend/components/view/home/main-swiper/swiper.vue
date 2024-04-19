@@ -22,9 +22,7 @@ const _swiperOptions: SwiperOptions = {
 
 const slider = ref()
 
-await api.slider().then((res) => {
-  slider.value = res
-})
+slider.value = await api.slider()
 
 register()
 </script>

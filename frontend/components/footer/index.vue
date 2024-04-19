@@ -39,7 +39,7 @@ const clients = [
 ]
 
 const store = setupStore(['contactList'])
-store.contactList.fetchContactList(false, true)
+await store.contactList.fetchContactList(false, true)
 const data = store.contactList.contactList
 </script>
 

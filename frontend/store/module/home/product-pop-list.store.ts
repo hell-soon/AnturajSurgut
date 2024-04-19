@@ -17,13 +17,13 @@ export const useProductPopListStore = defineStore('productPopList', {
 
   actions: {
     async fetchProductPopList() {
-      await api.productPop(this.catalog_id)
-        .then((res) => {
-          this.productPopList = res
-        })
-        .catch((err) => {
-          this.error = err
-        })
+      try {
+        const res = await api.productPop(this.catalog_id)
+        this.productPopList = res
+      }
+      catch (err) {
+        this.error = err
+      }
     },
   },
 })

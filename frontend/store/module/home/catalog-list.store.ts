@@ -15,13 +15,13 @@ export const useCatalogListStore = defineStore('catalogList', {
 
   actions: {
     async fetchCatalogList() {
-      await api.catalog()
-        .then((res) => {
-          this.catalogList = res
-        })
-        .catch((err) => {
-          this.error = err
-        })
+      try {
+        const res = await api.catalog()
+        this.catalogList = res
+      }
+      catch (err) {
+        this.error = err
+      }
     },
   },
 })

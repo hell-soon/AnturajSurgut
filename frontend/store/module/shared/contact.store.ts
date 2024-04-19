@@ -15,13 +15,13 @@ export const useContactListStore = defineStore('contactList', {
 
   actions: {
     async fetchContactList(full_info?: boolean, include_social?: boolean) {
-      await api.contact(full_info, include_social)
-        .then((res) => {
-          this.contactList = res
-        })
-        .catch((err) => {
-          this.error = err
-        })
+      try {
+        const res = await api.contact(full_info, include_social)
+        this.contactList = res
+      }
+      catch (err) {
+        this.error = err
+      }
     },
   },
 })
