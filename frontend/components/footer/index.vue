@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Map from '../shared/yandex-map.vue'
+
 const about = [
   {
     name: 'О нас',
@@ -63,7 +65,9 @@ const clients = [
             </nuxt-link>
           </div>
         </div>
-        <div class="nav-map" />
+        <div class="nav-map">
+          <Map />
+        </div>
         <div class="nav-info" />
       </div>
     </div>
@@ -78,6 +82,8 @@ footer {
   background: url('/img/header/green-texture.jpg');
   box-shadow: -2px -2px 2px 1px rgba(0, 0, 0, 0.2);
   padding-top: 30px;
+
+  padding-bottom: 30px;
 
   &::before {
     content: '';
@@ -109,6 +115,10 @@ footer {
           padding-bottom: 5px;
         }
       }
+    }
+
+    &-map {
+      width: 600px;
     }
   }
 }
