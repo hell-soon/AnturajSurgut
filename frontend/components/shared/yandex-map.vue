@@ -9,11 +9,14 @@ import {
   YandexMapZoomControl,
 } from 'vue-yandex-maps'
 import type { LngLat } from '@yandex/ymaps3-types'
+import type { Address } from '~/types/models/contact'
 
-// const center = ref([store.getFirstFilial.longitude, store.getFirstFilial.latitude] as LngLat)
+const props = defineProps<{ address?: Address }>()
+
+const center = ref([props.address?.longitude, props.address?.latitude] as LngLat)
 
 function openYandexMaps() {
-  const url = `https://yandex.ru/maps/?&ll=73.447445,61.254702&text=${encodeURIComponent('Антураж')}&z=16`
+  const url = `https://yandex.ru/maps/?&ll=${props.address?.longitude},${props.address?.latitude}&text=${encodeURIComponent('Антураж')}&z=16`
   window.open(url, '_blank')
 }
 </script>
@@ -24,7 +27,7 @@ function openYandexMaps() {
       <YandexMap
         :settings="{
           location: {
-            center: [73.447445, 61.254702] as LngLat,
+            center: center as LngLat,
             zoom: 15,
           },
           zoomRange: {
@@ -50,7 +53,7 @@ function openYandexMaps() {
         </YandexMapControls>
         <YandexMapMarker
           :settings="{
-            coordinates: [73.447445, 61.254702] as LngLat,
+            coordinates: center as LngLat,
           }"
           position="top left-center"
         >
