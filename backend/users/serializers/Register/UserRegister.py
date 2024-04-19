@@ -6,12 +6,14 @@ from django.db import IntegrityError
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
     password1 = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
 
     class Meta:
         model = get_user_model()
-        fields = ["email", "password1", "password2", "first_name", "last_name"]
+        fields = ["email", "first_name", "last_name", "password1", "password2"]
 
     def validate(self, data):
         """
@@ -73,7 +75,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             )
         except IntegrityError as e:
             raise serializers.ValidationError(
-                "Пользователь с таким email уже существует. Пожалуйста, используйте другой email."
+                {
+                    "error": "Пользователь с таким email уже существует. Пожалуйста, используйте другой email."
+                }
             )
 
         return user

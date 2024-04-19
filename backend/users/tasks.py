@@ -39,7 +39,7 @@ def send_link_for_change_pass(email):
     user = CustomUser.objects.get(email=email)
     token = default_token_generator.make_token(user)
     uid64 = urlsafe_base64_encode(force_bytes(user.pk))
-    reset_link = f"{BASE_URL}reset-password/{uid64}/{token}/"
+    reset_link = f"{BASE_URL}reset-password/{uid64}/{token}/"  # TODO)) ССЫЛКА НА СТРАНИЦУ С ИЗМЕНЕНИМИ ПАРОЛЯ
     data = {
         "reset_link": reset_link,
     }
