@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from django.conf import settings
 from sitedb.models import Contact, SocialAccount, Requisites, Address, WokrTime
 
 
@@ -13,6 +13,16 @@ class SocialAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocialAccount
         fields = ["name", "url", "icon"]
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+
+        icon_url = representation.get("icon")
+        if icon_url:
+            full_icon_url = f"{settings.SITE_URL}{icon_url}"
+            representation["icon"] = full_icon_url
+
+        return representation
 
 
 class RequisitesSerializer(serializers.ModelSerializer):
