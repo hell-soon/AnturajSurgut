@@ -3,10 +3,8 @@ from drf_yasg import openapi
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
-from rest_framework.schemas import AutoSchema
 from API.serializers.DetailProductSerializers import DetailProductSerializer
 from API.serializers.MainProductSerializers import ProductSerializer
-from API.serializers.SchemasSerializers import SchemaInfoProductSerializer
 from DB.models import ProductInfo, Product
 
 
