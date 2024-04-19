@@ -1,7 +1,9 @@
 from celery import shared_task
+from django.conf import settings
 from django.contrib.auth.models import Group
-from order.models import Order, OrderAddress
+from order.models import Order
 from ...Send.send_html import send_html_email
+
 
 
 @shared_task
@@ -9,16 +11,16 @@ def send_email_for_manager(pk):
     group, _ = Group.objects.get_or_create(name="Менеджеры")
     recipient_list = group.user_set.all()
     order = Order.objects.get(pk=pk)
-    address = OrderAddress.objects.get(order=order).__str__()
+    url = f"{settings.SITE_URL}/admin/database/order/{order.id}/change/"
     data = {
         "id": order.id,
         "initials": order.user_initials,
         "user_email": order.user_email,
         "user_phone": order.user_phone,
         "order_number": order.order_number,
-        "order_address": address,
         "order_status": order.order_status,
         "order_comment": order.comment,
+        "site_url": url,
     }
     if recipient_list:
         send_html_email(

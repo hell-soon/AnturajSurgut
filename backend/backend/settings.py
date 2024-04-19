@@ -273,6 +273,7 @@ SMS SETTINGS
 """
 from .config import SMS_SETTINGS
 
+
 SMS_RU = SMS_SETTINGS
 
 
