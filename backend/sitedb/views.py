@@ -21,6 +21,8 @@ from .serializers.service import (
     PreviewServiceSerializer,
 )
 
+from icecream import ic
+
 
 class SliderViewSet(viewsets.ModelViewSet):
     queryset = Slider.objects.filter(is_active=True).order_by("-created_at")
@@ -32,20 +34,24 @@ class ContactViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
 
+    def get_object(self):
+        # Получаем один объект Contact
+        return Contact.objects.first()
+
     def list(self, request, *args, **kwargs):
         full_info = request.query_params.get("full_info", "false").lower() == "true"
         include_social = (
             request.query_params.get("include_social", "false").lower() == "true"
         )
-        response_data = {}
-        response_data["contact"] = super().list(request, *args, **kwargs).data
-        contacts = self.get_queryset()
+
+        contact = self.get_object()
+        response_data = {"contact": ContactSerializer(contact).data}
 
         if include_social:
             social_accounts = SocialAccount.objects.all()
             address = Address.objects.first()
             data = {
-                "contact": contacts,
+                "contact": contact,
                 "social_accounts": social_accounts,
                 "address": address,
             }
@@ -53,19 +59,18 @@ class ContactViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
 
         if full_info:
-            # social_accounts = SocialAccount.objects.all()
             requisites = Requisites.objects.first()
             address = Address.objects.first()
             work_time = WokrTime.objects.first()
             data = {
-                "contact": contacts,
-                # "social_accounts": social_accounts,
+                "contact": contact,
                 "requisites": requisites,
                 "address": address,
                 "work_time": work_time,
             }
             serializer = FullInfoSerializer(data)
             return Response(serializer.data)
+
         return Response(response_data)
 
 

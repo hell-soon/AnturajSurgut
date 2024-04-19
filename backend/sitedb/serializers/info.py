@@ -37,7 +37,7 @@ class WokrTimeSerializer(serializers.ModelSerializer):
 
 
 class FullInfoSerializer(serializers.Serializer):
-    contact = ContactSerializer(many=True)
+    contact = ContactSerializer()
     # social_accounts = SocialAccountSerializer(many=True)
     requisites = RequisitesSerializer()
     address = AddressSerializer()
@@ -54,7 +54,7 @@ class FullInfoSerializer(serializers.Serializer):
 
 
 class FooterSerializer(serializers.Serializer):
-    contact = ContactSerializer(many=True)
+    contact = ContactSerializer()
     address = AddressSerializer()
     social_accounts = SocialAccountSerializer(many=True)
 
