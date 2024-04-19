@@ -6,11 +6,8 @@ from .models import CustomUser
 from icecream import ic
 
 
-# ТЕСТЫ НА ПРОВЕРКУ СИСТЕМУ АВТОРИЗАЦИИ
-class CustomUserRegistrationTestCase(APITestCase):
-    # ПОДГОТОВКА ДАННЫХ ДЛЯ ТЕСТА
+class Setup(APITestCase):
     def setUp(self):
-        self.client = Client()
         self.user = CustomUser.objects.create_user(
             email="nT0n7@example.com",
             password="TestPassword123",
@@ -18,6 +15,19 @@ class CustomUserRegistrationTestCase(APITestCase):
             last_name="User",
         )
 
+        response = self.client.post(
+            reverse("login_user"),
+            data={
+                "email": self.user.email,
+                "password": "TestPassword123",
+            },
+        )
+        self.token = response.data["access"]
+        self.refresh = response.data["refresh"]
+
+
+# ТЕСТЫ НА ПРОВЕРКУ СИСТЕМУ АВТОРИЗАЦИИ
+class CustomUserRegistrationTestCase(Setup):
     # Успешная авторизация
     def test_successful_login(self):
         response = self.client.post(
