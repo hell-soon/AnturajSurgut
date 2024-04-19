@@ -3,15 +3,17 @@ import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 
 export default defineNuxtConfig({
   ssr: true,
-  devtools: {
-    enabled: true,
-  },
-  modules: ['@pinia/nuxt', '@nuxt/image', 'vue-yandex-maps/nuxt', (_options, nuxt) => {
-    nuxt.hooks.hook('vite:extendConfig', (config) => {
+  modules: [
+    '@pinia/nuxt',
+    '@nuxt/image',
+    'vue-yandex-maps/nuxt',
+    (_options, nuxt) => {
+      nuxt.hooks.hook('vite:extendConfig', (config) => {
       // @ts-expect-error: Explanation of why the error is necessary
-      config.plugins.push(vuetify({ autoImport: true }))
-    })
-  }],
+        config.plugins.push(vuetify({ autoImport: true }))
+      })
+    },
+  ],
   imports: {
     autoImport: true,
     dirs: ['./utils/', './utils/api', './store/'],
@@ -23,10 +25,8 @@ export default defineNuxtConfig({
     transpile: ['vuetify'],
   },
   vite: {
-    vue: {
-      template: {
-        transformAssetUrls,
-      },
+    ssr: {
+      noExternal: ['vuetify'],
     },
     css: {
       preprocessorOptions: {

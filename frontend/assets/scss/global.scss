@@ -1,6 +1,10 @@
 @import './fonts.scss';
 @import './reset.scss';
 
+@import 'swiper/css';
+@import 'swiper/css/effect-creative';
+@import 'swiper/css/autoplay';
+
 .loading-lazy {
   &:not(.loaded),
   &:not(.error) {

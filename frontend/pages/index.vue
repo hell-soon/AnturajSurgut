@@ -3,13 +3,11 @@ import Swiper from '~/components/view/home/main-swiper/swiper.vue'
 </script>
 
 <template>
-  <v-app>
-    <div class="container">
-      <Swiper />
-      <ViewHomeText />
-      <ViewHomeCatalogSwiper />
-    </div>
-  </v-app>
+  <div class="container">
+    <Swiper />
+    <ViewHomeText />
+    <ViewHomeCatalogSwiper />
+  </div>
 </template>
 
 <style scoped lang="scss">

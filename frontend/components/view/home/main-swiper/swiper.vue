@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Autoplay, EffectCreative } from 'swiper/modules'
-import type { SwiperOptions } from 'swiper/types'
-import { register } from 'swiper/element-bundle'
 import Slide from './slide.vue'
 
-const _swiperOptions: SwiperOptions = {
+const _swiperOptions = {
   modules: [EffectCreative, Autoplay],
   autoplay: { delay: 10000, pauseOnMouseEnter: true },
+  slidesPerView: 1,
   loop: true,
   creativeEffect: {
     prev: {
@@ -23,14 +23,14 @@ const _swiperOptions: SwiperOptions = {
 const slider = ref()
 
 slider.value = await api.slider()
-
-register()
 </script>
 
 <template>
-  <swiper-container :="_swiperOptions">
-    <swiper-slide v-for="item in slider" :key="item.id">
-      <Slide :slide="item" />
-    </swiper-slide>
-  </swiper-container>
+  <div>
+    <Swiper :="_swiperOptions">
+      <SwiperSlide v-for="item in slider" :key="item.id">
+        <Slide :slide="item" />
+      </SwiperSlide>
+    </Swiper>
+  </div>
 </template>
