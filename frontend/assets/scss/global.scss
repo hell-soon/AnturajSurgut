@@ -39,7 +39,8 @@ h1 {
   color: $color-white;
 }
 
-h2 {
+h2,
+.h2 {
   font-family: NEXT-ART;
   font-size: clamp(26px, 4vw, 40px);
   font-weight: 600;
