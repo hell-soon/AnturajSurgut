@@ -13,6 +13,7 @@ class ProductCreator:
                     name=product_name,
                     description=f"Описание для продукта {product_name}",
                     sub_catalog=sub_catalog,
+                    rating=random.randint(1, 5),
                 )
                 products.append(product)
 
