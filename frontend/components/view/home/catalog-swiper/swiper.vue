@@ -45,7 +45,7 @@ function onSlideChange(e: any) {
   position: relative;
   width: 400px;
   height: 450px;
-  border-radius: 10px;
+  border-radius: $cover-12;
   overflow: hidden;
 
   img {

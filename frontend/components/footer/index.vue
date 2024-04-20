@@ -165,6 +165,7 @@ footer {
 
         &-icons {
           display: flex;
+          flex-wrap: wrap;
           gap: 20px;
 
           a {

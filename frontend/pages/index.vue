@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import Swiper from '~/components/view/home/main-swiper/swiper.vue'
+
+const stores = setupStore(['productPopList', 'catalogList'])
+
+await stores.productPopList.fetchProductPopList()
+await stores.catalogList.fetchCatalogList()
 </script>
 
 <template>
@@ -7,6 +12,7 @@ import Swiper from '~/components/view/home/main-swiper/swiper.vue'
     <Swiper />
     <ViewHomeText />
     <ViewHomeCatalogSwiper />
+    <ViewHomeReviews />
   </div>
 </template>
 

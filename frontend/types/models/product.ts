@@ -4,6 +4,7 @@ export interface ProductPopList {
   count: number
   next?: string
   previous?: string
+  total_pages: number
   results: ProductPop[]
 }
 
