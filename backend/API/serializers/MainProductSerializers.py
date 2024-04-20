@@ -1,6 +1,10 @@
 from rest_framework import serializers
 from DB.models import Product, ProductImage
-from .ComponentSerializers import SubCatalogSerializer, TagsSerializer
+from .ComponentSerializers import (
+    SubCatalogSerializer,
+    TagsSerializer,
+    CompoundSerializer,
+)
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -12,6 +16,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     tags = TagsSerializer(many=True)
     image = ProductImageSerializer(many=True)
+    compound = CompoundSerializer(many=True)
     sub_catalog = SubCatalogSerializer()
     created_at = serializers.DateTimeField(format="%d.%m.%Y", read_only=True)
 
@@ -24,6 +29,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "image",
             "sub_catalog",
             "tags",
+            "compound",
             "created_at",
         )
 

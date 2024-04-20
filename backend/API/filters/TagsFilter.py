@@ -30,7 +30,7 @@ class TagsFilter(FilterSet):
             .distinct()
             .order_by("id")
         )
-        ic(unique_tags.first().product_count)
+
         return unique_tags
 
     def filter_sub_catalog_id(self, queryset, name, value):
