@@ -1,5 +1,6 @@
 import random
 from reviews.models import Review
+from django.contrib.auth import get_user_model
 
 texts = [
     "Дорогие друзья, постоянный количественный рост и сфера нашей активности создаёт предпосылки качественно новых шагов для системы масштабного изменения ряда параметров. Таким образом, реализация намеченного плана развития создаёт предпосылки качественно новых...",
@@ -11,13 +12,17 @@ texts = [
 
 
 class ReviewsCreator:
-    def __init__(self, user):
-        self.user = user
+    def __init__(self):
+        self.user = get_user_model().objects.all()
 
     def create(self):
         review = []
         for i in range(5):
             review.append(
-                Review(user=self.user, text=texts[i], rating=random.randint(1, 5))
+                Review(
+                    user=random.choice(self.user),
+                    text=random.choice(texts),
+                    rating=random.randint(1, 5),
+                )
             )
         Review.objects.bulk_create(review)

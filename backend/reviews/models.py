@@ -25,7 +25,7 @@ class Feedback(models.Model):
     name = models.CharField(max_length=255, verbose_name="Имя")
     text = models.TextField(verbose_name="Текст", blank=True)
     is_active = models.BooleanField(default=False, verbose_name="Ответ предоствлен")
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 
     class Meta:
         verbose_name = "Фидбэк"

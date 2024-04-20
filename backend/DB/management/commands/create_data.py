@@ -71,15 +71,16 @@ class Command(BaseCommand):
 
         # Use this because celery in docker depence_on: - backend_container
         try:
+
             admin_creator = AdminsCreator(User)
-            admin = admin_creator.create()
+            created_admin = admin_creator.create()
 
             group_creator = GroupCreator()
             groups = group_creator.create()
         except Exception as e:
             pass
 
-        reviews_creator = ReviewsCreator(admin)
+        reviews_creator = ReviewsCreator()
         reviews_creator.create()
 
         self.stdout.write(self.style.SUCCESS("Successfully created test data"))
