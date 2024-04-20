@@ -10,5 +10,4 @@ class AdminsCreator:
             first_name="admin",
             last_name="admin",
         )
-
         return admin

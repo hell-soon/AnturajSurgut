@@ -16,6 +16,7 @@ from DB.management.Classes.Slider.slider import SliderCreator
 from DB.management.Classes.Info.info import InfoSiteCreator
 from DB.management.Classes.Users.admin import AdminsCreator
 from DB.management.Classes.Users.groups import GroupCreator
+from DB.management.Classes.Reviews.Reviews import ReviewsCreator
 
 
 class Command(BaseCommand):
@@ -73,5 +74,8 @@ class Command(BaseCommand):
             groups = group_creator.create()
         except Exception as e:
             pass
+
+        reviews_creator = ReviewsCreator(admin)
+        reviews_creator.create()
 
         self.stdout.write(self.style.SUCCESS("Successfully created test data"))

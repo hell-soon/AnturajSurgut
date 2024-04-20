@@ -18,10 +18,19 @@ class ProductFilter(FilterSet):
     catalog_id = filters.NumberFilter(
         method="filter_catalog_id", label="По подкаталогу"
     )
+    catalog_id_slider = filters.NumberFilter(
+        method="filter_catalog_id_slider", label="По подкаталогу для слайдера"
+    )
 
     class Meta:
         model = Product
-        fields = ["tags", "created_at", "high_rating", "sub_catalog"]
+        fields = [
+            "tags",
+            "created_at",
+            "high_rating",
+            "sub_catalog",
+            "catalog_id_slider",
+        ]
 
     def filter_high_rating(self, queryset, name, value):
         if value:
@@ -30,16 +39,18 @@ class ProductFilter(FilterSet):
             return queryset
 
     def filter_catalog_id(self, queryset, name, value):
-        sub_catalog = SubCatalog.objects.filter(catalog_id=value)
-        if sub_catalog:
-            current_sub_catalog = random.choice(sub_catalog)
-            products = Product.objects.filter(sub_catalog=current_sub_catalog)
-            if products.count() >= 3:
-                random_products = random.sample(list(products), 3)
-                return queryset.filter(
-                    pk__in=[product.pk for product in random_products]
-                ).order_by("-rating")
+        while True:
+            sub_catalog = SubCatalog.objects.filter(catalog_id=value)
+            if sub_catalog:
+                current_sub_catalog = random.choice(sub_catalog)
+                products = Product.objects.filter(sub_catalog=current_sub_catalog)
+                if products.count() >= 3:
+                    random_products = random.sample(list(products), 3)
+                    return queryset.filter(
+                        pk__in=[product.pk for product in random_products]
+                    ).order_by("-rating")
             else:
-                return products
-        else:
-            return queryset.none()
+                return queryset.none()
+
+    def filter_catalog_id_slider(self, queryset, name, value):
+        pass
