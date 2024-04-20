@@ -65,7 +65,7 @@ defineProps<{ card: ProductPop }>()
   }
 
   &:hover {
-    box-shadow: 0 6px 24px 0 rgba(3, 55, 52, 0.15);
+    box-shadow: $shadow-card;
 
     .card-contant {
       border-color: white;

@@ -106,7 +106,7 @@ footer {
   z-index: 2;
   position: relative;
   background: url('/img/header/green-texture.jpg');
-  box-shadow: -2px -2px 2px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: $shadow-reverse;
   padding-top: 30px;
 
   padding-bottom: 30px;

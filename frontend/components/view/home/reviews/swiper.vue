@@ -11,9 +11,16 @@ const _swiperOptions = {
 </script>
 
 <template>
-  <Swiper :="_swiperOptions">
+  <Swiper class="swiper" :="_swiperOptions">
     <SwiperSlide v-for="(item, index) in slider.results" :key="index">
       <Slide :info="item" />
     </SwiperSlide>
   </Swiper>
 </template>
+
+<style scoped lang="scss">
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+</style>

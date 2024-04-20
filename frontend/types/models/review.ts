@@ -9,7 +9,7 @@ export interface ReviewList {
 export interface Review {
   user: User
   text: string
-  raiting: number
+  rating: number
   created_at: string
 }
 
