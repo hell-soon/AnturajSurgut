@@ -103,8 +103,11 @@ h3,
   line-height: clamp(16px, 3vw, 20px);
 }
 
-.verySmallFootnot {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
+.link-hover {
+  a {
+    transition: text-shadow 0.3s ease-in-out;
+    &:hover {
+      text-shadow: 6px 6px 6px rgba(0, 0, 0, 0.5);
+    }
+  }
 }

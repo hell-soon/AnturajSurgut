@@ -29,7 +29,7 @@ const button: ButtonType = {
   position: relative;
   justify-content: space-between;
   display: flex;
-  height: 50vh;
+  height: 600px;
   border-radius: 10px;
   overflow: hidden;
   align-items: center;

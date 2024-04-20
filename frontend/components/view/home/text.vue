@@ -3,7 +3,7 @@
     <img class="img top" src="/public/img/home-view/zavetuscha-top.png" alt="zavetuscha">
     <div class="text">
       <img src="/public/img/home-view/cluboc.png" alt="cluboc">
-      <h3>
+      <h3 class="text-black">
         Мы специализируемся на продаже высококачественных тканей и аксессуаров,
         работая в тесном сотрудничестве с производителями
       </h3>
@@ -33,7 +33,6 @@
 
   h3 {
     max-width: 540px;
-    color: black;
   }
 }
 

@@ -2,9 +2,7 @@
 import Swiper from './swiper.vue'
 import ProductCard from './product-card.vue'
 
-const stores = setupStore(['catalogList', 'productPopList'])
-
-await stores.catalogList.fetchCatalogList()
+const stores = setupStore(['productPopList'])
 
 const visible = ref(true)
 
@@ -12,20 +10,23 @@ watch(() => stores.productPopList.catalog_id, () => {
   visible.value = false
   setTimeout(() => {
     visible.value = true
-  }, 500)
+  }, 350)
+
   stores.productPopList.fetchProductPopList()
 })
-
-await stores.productPopList.fetchProductPopList()
 </script>
 
 <template>
   <section class="catalog">
-    <h2>Каталог</h2>
+    <h2 class="text-black">
+      Каталог
+    </h2>
     <Swiper />
-    <h2>Популярные предложения</h2>
+    <!-- <h2 class="text-black">
+      Популярные предложения
+    </h2> -->
     <Transition name="fade">
-      <div v-show="visible" class="product-cards">
+      <div v-if="visible" class="product-cards">
         <ProductCard
           v-for="card in stores.productPopList.productPopList?.results"
           :key="card.product.id"
@@ -50,18 +51,14 @@ await stores.productPopList.fetchProductPopList()
 .catalog {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: $cover-50;
 }
 
 .product-cards {
   grid-template-rows: 600px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: $cover-50;
   justify-content: center;
-}
-
-h2 {
-  color: black;
 }
 </style>

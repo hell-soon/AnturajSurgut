@@ -2,66 +2,41 @@
 import type { ProductPop } from '~/types/models/product'
 
 defineProps<{ card: ProductPop }>()
-
-const a = ref(false)
 </script>
 
 <template>
   <NuxtLink
+    v-if="card.product"
     :to="`/product/${card.product.id}`" class="card"
-    @mouseenter="a = true"
-    @mouseleave="a = false"
   >
     <div class="card-img">
       <NuxtImg class="card-img" :src="card.product.image[0].image" alt="card" />
     </div>
     <div class="card-contant">
-      <span class="card-contant__title body">
+      <h3 class="card-contant__title text-black">
         {{ card.product.name }}
-      </span>
-      <span class="card-contant__description footnote" v-html="card.product.description" />
-      <!-- <Transition name="fade">
-        <div v-show="a" class="">
-          <span
-            v-for="tag in card.product.tags"
-            :key="tag.id"
-            class="body"
-          >
-            {{ tag.name }}
-          </span>
-        </div>
-      </Transition> -->
+      </h3>
+      <span class="card-contant__description body text-black" v-html="card.product.description" />
     </div>
   </NuxtLink>
+  <div v-else>
+    <v-skeleton-loader
+      :elevation="2"
+      type="image, list-item-two-line"
+      height="100%"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">
-.fade-enter-active,
-.fade-leave-active {
-  transition: transform 0.5s ease;
-}
-
-.fade-enter-to,
-.fade-leave-from {
-  transform: translateY(0);
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  transform: translateY(100%);
-}
-
-.body,
-.footnote {
-  color: black;
-}
 .card {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
+  border-radius: $cover-12;
   overflow: hidden;
+  background-color: $color-light-white;
   transition: box-shadow 0.3s ease-in-out;
 
   &-img {
@@ -76,14 +51,13 @@ const a = ref(false)
   }
 
   &-contant {
-    border: 1px solid $color-gray;
     border-top: 0;
     border-radius: 0 0 10px 10px;
     width: 100%;
-    padding: 20px;
+    padding: $cover-24;
     height: 100%;
     display: flex;
-    gap: 15px;
+    gap: $cover-16;
     flex-direction: column;
 
     &__description {
@@ -99,7 +73,11 @@ const a = ref(false)
   }
 
   &:hover {
-    box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: $shadow-card;
+
+    .card-contant {
+      border-color: white;
+    }
   }
 }
 </style>
