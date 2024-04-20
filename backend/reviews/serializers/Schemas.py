@@ -35,3 +35,4 @@ class AuthShema(serializers.Serializer):
 
     def schema():
         return openapi.Response(description="Вы не авторизованы", schema=AuthShema())
+

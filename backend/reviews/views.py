@@ -48,7 +48,13 @@ class ReviewsViewSet(viewsets.ModelViewSet):
 
 @swagger_auto_schema(
     method="post",
-    # request_body=SchemaRewiewCreateSerializer,
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            "text": openapi.Schema(type=openapi.TYPE_STRING),
+            "rating": openapi.Schema(type=openapi.TYPE_INTEGER),
+        },
+    ),
     responses={
         201: openapi.Response(
             description="Отзыв успешно опубликован", schema=SuccessSerializer()
@@ -98,7 +104,7 @@ def review_create(request):
             schema=openapi.Schema(
                 type=openapi.TYPE_OBJECT,
                 properties={"error": openapi.Schema(type=openapi.TYPE_STRING)},
-            ),
+            ),  
         ),
     },
 )
