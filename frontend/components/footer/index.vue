@@ -45,7 +45,7 @@ const data = store.contactList.contactList
 
 <template>
   <footer>
-    <div class="container">
+    <div class="container link-hover">
       <div class="nav">
         <div class="nav-list">
           <div class="nav-list__block">
@@ -121,6 +121,12 @@ footer {
     border-top: 2px dashed #fff;
   }
 
+  .container {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+  }
+
   .nav {
     display: flex;
     justify-content: space-between;
@@ -160,23 +166,25 @@ footer {
         &-icons {
           display: flex;
           gap: 20px;
+
+          a {
+            height: 35px;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
         }
       }
     }
   }
 
   .dop-info {
-    padding-top: 20px;
     display: flex;
     width: 100%;
     justify-content: space-between;
-  }
-
-  a {
-    transition: text-shadow 0.3s ease-in-out;
-    &:hover {
-      text-shadow: 6px 6px 6px rgba(0, 0, 0, 0.5);
-    }
   }
 }
 </style>

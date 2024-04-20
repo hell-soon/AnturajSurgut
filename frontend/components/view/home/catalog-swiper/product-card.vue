@@ -100,6 +100,10 @@ const a = ref(false)
 
   &:hover {
     box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.5);
+
+    .card-contant {
+      border-color: white;
+    }
   }
 }
 </style>

@@ -39,7 +39,7 @@ const listSecond: ListItem[] = [
 
 <template>
   <header>
-    <div class="container">
+    <div class="container link-hover">
       <div class="list">
         <nuxt-link
           v-for="(item, index) in listMain"
@@ -77,15 +77,7 @@ header {
   z-index: 2;
   position: relative;
   background: url('/img/header/green-texture.jpg');
-
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-}
-
-.footnote {
-  transition: text-shadow 0.3s ease-in-out;
-  &:hover {
-    text-shadow: 6px 6px 6px rgba(0, 0, 0, 0.5);
-  }
 }
 
 .container {
