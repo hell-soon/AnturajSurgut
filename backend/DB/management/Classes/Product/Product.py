@@ -4,7 +4,7 @@ from django.db import transaction
 
 
 class ProductCreator:
-    def create(self, sub_catalogs, tags):
+    def create(self, sub_catalogs, tags, compaunds):
         products = []
         for sub_catalog in sub_catalogs:
             for i in range(5):
@@ -13,6 +13,7 @@ class ProductCreator:
                     name=product_name,
                     description=f"Описание для продукта {product_name}",
                     sub_catalog=sub_catalog,
+                    rating=random.randint(1, 5),
                 )
                 products.append(product)
 
@@ -29,5 +30,8 @@ class ProductCreator:
             random_images = random.sample(all_images, random_range)
             for image in random_images:
                 product.image.add(image)
+
+        for product in created_products:
+            product.compound.set(random.sample(compaunds, random.randint(1, 5)))
 
         return created_products

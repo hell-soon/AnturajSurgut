@@ -5,8 +5,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.decorators import permission_classes
-from rest_framework.pagination import PageNumberPagination
 
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
+from API.Utils.Paginator.PaginationClass import StandardResultsSetPagination
 
 from .serializers.Schemas import (
     SchemaRewiewCreateSerializer,
@@ -18,26 +21,6 @@ from .serializers.ReviewsChangeSerializers import ReviewChangeSerializer
 from .serializers.FeedbackSerializers import FeedBackSerializer
 from .models import Review
 
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
-
-
-class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 3
-    page_size_query_param = "page_size"
-    max_page_size = 100
-
-    def get_paginated_response(self, data):
-        return Response(
-            {
-                "count": self.page.paginator.count,
-                "next": self.get_next_link(),
-                "previous": self.get_previous_link(),
-                "total_pages": self.page.paginator.num_pages,
-                "results": data,
-            }
-        )
-
 
 class ReviewsViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all().order_by("-created_at")
@@ -48,7 +31,13 @@ class ReviewsViewSet(viewsets.ModelViewSet):
 
 @swagger_auto_schema(
     method="post",
-    # request_body=SchemaRewiewCreateSerializer,
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            "text": openapi.Schema(type=openapi.TYPE_STRING),
+            "rating": openapi.Schema(type=openapi.TYPE_INTEGER),
+        },
+    ),
     responses={
         201: openapi.Response(
             description="Отзыв успешно опубликован", schema=SuccessSerializer()

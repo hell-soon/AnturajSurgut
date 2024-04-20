@@ -1,21 +1,35 @@
+from typing import Any
 from django.contrib import admin
+from django.http import HttpRequest
 from django.utils.html import format_html
 from django.utils.text import Truncator
-from DB.models import ProductInfo
+from DB.models import ProductInfo, Product
 from ..ProductInline.inline import ProductInfoInline
 from DB.Setup.forms.ProductAdminForm.ProductForm import ProductAdminForm
 
 
+class ProductTagsInline(admin.TabularInline):
+    model = Product.tags.through
+    extra = 2
+    verbose_name = "Тэг"
+    verbose_name_plural = "Тэги"
+
+
+class ProductCompoundInline(admin.TabularInline):
+    model = Product.compound.through
+    extra = 2
+    verbose_name = "Состав"
+    verbose_name_plural = "Составы"
+
+
 class ProductAdmin(admin.ModelAdmin):
-    # form = ProductAdminForm # FIX
     fields = [
         "name",
         "description",
         "sub_catalog",
-        "tags",
         "image",
-        "product_status",
         "rating",
+        "product_status",
     ]
     list_display = (
         "id",
@@ -30,7 +44,7 @@ class ProductAdmin(admin.ModelAdmin):
         "id",
     )
     list_select_related = ("sub_catalog",)
-    inlines = [ProductInfoInline]
+    inlines = [ProductTagsInline, ProductCompoundInline, ProductInfoInline]
     list_filter = [
         "sub_catalog",
         "product_status",
@@ -46,7 +60,6 @@ class ProductAdmin(admin.ModelAdmin):
         # "info_total_quanity_action", # TODO
     ]
     filter_horizontal = [
-        "tags",
         "image",
     ]
 

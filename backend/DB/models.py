@@ -2,6 +2,7 @@ import os
 from django.db import models
 from colorfield.fields import ColorField
 from django_ckeditor_5.fields import CKEditor5Field
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Catalog(models.Model):
@@ -132,10 +133,27 @@ class Type(models.Model):
         return self.name
 
 
+class Compound(models.Model):
+    name = models.CharField(max_length=20, verbose_name="Название")
+    verbose_name = "Состав"
+    verbose_name_plural = "Составы"
+    unique_together = ("name", "ratio")
+
+    class Meta:
+        verbose_name = "Состав"
+        verbose_name_plural = "Составы"
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название")
     description = CKEditor5Field("Описание", config_name="extends")
     image = models.ManyToManyField(ProductImage, verbose_name="Изображение", blank=True)
+    compound = models.ManyToManyField(
+        Compound, verbose_name="Состав", blank=True, help_text="Состав"
+    )
     sub_catalog = models.ForeignKey(
         SubCatalog, on_delete=models.CASCADE, verbose_name="Подкаталог"
     )
@@ -148,6 +166,7 @@ class Product(models.Model):
         default=0,
         verbose_name="Рейтинг",
         help_text="Рейтинг товара, заполняется автоматически",
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
     )
 
     class Meta:

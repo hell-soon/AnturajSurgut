@@ -6,10 +6,12 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Review(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    text = models.TextField()
+    user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь"
+    )
+    text = models.TextField(verbose_name="Текст")
     rating = models.PositiveIntegerField(
-        validators=[MinValueValidator(0), MaxValueValidator(5)]
+        verbose_name="Рейтинг", validators=[MinValueValidator(0), MaxValueValidator(5)]
     )
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -23,7 +25,7 @@ class Feedback(models.Model):
     name = models.CharField(max_length=255, verbose_name="Имя")
     text = models.TextField(verbose_name="Текст", blank=True)
     is_active = models.BooleanField(default=False, verbose_name="Ответ предоствлен")
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 
     class Meta:
         verbose_name = "Фидбэк"

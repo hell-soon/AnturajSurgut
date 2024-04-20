@@ -45,3 +45,14 @@ class SubSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubCatalog
         fields = ["id", "name", "image"]
+
+
+class CompoundSerializer(serializers.ModelSerializer):
+    # ratio = CompoundRatioSerializer(many=True)
+
+    class Meta:
+        model = Compound
+        fields = (
+            "id",
+            "name",
+        )

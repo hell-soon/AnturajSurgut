@@ -33,6 +33,7 @@ class SliderViewSet(viewsets.ModelViewSet):
 class ContactViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
+    http_method_names = ["get"]
 
     def get_object(self) -> Contact | None:
         # Получаем один объект Contact

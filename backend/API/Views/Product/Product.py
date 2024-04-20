@@ -2,33 +2,17 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from django.db.models import Q
 from django_filters import rest_framework as filters
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.decorators import api_view
+
 from rest_framework.response import Response
 from DB.models import Product
+
 from API.serializers.MainProductSerializers import ProductSerializer
 from API.serializers.SearchSerializers import SearchSerializer
 from API.filters.ProductFilter import ProductFilter
+
+from API.Utils.Paginator.PaginationClass import StandardResultsSetPagination
+
 from drf_yasg.utils import swagger_auto_schema
-
-from icecream import ic
-
-
-class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 20
-    page_size_query_param = "page_size"
-    max_page_size = 100
-
-    def get_paginated_response(self, data):
-        return Response(
-            {
-                "count": self.page.paginator.count,
-                "next": self.get_next_link(),
-                "previous": self.get_previous_link(),
-                "total_pages": self.page.paginator.num_pages,
-                "results": data,
-            }
-        )
 
 
 class ProductViewSet(viewsets.ModelViewSet):

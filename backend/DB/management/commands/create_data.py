@@ -16,6 +16,8 @@ from DB.management.Classes.Slider.slider import SliderCreator
 from DB.management.Classes.Info.info import InfoSiteCreator
 from DB.management.Classes.Users.admin import AdminsCreator
 from DB.management.Classes.Users.groups import GroupCreator
+from DB.management.Classes.Reviews.Reviews import ReviewsCreator
+from DB.management.Classes.Additions.Compound import CompoundCreator
 
 
 class Command(BaseCommand):
@@ -42,8 +44,11 @@ class Command(BaseCommand):
         image_creator = ProductImageCreator(test_data_dir)
         image_creator.create()
 
+        compaund_creator = CompoundCreator()
+        compaunds = compaund_creator.create()
+
         product_creator = ProductCreator()
-        products = product_creator.create(sub_catalogs, tags)
+        products = product_creator.create(sub_catalogs, tags, compaunds)
 
         productinfo_creator = ProductInfoCreator()
         productinfo_creator.create(products, colors, size)
@@ -66,12 +71,16 @@ class Command(BaseCommand):
 
         # Use this because celery in docker depence_on: - backend_container
         try:
+
             admin_creator = AdminsCreator(User)
-            admin = admin_creator.create()
+            created_admin = admin_creator.create()
 
             group_creator = GroupCreator()
             groups = group_creator.create()
         except Exception as e:
             pass
+
+        reviews_creator = ReviewsCreator()
+        reviews_creator.create()
 
         self.stdout.write(self.style.SUCCESS("Successfully created test data"))
