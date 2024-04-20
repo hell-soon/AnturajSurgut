@@ -12,6 +12,7 @@ await stores.catalogList.fetchCatalogList()
     <Swiper />
     <ViewHomeText />
     <ViewHomeCatalogSwiper />
+    <ViewHomeTimelines />
     <ViewHomeReviews />
   </div>
 </template>
