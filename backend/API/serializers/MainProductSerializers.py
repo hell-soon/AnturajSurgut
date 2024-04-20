@@ -18,7 +18,6 @@ class ProductSerializer(serializers.ModelSerializer):
     image = ProductImageSerializer(many=True)
     compound = CompoundSerializer(many=True)
     sub_catalog = SubCatalogSerializer()
-    created_at = serializers.DateTimeField(format="%d.%m.%Y", read_only=True)
 
     class Meta:
         model = Product
@@ -30,7 +29,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "sub_catalog",
             "tags",
             "compound",
-            "created_at",
+            "rating",
         )
 
     def validate(self, data):

@@ -28,6 +28,8 @@ class ProductAdmin(admin.ModelAdmin):
         "description",
         "sub_catalog",
         "image",
+        "rating",
+        "product_status",
     ]
     list_display = (
         "id",

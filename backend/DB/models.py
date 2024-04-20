@@ -2,6 +2,7 @@ import os
 from django.db import models
 from colorfield.fields import ColorField
 from django_ckeditor_5.fields import CKEditor5Field
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Catalog(models.Model):
@@ -165,6 +166,7 @@ class Product(models.Model):
         default=0,
         verbose_name="Рейтинг",
         help_text="Рейтинг товара, заполняется автоматически",
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
     )
 
     class Meta:
