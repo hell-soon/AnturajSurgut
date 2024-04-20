@@ -6,6 +6,7 @@ defineProps<{ card: ProductPop }>()
 
 <template>
   <NuxtLink
+    v-if="card.product"
     :to="`/product/${card.product.id}`" class="card"
   >
     <div class="card-img">
@@ -18,6 +19,13 @@ defineProps<{ card: ProductPop }>()
       <span class="card-contant__description body text-black" v-html="card.product.description" />
     </div>
   </NuxtLink>
+  <div v-else>
+    <v-skeleton-loader
+      :elevation="2"
+      type="image, list-item-two-line"
+      height="100%"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">

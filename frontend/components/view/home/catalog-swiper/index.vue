@@ -10,7 +10,8 @@ watch(() => stores.productPopList.catalog_id, () => {
   visible.value = false
   setTimeout(() => {
     visible.value = true
-  }, 500)
+  }, 350)
+
   stores.productPopList.fetchProductPopList()
 })
 </script>
@@ -25,7 +26,7 @@ watch(() => stores.productPopList.catalog_id, () => {
       Популярные предложения
     </h2> -->
     <Transition name="fade">
-      <div v-show="visible" class="product-cards">
+      <div v-if="visible" class="product-cards">
         <ProductCard
           v-for="card in stores.productPopList.productPopList?.results"
           :key="card.product.id"
