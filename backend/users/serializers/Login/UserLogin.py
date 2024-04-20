@@ -4,30 +4,14 @@ from django.contrib.auth import authenticate
 
 
 class UserLoginSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    password = serializers.CharField()
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(required=True)
 
     def validate(self, data):
-        """
-        Валидность данных для аутентификации
-        Можно добавить дополнительные проверки
-        :param data: data
-        :return: data
-        """
-        email = data.get("email")
-        password = data.get("password")
-        if email and password:
-            user = authenticate(email=email, password=password)
-            if not user:
-                raise serializers.ValidationError(
-                    {"login_error": "Email или пароль были указаны неверно"}
-                )
-        else:
+        user = authenticate(email=data["email"], password=data["password"])
+        if not user:
             raise serializers.ValidationError(
-                {
-                    "miss_field": "Для входа в учетную запись нужно указать Email и пароль"
-                }
+                {"error": ["Почта или пароль были указаны неверно"]}
             )
 
-        data["user"] = user
-        return data
+        return user

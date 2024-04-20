@@ -16,12 +16,10 @@ urlpatterns = [
     path(f"{settings.BASE_API_URL}/site/", include("sitedb.urls")),
     path(
         "api/docs/",
-        schema_view.with_ui("swagger", cache_timeout=0),
+        schema_view.with_ui("swagger"),
         name="schema-swagger-ui",
     ),
-    path(
-        "api/redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"
-    ),
+    path("api/redoc/", schema_view.with_ui("redoc"), name="schema-redoc"),
     path("smsru/", include("smsru.urls")),
     path("telegram/", include("telegram.urls")),
     path("ckeditor5/", include("django_ckeditor_5.urls")),

@@ -8,54 +8,43 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=True)
-    password1 = serializers.CharField(write_only=True)
-    password2 = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True, required=True)
+    password_repeat = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = get_user_model()
-        fields = ["email", "first_name", "last_name", "password1", "password2"]
-
-    def validate(self, data):
-        """
-        Проверка соответствия паролей и выполнение требований к их длине и наличию цифр.
-        """
-        if not data.get("first_name") or not data.get("last_name"):
-            raise serializers.ValidationError(
-                {"error": "Имя и фамилия обязательны для заполнения."}
-            )
-        if data["password1"] != data["password2"]:
-            raise serializers.ValidationError({"error": "Пароли не совпадают."})
-
-        if len(data["password1"]) < 8:
-            raise serializers.ValidationError(
-                {"error": "Пароль должен быть не менее 8 символов."}
-            )
-
-        if data["password1"].isdigit():
-            raise serializers.ValidationError(
-                {"error": "Пароль не должен состоять только из цифр."}
-            )
-
-        return data
+        fields = ["email", "first_name", "last_name", "password", "password_repeat"]
 
     def validate_email(self, value):
-        """
-        Проверка уникальности email.
-        """
         if get_user_model().objects.filter(email=value).exists():
             raise serializers.ValidationError(
                 "Пользователь с таким email уже существует."
             )
         return value
 
+    def validate_password(self, value):
+        if len(value) < 8:
+            raise serializers.ValidationError("Пароль должен быть не менее 8 символов.")
+
+        if value.isdigit():
+            raise serializers.ValidationError(
+                "Пароль не должен состоять только из цифр."
+            )
+
+    def validate(self, data):
+        if data["password"] != data["password_repeat"]:
+            raise serializers.ValidationError({"error": ["Пароли не совпадают."]})
+
+        return data
+
     def create(self, validated_data):
         """
         Создание нового пользователя на основе проверенных данных.
         """
         email = validated_data.pop("email")
-        first_name = validated_data.get("first_name")
-        last_name = validated_data.get("last_name")
-        password = validated_data.pop("password1")
+        first_name = validated_data.pop("first_name")
+        last_name = validated_data.pop("last_name")
+        password = validated_data.pop("password")
 
         base_username = slugify(f"{first_name}-{last_name}")
         username = base_username
@@ -76,7 +65,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         except IntegrityError as e:
             raise serializers.ValidationError(
                 {
-                    "error": "Пользователь с таким email уже существует. Пожалуйста, используйте другой email."
+                    "error": [
+                        "Пользователь с таким email уже существует. Пожалуйста, используйте другой email."
+                    ]
                 }
             )
 

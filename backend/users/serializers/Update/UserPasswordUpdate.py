@@ -3,33 +3,28 @@ from rest_framework import serializers
 
 
 class UserUpdatePasswordSerializer(serializers.ModelSerializer):
-    password1 = serializers.CharField(write_only=True, required=True)
-    password2 = serializers.CharField(write_only=True, required=True)
+    password = serializers.CharField(write_only=True, required=True)
+    password_repeat = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = get_user_model()
-        fields = ["password1", "password2"]
+        fields = ["password", "password_repeat"]
         extra_kwargs = {
-            "password1": {"write_only": True},
-            "password2": {"write_only": True},
+            "password": {"write_only": True},
+            "password_repeat": {"write_only": True},
         }
 
     def validate(self, data):
-        """
-        Проверка совпадения двух паролей и их длины
-        """
-        if data["password1"] != data["password2"]:
-            raise serializers.ValidationError("Пароли не совпадают")
-
-        if len(data["password1"]) < 8:
+        if data["password"].isdigit():
             raise serializers.ValidationError(
-                "Пароль должен содержать не менее 8 символов"
+                {"error": ["Пароль не должен состоять только из цифр"]}
             )
-
-        if data["password1"].isdigit():
+        if len(data["password"]) < 8:
             raise serializers.ValidationError(
-                "Пароль не должен состоять только из цифр"
+                {"error": ["Пароль должен быть не менее 8 символов"]}
             )
+        if data["password"] != data["password_repeat"]:
+            raise serializers.ValidationError({"error": ["Пароли не совпадают"]})
 
         return data
 
@@ -37,6 +32,6 @@ class UserUpdatePasswordSerializer(serializers.ModelSerializer):
         """
         Обновление пароля пользователя
         """
-        instance.set_password(validated_data["password1"])
+        instance.set_password(validated_data["password"])
         instance.save()
         return instance
