@@ -40,6 +40,15 @@ const listSecond: ListItem[] = [
 <template>
   <header>
     <div class="container link-hover">
+      <div class="logo">
+        <nuxt-link to="/">
+          <NuxtImg
+            width="200"
+            height="25"
+            src="/logo.svg"
+          />
+        </nuxt-link>
+      </div>
       <div class="list">
         <nuxt-link
           v-for="(item, index) in listMain"
@@ -50,15 +59,7 @@ const listSecond: ListItem[] = [
           {{ item.name }}
         </nuxt-link>
       </div>
-      <div class="logo">
-        <nuxt-link to="/">
-          <NuxtImg
-            width="200"
-            height="47"
-            src="/logo.svg"
-          />
-        </nuxt-link>
-      </div>
+
       <div class="list">
         <nuxt-link
           v-for="(item, index) in listSecond"
