@@ -12,7 +12,7 @@ watch(() => stores.productPopList.catalog_id, () => {
     visible.value = true
   }, 350)
 
-  stores.productPopList.fetchProductPopList()
+  stores.productPopList.fetchProductPopList(3)
 })
 </script>
 

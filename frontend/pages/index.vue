@@ -3,7 +3,7 @@ import Swiper from '~/components/view/home/main-swiper/swiper.vue'
 
 const stores = setupStore(['productPopList', 'catalogList'])
 
-await stores.productPopList.fetchProductPopList()
+await stores.productPopList.fetchProductPopList(3)
 await stores.catalogList.fetchCatalogList()
 </script>
 
