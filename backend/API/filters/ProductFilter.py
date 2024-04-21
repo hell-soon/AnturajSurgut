@@ -16,9 +16,6 @@ class ProductFilter(FilterSet):
     catalog_id = filters.NumberFilter(
         method="filter_catalog_id", label="По подкаталогу"
     )
-    catalog_id_slider = filters.NumberFilter(
-        method="filter_catalog_id_slider", label="По подкаталогу для слайдера"
-    )
     compound_id = ModelMultipleChoiceFilter(
         queryset=Compound.objects.all(), method="filter_compounds", label="По материалу"
     )
@@ -28,6 +25,7 @@ class ProductFilter(FilterSet):
         label="По подкаталогу",
         required=False,
     )
+    price = filters.RangeFilter(method="filter_price", label="По цене")
 
     class Meta:
         model = Product
@@ -36,9 +34,15 @@ class ProductFilter(FilterSet):
             "created_at",
             "high_rating",
             "sub_catalog",
-            "catalog_id_slider",
+            "catalog_id",
             "compound_id",
+            "price",
         ]
+
+    def filter_price(self, queryset, name, value):
+        if not value:
+            return queryset
+        return queryset
 
     # ФИЛЬТР ПО МАТЕРИАЛУ
     def filter_compounds(self, queryset, name, value):
@@ -47,31 +51,19 @@ class ProductFilter(FilterSet):
         products = Product.objects.filter(compound__in=value)
         return products
 
+    # ФИЛЬТР ПО КАТАЛОГУ
+    def filter_catalog_id(self, queryset, name, value):
+        if not value:
+            return queryset
+        products = Product.objects.filter(sub_catalog__catalog__id=value).order_by("?")
+        return products
+
     # Фильтрация по подкаталогу
     def filter_sub_catalog_id(self, queryset, name, value):
         if not value:
             return queryset
         products = Product.objects.filter(sub_catalog__in=value)
         return products
-
-    # ФИЛЬТР ДЛЯ СЛАЙДЕРА
-    def filter_catalog_id_slider(self, queryset, name, value):
-        while True:
-            sub_catalog = SubCatalog.objects.filter(catalog_id=value)
-            if sub_catalog:
-                current_sub_catalog = random.choice(sub_catalog)
-                products = Product.objects.filter(sub_catalog=current_sub_catalog)
-                if products.count() >= 3:
-                    random_products = random.sample(list(products), 3)
-                    return queryset.filter(
-                        pk__in=[product.pk for product in random_products]
-                    ).order_by("-rating")
-            else:
-                return queryset.none()
-
-    # ФИЛЬТР ПО КАТАЛОГУ
-    def filter_catalog_id(self, queryset, name, value):
-        pass
 
     def filter_color(self, queryset, name, value):
         pass
