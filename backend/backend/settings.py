@@ -219,9 +219,12 @@ REST_FRAMEWORK = {
 """
 JWT TOKEN
 """
-from .config import JWT_TOKENS
 
-JWT_AUTH = JWT_TOKENS
+SIMPLE_JWT = {
+    "ROTATE_REFRESH_TOKENS": True,
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=60),
+}
 
 """
 CUSTOM MODEL USER
