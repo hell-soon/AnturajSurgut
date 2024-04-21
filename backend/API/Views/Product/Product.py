@@ -1,18 +1,19 @@
 from rest_framework import viewsets
+from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from django.db.models import Q
 from django_filters import rest_framework as filters
 
-from rest_framework.response import Response
+
+from drf_yasg.utils import swagger_auto_schema
+
 from DB.models import Product
 
 from API.serializers.MainProductSerializers import ProductSerializer
 from API.serializers.SearchSerializers import SearchSerializer
 from API.filters.ProductFilter import ProductFilter
-
 from API.Utils.Paginator.PaginationClass import StandardResultsSetPagination
-
-from drf_yasg.utils import swagger_auto_schema
 
 
 class ProductViewSet(viewsets.ModelViewSet):

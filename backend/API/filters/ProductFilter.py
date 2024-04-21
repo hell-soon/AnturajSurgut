@@ -1,8 +1,9 @@
 from django_filters import filters, ModelMultipleChoiceFilter
 from django_filters.rest_framework import FilterSet
+
 from django.db.models import Q
+
 from DB.models import Product, Tags, SubCatalog, Compound, Color, Size
-from icecream import ic
 
 
 class ProductFilter(FilterSet):
