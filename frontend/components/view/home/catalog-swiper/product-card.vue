@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { ProductPop } from '~/types/models/product'
+import type { ProductResult } from '~/types/models/product'
 
-defineProps<{ card: ProductPop }>()
+defineProps<{ card: ProductResult }>()
 </script>
 
 <template>

@@ -1,27 +1,28 @@
-import type { ProductPopList } from '~/types/models/product'
+import type { ProductList } from '~/types/models/product'
+import type { ProductParams } from '~/utils/api/service/product/product.type'
 
 //* --- State ----------------------------------------------- *//
-interface ProductPopListState {
-  productPopList: ProductPopList | null
+interface ProductListState {
+  productList: ProductList | null
   catalog_id: number
-  page_size: number
+  params: ProductParams
   error: unknown
 }
 
 //* --- Store ----------------------------------------------- *//
-export const useProductPopListStore = defineStore('productPopList', {
-  state: (): ProductPopListState => ({
-    productPopList: null,
+export const useProductListStore = defineStore('productList', {
+  state: (): ProductListState => ({
+    productList: null,
     catalog_id: 1,
-    page_size: 3,
+    params: {},
     error: {},
   }),
 
   actions: {
-    async fetchProductPopList() {
+    async fetchProductList(params?: ProductParams) {
       try {
-        const res = await api.productPop(this.catalog_id, this.page_size)
-        this.productPopList = res
+        const res = await api.product(params)
+        this.productList = res
       }
       catch (err) {
         this.error = err

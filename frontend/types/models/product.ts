@@ -1,14 +1,14 @@
 import type { Catalog } from './catalog'
 
-export interface ProductPopList {
+export interface ProductList {
   count: number
   next?: string
   previous?: string
   total_pages: number
-  results: ProductPop[]
+  results: ProductResult[]
 }
 
-export interface ProductPop {
+export interface ProductResult {
   catalog: Catalog
   product: Product
 }
@@ -19,6 +19,13 @@ export interface Product {
   description: string
   image: ProductImage[]
   tags: TagsProduct[]
+  compound: CompoundList[]
+  rating: number
+}
+
+export interface CompoundList {
+  id: number
+  name: string
 }
 
 export interface ProductImage {

@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import Swiper from '~/components/view/home/main-swiper/swiper.vue'
 
-const stores = setupStore(['productPopList', 'catalogList'])
+const stores = setupStore(['productList', 'catalogList'])
 
-await stores.productPopList.fetchProductPopList()
+const params = {
+  catalog_id: 1,
+  page_size: 3,
+}
+
+await stores.productList.fetchProductList(params)
 await stores.catalogList.fetchCatalogList()
 </script>
 
