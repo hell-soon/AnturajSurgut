@@ -1,11 +1,9 @@
-from typing import Any
 from django.contrib import admin
-from django.http import HttpRequest
 from django.utils.html import format_html
 from django.utils.text import Truncator
+
 from DB.models import ProductInfo, Product
 from ..ProductInline.inline import ProductInfoInline
-from DB.Setup.forms.ProductAdminForm.ProductForm import ProductAdminForm
 
 
 class ProductTagsInline(admin.TabularInline):
@@ -23,14 +21,6 @@ class ProductCompoundInline(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    fields = [
-        "name",
-        "description",
-        "sub_catalog",
-        "image",
-        "rating",
-        "product_status",
-    ]
     list_display = (
         "id",
         "name",
@@ -62,6 +52,18 @@ class ProductAdmin(admin.ModelAdmin):
     filter_horizontal = [
         "image",
     ]
+
+    def get_fields(self, request, obj=None):
+        fields = super().get_fields(request, obj)
+        fields = [
+            "name",
+            "description",
+            "sub_catalog",
+            "image",
+            "rating",
+            "product_status",
+        ]
+        return fields
 
     def info_total_quanity_action(self, request, queryset):
         for product in queryset:

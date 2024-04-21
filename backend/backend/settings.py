@@ -95,10 +95,12 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+X_FRAME_OPTIONS = "SAMEORIGIN"
 
 ROOT_URLCONF = "backend.urls"
 
@@ -217,9 +219,12 @@ REST_FRAMEWORK = {
 """
 JWT TOKEN
 """
-from .config import JWT_TOKENS
 
-JWT_AUTH = JWT_TOKENS
+SIMPLE_JWT = {
+    "ROTATE_REFRESH_TOKENS": True,
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=60),
+}
 
 """
 CUSTOM MODEL USER

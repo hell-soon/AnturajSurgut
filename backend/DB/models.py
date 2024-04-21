@@ -135,13 +135,12 @@ class Type(models.Model):
 
 class Compound(models.Model):
     name = models.CharField(max_length=20, verbose_name="Название")
-    verbose_name = "Состав"
-    verbose_name_plural = "Составы"
     unique_together = ("name", "ratio")
 
     class Meta:
         verbose_name = "Состав"
         verbose_name_plural = "Составы"
+        db_table_comment = "Question answers"
 
     def __str__(self):
         return f"{self.name}"

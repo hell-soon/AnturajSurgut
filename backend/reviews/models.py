@@ -19,6 +19,9 @@ class Review(models.Model):
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
 
+    def __str__(self):
+        return f"Отзыв №{self.pk}"
+
 
 class Feedback(models.Model):
     phone = models.CharField(max_length=255, verbose_name="Телефон")

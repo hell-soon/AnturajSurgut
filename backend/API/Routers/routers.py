@@ -5,6 +5,7 @@ from API.Views.Catalog.catalog import CatalogViewSet
 from API.Views.Order.Order import OrderViewSet
 from API.Views.Tags.TagsView import TagsViewSet
 
+
 router = routers.DefaultRouter()
 router.register(r"subcatalog", SubCatalogViewSet)
 router.register(r"product", ProductViewSet)
