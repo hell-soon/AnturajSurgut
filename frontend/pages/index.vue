@@ -20,7 +20,7 @@ await stores.catalogList.fetchCatalogList()
 <style scoped lang="scss">
 .container {
   margin-top: $cover-30;
-  margin-bottom: $cover-30;
+  margin-bottom: $cover-60;
   display: flex;
   flex-direction: column;
   gap: 230px;

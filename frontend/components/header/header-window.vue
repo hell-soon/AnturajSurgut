@@ -1,40 +1,5 @@
 <script setup lang="ts">
-interface ListItem {
-  name: string
-  link?: string
-}
-
-const listMain: ListItem[] = [
-  {
-    name: 'Товары',
-    link: '/product',
-  },
-  {
-    name: 'Услуги',
-    link: '/services',
-  },
-  {
-    name: 'Оптовикам',
-    link: '/wholesalers',
-  },
-  {
-    name: 'О нас',
-    link: '/about',
-  },
-]
-
-const listSecond: ListItem[] = [
-  {
-    name: 'profile',
-    link: '/profile',
-  },
-  {
-    name: 'search',
-  },
-  {
-    name: 'shopping-cart',
-  },
-]
+import List from '~/utils/mock/header-list'
 </script>
 
 <template>
@@ -51,7 +16,7 @@ const listSecond: ListItem[] = [
       </div>
       <div class="list">
         <nuxt-link
-          v-for="(item, index) in listMain"
+          v-for="(item, index) in List.main"
           :key="index"
           class="footnote"
           :to="item.link"
@@ -62,11 +27,13 @@ const listSecond: ListItem[] = [
 
       <div class="list">
         <nuxt-link
-          v-for="(item, index) in listSecond"
+          v-for="(item, index) in List.second"
           :key="index"
           :to="item.link"
         >
-          <img :src="`/icons/${item.name}.svg`" alt="phone">
+          <v-badge :color="item.badge ? '#e6e4e1' : 'transparent'" dot>
+            <img :src="`/icons/${item.name}.svg`" alt="phone">
+          </v-badge>
         </nuxt-link>
       </div>
     </div>
