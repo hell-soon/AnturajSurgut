@@ -300,7 +300,6 @@ CKEDITOR_5_CONFIGS = CKEDITOR_5_CONFIGS_SETTINGS
 
 CKEDITOR_5_FILE_STORAGE = "backend.config.ckreditor.storage.CustomStorage"
 
-BASE_API_URL = os.getenv("BASE_API_URL")
 
 # CELERY PEREODIC TASKS
 
@@ -313,3 +312,5 @@ CELERY_BEAT_SCHEDULE = {
 
 
 SITE_URL = os.getenv("SITE_URL")
+
+API_VERSION = os.getenv("API_VERSION")

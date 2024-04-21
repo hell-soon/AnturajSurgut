@@ -6,6 +6,10 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size = 20
     page_size_query_param = "page_size"
     max_page_size = 100
+    page_query_description = "Номер страницы"
+    page_size_query_description = (
+        "Количество элементов в ответе(макс. 100, по умолчанию 20)"
+    )
 
     def get_paginated_response(self, data):
         return Response(

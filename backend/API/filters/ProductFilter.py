@@ -1,8 +1,8 @@
-import random
 from django_filters import filters, ModelMultipleChoiceFilter
 from django_filters.rest_framework import FilterSet
 from django.db.models import Q
-from DB.models import Product, Tags, SubCatalog, Compound
+from DB.models import Product, Tags, SubCatalog, Compound, Color, Size
+from icecream import ic
 
 
 class ProductFilter(FilterSet):
@@ -16,9 +16,6 @@ class ProductFilter(FilterSet):
     catalog_id = filters.NumberFilter(
         method="filter_catalog_id", label="По подкаталогу"
     )
-    catalog_id_slider = filters.NumberFilter(
-        method="filter_catalog_id_slider", label="По подкаталогу для слайдера"
-    )
     compound_id = ModelMultipleChoiceFilter(
         queryset=Compound.objects.all(), method="filter_compounds", label="По материалу"
     )
@@ -26,6 +23,19 @@ class ProductFilter(FilterSet):
         queryset=SubCatalog.objects.all(),
         method="filter_sub_catalog_id",
         label="По подкаталогу",
+        required=False,
+    )
+    price = filters.RangeFilter(method="filter_price", label="По цене")
+    color_id = ModelMultipleChoiceFilter(
+        queryset=Color.objects.all(),
+        method="filter_color",
+        label="По цвету",
+        required=False,
+    )
+    size_id = ModelMultipleChoiceFilter(
+        queryset=Size.objects.all(),
+        method="filter_size",
+        label="По размеру",
         required=False,
     )
 
@@ -36,15 +46,38 @@ class ProductFilter(FilterSet):
             "created_at",
             "high_rating",
             "sub_catalog",
-            "catalog_id_slider",
+            "catalog_id",
             "compound_id",
+            "price",
+            "color_id",
+            "size_id",
         ]
+
+    # ФИЛЬТР ПО ЦЕНОВОМУ ДИАПАЗОНУ
+    def filter_price(self, queryset, name, value):
+        if value:
+            min_price = value.start
+            max_price = value.stop
+            price_filter = Q(
+                productinfo__promotion_cost__gte=min_price,
+                productinfo__promotion_cost__lte=max_price,
+            ) | Q(productinfo__cost__gte=min_price, productinfo__cost__lte=max_price)
+            queryset = queryset.filter(price_filter).order_by("-created_at").distinct()
+            return queryset
+        return queryset
 
     # ФИЛЬТР ПО МАТЕРИАЛУ
     def filter_compounds(self, queryset, name, value):
         if not value:
             return queryset
         products = Product.objects.filter(compound__in=value)
+        return products
+
+    # ФИЛЬТР ПО КАТАЛОГУ
+    def filter_catalog_id(self, queryset, name, value):
+        if not value:
+            return queryset
+        products = Product.objects.filter(sub_catalog__catalog__id=value).order_by("?")
         return products
 
     # Фильтрация по подкаталогу
@@ -54,58 +87,33 @@ class ProductFilter(FilterSet):
         products = Product.objects.filter(sub_catalog__in=value)
         return products
 
-    # ФИЛЬТР ДЛЯ СЛАЙДЕРА
-    def filter_catalog_id_slider(self, queryset, name, value):
-        while True:
-            sub_catalog = SubCatalog.objects.filter(catalog_id=value)
-            if sub_catalog:
-                current_sub_catalog = random.choice(sub_catalog)
-                products = Product.objects.filter(sub_catalog=current_sub_catalog)
-                if products.count() >= 3:
-                    random_products = random.sample(list(products), 3)
-                    return queryset.filter(
-                        pk__in=[product.pk for product in random_products]
-                    ).order_by("-rating")
-            else:
-                return queryset.none()
-
-    # ФИЛЬТР ПО КАТАЛОГУ
-    def filter_catalog_id(self, queryset, name, value):
-        pass
-
     def filter_color(self, queryset, name, value):
-        pass
+        if value:
+            return queryset.filter(productinfo__color__in=value)
+        return queryset
 
     def filter_size(self, queryset, name, value):
-        pass
+        if value:
+            return queryset.filter(productinfo__size__in=value)
+        return queryset
 
     # ФИЛЬТР ПО РЕЙТИНГУ
     def filter_high_rating(self, queryset, name, value):
         if value:
             return queryset.order_by("-rating")
-        else:
-            return queryset
+        return queryset
 
-
-# ПО КАТАЛОГУ -> НА ПОДКАТАЛОГИ - 30%
-# ЦЕНА (ОТ и ДО) 1000-4000 - заготовка
-# НОВЫЕ ТОВАРЫ - готово
-# ПО ТЭГУ - готово
-# ПО РЕЙТИНГУ - готово да/нет
-# ЦВЕТА ХЗ - нету
-# Размеры ХЗ - нету
-# СОСТАВ НУЖЕН - ГОТОВО
-# ПОКА ВСЕ.... ЭТО ПИЗДЕЦ
-#
-#
-#
 
 """
 СДЕЛАНЫЕ ФИЛЬТРЫ:
 
+КАТАЛОГИ
 ПОДКАТАЛОГИ
 ТЭГИ
 РЕЙТИНГ
 СОСТАВ
-
+ЦЕНА
+НОВЫЕ ТОВАРЫ
+ЦВЕТА
+РАЗМЕРЫ
 """
