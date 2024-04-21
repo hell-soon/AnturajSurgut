@@ -1,18 +1,24 @@
 <script setup lang="ts">
 import Swiper from './swiper.vue'
 import ProductCard from './product-card.vue'
+import type { ProductParams } from '~/utils/api/service/product/product.type'
 
-const stores = setupStore(['productPopList'])
+const stores = setupStore(['productList'])
 
 const visible = ref(true)
 
-watch(() => stores.productPopList.catalog_id, () => {
+const params: ProductParams = {
+  page_size: 3,
+}
+
+watch(() => stores.productList.catalog_id, () => {
+  params.catalog_id = stores.productList.catalog_id
   visible.value = false
   setTimeout(() => {
     visible.value = true
   }, 350)
 
-  stores.productPopList.fetchProductPopList(3)
+  stores.productList.fetchProductList(params)
 })
 </script>
 
@@ -28,7 +34,7 @@ watch(() => stores.productPopList.catalog_id, () => {
     <Transition name="fade">
       <div v-if="visible" class="product-cards">
         <ProductCard
-          v-for="card in stores.productPopList.productPopList?.results"
+          v-for="card in stores.productList.productList?.results"
           :key="card.product.id"
           :card="card"
         />

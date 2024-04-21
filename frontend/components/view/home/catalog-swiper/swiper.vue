@@ -2,7 +2,7 @@
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Autoplay, EffectCoverflow } from 'swiper/modules'
 
-const stores = setupStore(['productPopList', 'catalogList'])
+const stores = setupStore(['productList', 'catalogList'])
 
 const _swiperOptions = {
   modules: [EffectCoverflow, Autoplay],
@@ -21,7 +21,7 @@ const _swiperOptions = {
 
 function onSlideChange(e: any) {
   const a = (e.realIndex + 1) as number
-  stores.productPopList.catalog_id = a
+  stores.productList.catalog_id = a
 }
 </script>
 
