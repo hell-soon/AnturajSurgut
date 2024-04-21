@@ -7,6 +7,7 @@ JAZZ_SETTINGS = {
     # Панель управления
     # моадльное окно
     "related_modal_active": True,
+    "use_modal_dialog_for_popups": True,
     # Панель кастомизации(только на время разработки)
     "show_ui_builder": True,
     # гугл шрифты
@@ -47,17 +48,6 @@ JAZZ_SETTINGS = {
         # Url that gets reversed (Permissions can be added)
         {"name": "Главная", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"model": "auth.Group"},
-        # external url that opens in a new window (Permissions can be added)
-        # {
-        #     "name": "Поддержка(DEV)",
-        #     "url": "test",
-        #     "new_window": False,
-        # },
-        # {"name": "books"},
-        # model admin to link to (Permissions checked against model)
-        # {"model": "order.Order"}, вывод конкретной модели
-        # App with dropdown menu to all its models pages (Permissions checked against models)
-        # {"app": "DB"}, вывод полного списка моделей приложения
     ],
     # FORMS
     "changeform_format": "horizontal_tabs",
