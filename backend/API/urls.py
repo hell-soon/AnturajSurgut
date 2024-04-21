@@ -1,7 +1,8 @@
 from django.urls import path, include
 
 from .Views.Order import OrderInfoView
-from .Views.Product import ProductInfoView, GlobalSearch
+from .Views.Product import ProductInfoView
+from .Views.Search.SearchView import GlobalSearch
 from .Views.FilterMenu.FilterMenu import FilterMenu
 from .Routers.routers import router
 

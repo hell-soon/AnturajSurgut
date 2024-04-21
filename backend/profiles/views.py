@@ -1,20 +1,18 @@
+from rest_framework import status
+from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from rest_framework import status
-from rest_framework.views import APIView
+
+from users.models import CustomUser
+
 from .serializers.Update.UserUpd import UserUpdateSerializer
 from .serializers.Users.UserSerializer import UserSerializer
-from users.models import CustomUser
-from order.models import Order
-from DB.utils.codes import STATUS_MAP
-from django.db.models import Q
 
-from icecream import ic
+from .misc.search_orders import get_user_order
 
 
 @swagger_auto_schema(
@@ -41,20 +39,6 @@ def update_user_view(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-def get_user_order(user):
-    orders = Order.objects.filter(Q(user_email=user.email) | Q(user_phone=user.phone))
-    order_list = []
-    if orders:
-        for order in orders:
-            order_dict = {}
-            order_dict["order_number"] = order.order_number
-            order_dict["order_status"] = STATUS_MAP[order.order_status]
-            order_dict["created_at"] = order.created_at.strftime("%d.%m.%Y" + " %H:%M")
-            order_list.append(order_dict)
-        return order_list
-    return None
 
 
 @api_view(["POST"])

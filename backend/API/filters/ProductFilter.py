@@ -46,7 +46,6 @@ class ProductFilter(FilterSet):
             "tags",
             "created_at",
             "high_rating",
-            "sub_catalog",
             "catalog_id",
             "compound_id",
             "price",
