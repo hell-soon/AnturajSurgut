@@ -1,2 +1,2 @@
-from .Product import ProductViewSet, GlobalSearch
+from .Product import ProductViewSet
 from .ProductInfo import ProductInfoView
