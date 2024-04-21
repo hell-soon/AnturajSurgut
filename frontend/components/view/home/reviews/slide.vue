@@ -46,6 +46,13 @@ const rating = props.info.rating
   &-content {
     display: flex;
     align-items: flex-start;
+    overflow: hidden;
+
+    p {
+      -webkit-line-clamp: 9;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+    }
   }
 
   &-footer {

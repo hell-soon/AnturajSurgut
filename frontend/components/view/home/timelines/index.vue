@@ -21,7 +21,7 @@ import Timeline from '~/utils/mock/timelines'
         <div>
           <v-lazy
             :options="{ threshold: 0.5 }"
-            transition="slide-y-transition"
+            :transition="index === 0 || index === 2 ? 'slide-y-transition' : 'slide-y-reverse-transition'"
           >
             <p class="smallFootnote text-grey-darken-2">
               {{ item.text }}
