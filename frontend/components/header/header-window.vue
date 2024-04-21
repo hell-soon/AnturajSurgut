@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Modal from '../shared/modal.vue'
 import List from '~/utils/mock/header-list'
 </script>
 
@@ -26,15 +27,17 @@ import List from '~/utils/mock/header-list'
       </div>
 
       <div class="list">
-        <nuxt-link
+        <Modal
           v-for="(item, index) in List.second"
           :key="index"
           :to="item.link"
         >
-          <v-badge :color="item.badge ? '#e6e4e1' : 'transparent'" dot>
-            <img :src="`/icons/${item.name}.svg`" alt="phone">
-          </v-badge>
-        </nuxt-link>
+          <template #activator>
+            <v-badge :color="item.badge ? '#e6e4e1' : 'transparent'" dot>
+              <img :src="`/icons/${item.name}.svg`" :alt="item.name">
+            </v-badge>
+          </template>
+        </Modal>
       </div>
     </div>
   </header>
