@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, throttle_classes
+from rest_framework.throttling import UserRateThrottle
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -30,6 +31,7 @@ from .misc.search_orders import get_user_order
 )
 @api_view(["PATCH"])
 @permission_classes([IsAuthenticated])
+# @throttle_classes([UserRateThrottle]) FIXME
 def update_user_view(request):
     user = request.user
     serializer = UserUpdateSerializer(instance=user, data=request.data, partial=True)

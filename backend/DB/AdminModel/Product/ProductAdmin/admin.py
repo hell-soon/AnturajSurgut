@@ -61,6 +61,7 @@ class ProductAdmin(admin.ModelAdmin):
             "sub_catalog",
             "image",
             "rating",
+            "total_sales",
             "product_status",
         ]
         return fields

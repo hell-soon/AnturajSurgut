@@ -3,9 +3,10 @@ from django.utils.encoding import force_str, force_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.throttling import AnonRateThrottle
 
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -66,6 +67,7 @@ from .serializers.Update.UserPasswordUpdate import UserUpdatePasswordSerializer
     },
 )
 @api_view(["POST"])
+@throttle_classes([AnonRateThrottle])
 def register_user(request):
     """
     Регистрация пользователя
@@ -266,6 +268,3 @@ def change_password(request, uidb64, token):
             },
             status=status.HTTP_400_BAD_REQUEST,
         )
-
-
-

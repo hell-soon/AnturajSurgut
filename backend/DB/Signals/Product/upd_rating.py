@@ -1,12 +1,10 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from order.models import Order
+from DB.models import Product
 
 
-@receiver(post_save, sender=Order)
-def upd_product_rating_quantity(sender, instance, **kwargs):
-    if instance.order_status == "6":
-        order_items = instance.orderitems_set.all()
-        for order_item in order_items:
-            order_item.product.product.rating += order_item.quantity
-            order_item.product.product.save()
+@receiver(post_save, sender=Product)
+def calculate_product_rating(sender, instance, **kwargs):
+    # instance.rating = instance.calculate_rating()
+    # instance.save(update_fields=["rating"])
+    pass

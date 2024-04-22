@@ -20,25 +20,25 @@ class SocialInline(admin.TabularInline):
     }
 
 
-class WorkTimeInline(admin.TabularInline):
+class WorkTimeInline(admin.StackedInline):
     model = WokrTime
     extra = 1
     max_num = 1
 
 
-class AddressInline(admin.TabularInline):
+class AddressInline(admin.StackedInline):
     model = Address
     extra = 1
     max_num = 1
 
 
-class ContactInline(admin.TabularInline):
+class ContactInline(admin.StackedInline):
     model = Contact
     extra = 1
     max_num = 1
 
 
-class RequisitesInline(admin.TabularInline):
+class RequisitesInline(admin.StackedInline):
     model = Requisites
     extra = 1
     max_num = 1

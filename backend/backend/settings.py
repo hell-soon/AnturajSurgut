@@ -213,6 +213,26 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    # # КАСТОМНЫЕ КЛАССЫ
+    # "DEFAULT_THROTTLE_CLASSES": [
+    #     "API.Throttling.ThrottlingAnonUsers.UserReviewsThrottle",
+    #     "API.Throttling.ThrottlingAnonUsers.SearchThrottle",
+    #     "API.Throttling.ThrottlingAnonUsers.FeedbackThrottle",
+    #     "API.Throttling.ThrottlingAuthUsers.ChangeInfoThrottle",
+    #     "API.Throttling.ThrottlingAuthUsers.ChangePasswordThrottle",
+    #     "API.Throttling.ThrottlingAuthUsers.UserReviewsThrottle",
+    # ],
+    # # КОЛВО ЗАПРОСОВ НА КАЖДЫЙ СКОП
+    # "DEFAULT_THROTTLE_RATES": {
+    #     "anon": "10/min",
+    #     "user": "5/day",
+    #     "user_reviews": "3/day",
+    #     "search": "30/min",
+    #     "change_info": "10/day",
+    #     "change_password": "15/day",
+    #     "user_reviews": "3/day",
+    #     "feedback": "20/day",
+    # },
 }
 
 
@@ -223,6 +243,7 @@ JWT TOKEN
 SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
+    # "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=60),
 }
 

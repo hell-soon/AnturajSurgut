@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from django.db.models import Q
 
 from drf_yasg.utils import swagger_auto_schema
+from API.Throttling.ThrottlingAnonUsers import SearchThrottle
 
 from API.serializers.SearchSerializers import SearchSerializer
 from API.serializers.MainProductSerializers import ProductSerializer
@@ -14,6 +15,8 @@ from DB.models import Product
 
 
 class GlobalSearch(APIView):
+    # throttle_classes = [SearchThrottle] FIXME
+
     @swagger_auto_schema(
         request_body=SearchSerializer, responses={200: ProductSerializer(many=True)}
     )
