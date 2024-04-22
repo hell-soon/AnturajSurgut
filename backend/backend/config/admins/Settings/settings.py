@@ -28,7 +28,7 @@ JAZZ_SETTINGS = {
         "order.Order": "fas fa-truck",
         "order.Additionalservices": "fas fa-plus",
         "order.OrderType": "fas fa-receipt",
-        "order.OrderFace": "fas fa-id-badge",
+        "order.OrderFace": "fa-solid fa-user-tag",
         "order.PaymentType": "fas fa-money-check",
         "reviews.Review": "fas fa-comment",
         "reviews.Feedback": "fas fa-certificate",
