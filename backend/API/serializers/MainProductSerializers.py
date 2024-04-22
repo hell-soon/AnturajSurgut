@@ -29,7 +29,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "sub_catalog",
             "tags",
             "compound",
-            "rating",
         )
 
     def validate(self, data):
