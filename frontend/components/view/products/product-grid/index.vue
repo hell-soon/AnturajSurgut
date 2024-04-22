@@ -9,14 +9,19 @@ const store = setupStore(['productList'])
     <h1 class="text-black">
       Product Grid
     </h1>
-    <div class="">
-      <Card v-for="(card, i) in store.productList.productList?.results" :key="i" :card="card" />
+    <div>
+      <v-container>
+        <v-row>
+          <v-col
+            v-for="(card, i) in store.productList.productList?.results"
+            :key="i"
+            sm="3"
+          >
+            <Card :card="card" />
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
-    <v-pagination
-      v-model="store.productList.params.page"
-      :total-visible="8"
-      :length="store.productList.productList?.total_pages"
-    />
   </div>
 </template>
 
