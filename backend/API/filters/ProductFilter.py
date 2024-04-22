@@ -3,7 +3,7 @@ from django_filters.rest_framework import FilterSet
 
 from django.db.models import Q
 
-from DB.models import Product, Tags, SubCatalog, Compound, Color, Size
+from DB.models import Product, Tags, SubCatalog, Compound, Color, Size, Catalog
 
 
 class ProductFilter(FilterSet):
@@ -55,10 +55,17 @@ class ProductFilter(FilterSet):
             "color_id",
             "size_id",
         ]
-
+    
     def filter_most_sold(self, queryset, name, value):
         if value:
             return queryset.order_by("-total_sales")
+
+    # ФИЛЬТР ПО КАТАЛОГУ
+    def filter_catalog_id(self, queryset, name, value):
+        if not value:
+            return queryset
+
+        return queryset.filter(sub_catalog__catalog__id=value).order_by("?")
 
     # ФИЛЬТР ПО ЦЕНОВОМУ ДИАПАЗОНУ
     def filter_price(self, queryset, name, value):
@@ -77,22 +84,13 @@ class ProductFilter(FilterSet):
     def filter_compounds(self, queryset, name, value):
         if not value:
             return queryset
-        products = Product.objects.filter(compound__in=value)
-        return products
-
-    # ФИЛЬТР ПО КАТАЛОГУ
-    def filter_catalog_id(self, queryset, name, value):
-        if not value:
-            return queryset
-        products = Product.objects.filter(sub_catalog__catalog__id=value).order_by("?")
-        return products
+        return queryset.filter(compound__in=value)
 
     # Фильтрация по подкаталогу
     def filter_sub_catalog_id(self, queryset, name, value):
         if not value:
             return queryset
-        products = Product.objects.filter(sub_catalog__in=value)
-        return products
+        return queryset.filter(sub_catalog__in=value)
 
     def filter_color(self, queryset, name, value):
         if value:

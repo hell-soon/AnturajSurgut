@@ -18,4 +18,3 @@ class ProductViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = ProductFilter
     pagination_class = StandardResultsSetPagination
-    # throttle_classes = [AnonRateThrottle] FIXME

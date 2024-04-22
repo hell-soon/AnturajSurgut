@@ -213,26 +213,26 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    # КАСТОМНЫЕ КЛАССЫ
-    "DEFAULT_THROTTLE_CLASSES": [
-        "API.Throttling.ThrottlingAnonUsers.UserReviewsThrottle",
-        "API.Throttling.ThrottlingAnonUsers.SearchThrottle",
-        "API.Throttling.ThrottlingAnonUsers.FeedbackThrottle",
-        "API.Throttling.ThrottlingAuthUsers.ChangeInfoThrottle",
-        "API.Throttling.ThrottlingAuthUsers.ChangePasswordThrottle",
-        "API.Throttling.ThrottlingAuthUsers.UserReviewsThrottle",
-    ],
-    # КОЛВО ЗАПРОСОВ НА КАЖДЫЙ СКОП
-    "DEFAULT_THROTTLE_RATES": {
-        "anon": "10/min",
-        "user": "5/day",
-        "user_reviews": "3/day",
-        "search": "30/min",
-        "change_info": "10/day",
-        "change_password": "15/day",
-        "user_reviews": "3/day",
-        "feedback": "20/day",
-    },
+    # # КАСТОМНЫЕ КЛАССЫ
+    # "DEFAULT_THROTTLE_CLASSES": [
+    #     "API.Throttling.ThrottlingAnonUsers.UserReviewsThrottle",
+    #     "API.Throttling.ThrottlingAnonUsers.SearchThrottle",
+    #     "API.Throttling.ThrottlingAnonUsers.FeedbackThrottle",
+    #     "API.Throttling.ThrottlingAuthUsers.ChangeInfoThrottle",
+    #     "API.Throttling.ThrottlingAuthUsers.ChangePasswordThrottle",
+    #     "API.Throttling.ThrottlingAuthUsers.UserReviewsThrottle",
+    # ],
+    # # КОЛВО ЗАПРОСОВ НА КАЖДЫЙ СКОП
+    # "DEFAULT_THROTTLE_RATES": {
+    #     "anon": "10/min",
+    #     "user": "5/day",
+    #     "user_reviews": "3/day",
+    #     "search": "30/min",
+    #     "change_info": "10/day",
+    #     "change_password": "15/day",
+    #     "user_reviews": "3/day",
+    #     "feedback": "20/day",
+    # },
 }
 
 
