@@ -1,4 +1,5 @@
 import os
+import random
 from django.db import models
 from colorfield.fields import ColorField
 from django_ckeditor_5.fields import CKEditor5Field
@@ -146,6 +147,7 @@ class Compound(models.Model):
         return f"{self.name}"
 
 
+# На поле rating используется валидация для того чтоб в дальнейшем можно было сделать механизм расчета рейтинга, но пока это заглушка TODO))
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название")
     description = CKEditor5Field("Описание", config_name="extends")
@@ -161,6 +163,7 @@ class Product(models.Model):
     )
     product_status = models.BooleanField(default=True, verbose_name="Активен")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создан")
+    total_sales = models.IntegerField(default=0, verbose_name="Количество продаж")
     rating = models.IntegerField(
         default=0,
         verbose_name="Рейтинг",
@@ -171,6 +174,10 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
+
+    def calculate_rating(self):
+        # Рейтинг товара расчитывается из количества его продаж, в дальшейшем можно обновить механизм расчета рейтинга( добавить положительный и отрицательный рейтинг) TODO
+        return random.randint(1, 5)
 
     def __str__(self):
         return self.name

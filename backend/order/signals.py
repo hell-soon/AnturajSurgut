@@ -3,13 +3,13 @@ from django.dispatch import receiver
 from .models import Order, OrderItems, OrderAddress
 
 
-# @receiver(post_save, sender=Order)
-# def upd_product_rating_quantity(sender, instance, **kwargs):
-#     if instance.order_status == "6":
-#         order_items = OrderItems.objects.filter(order=instance)
-#         for order_item in order_items:
-#             order_item.product.product.rating += order_item.quantity
-#             order_item.product.product.save()
+@receiver(post_save, sender=Order)
+def upd_product_rating_quantity(sender, instance, **kwargs):
+    if instance.order_status == "6":
+        order_items = OrderItems.objects.filter(order=instance)
+        for order_item in order_items:
+            order_item.product.product.total_sales += order_item.quantity
+            order_item.product.product.save()
 
 
 @receiver(post_save, sender=Order)
