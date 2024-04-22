@@ -66,8 +66,9 @@ class Command(BaseCommand):
         slider_creator.create()
 
         info_creator = InfoSiteCreator()
-        info_creator.create_contact()
-        info_creator.create_social()
+        data = info_creator.create_pk()
+        info_creator.create_contact(data)
+        info_creator.create_social(data)
 
         # Use this because celery in docker depence_on: - backend_container
         try:

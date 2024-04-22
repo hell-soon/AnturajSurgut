@@ -7,6 +7,7 @@ router = routers.DefaultRouter()
 router.register(r"slider", SliderViewSet)
 router.register(r"contact", ContactViewSet)
 router.register(r"service", ServiceViewSet)
+router.register(r"test", V2ServiceViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

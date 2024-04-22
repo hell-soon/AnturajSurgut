@@ -2,10 +2,11 @@ import os
 from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from .Utils.Code.Sertificate.sertificate_generator import generate_certificate
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django_ckeditor_5.fields import CKEditor5Field
+
+from .Utils.Code.Sertificate.sertificate_generator import generate_certificate
 
 
 class SiteImage(models.Model):
@@ -65,12 +66,7 @@ class Service(models.Model):
     text = CKEditor5Field(
         "Текст",
         config_name="extends",
-        help_text="Текст который будет отображен в начале странице",
-    )
-    table = CKEditor5Field(
-        "Таблица",
-        config_name="table",
-        help_text="Текст который будет отображен внизу страницы",
+        help_text="Текст который будет отображен на странице",
     )
     is_active = models.BooleanField(default=True, verbose_name="Активен")
     image = models.ImageField(upload_to="service/", verbose_name="Картинка", blank=True)
@@ -150,7 +146,19 @@ class Sertificate(models.Model):
         return self.code
 
 
+class SiteInfo(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Название")
+
+    class Meta:
+        verbose_name = "Информация о сайте"
+        verbose_name_plural = "Информация о сайте"
+
+    def __str__(self):
+        return self.name
+
+
 class Requisites(models.Model):
+    info = models.ForeignKey(SiteInfo, on_delete=models.CASCADE)
     ip = models.CharField(max_length=255, verbose_name="ИП")
     inn = models.CharField(max_length=255, verbose_name="ИНН")
     legal_address = models.CharField(max_length=255, verbose_name="Юридический адрес")
@@ -161,6 +169,7 @@ class Requisites(models.Model):
 
 
 class Contact(models.Model):
+    info = models.ForeignKey(SiteInfo, on_delete=models.CASCADE)
     phone = models.CharField(max_length=255, verbose_name="Телефон")
     fax = models.CharField(max_length=255, verbose_name="Факс")
     email = models.EmailField(max_length=255, verbose_name="Email")
@@ -174,6 +183,7 @@ class Contact(models.Model):
 
 
 class Address(models.Model):
+    info = models.ForeignKey(SiteInfo, on_delete=models.CASCADE)
     address = models.CharField(max_length=255, verbose_name="Адрес")
     longitude = models.CharField(max_length=100, verbose_name="Долгота")
     latitude = models.CharField(max_length=100, verbose_name="Широта")
@@ -187,6 +197,7 @@ class Address(models.Model):
 
 
 class WokrTime(models.Model):
+    info = models.ForeignKey(SiteInfo, on_delete=models.CASCADE)
     work_time = models.CharField(max_length=255, verbose_name="Время работы")
 
     class Meta:
@@ -198,6 +209,7 @@ class WokrTime(models.Model):
 
 
 class SocialAccount(models.Model):
+    info = models.ForeignKey(SiteInfo, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, verbose_name="Название")
     url = models.CharField(max_length=255, verbose_name="Ссылка")
     icon = models.ImageField(upload_to="social/", verbose_name="Иконка")
