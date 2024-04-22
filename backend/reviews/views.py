@@ -4,13 +4,14 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import permission_classes, throttle_classes
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
 from API.Utils.Paginator.PaginationClass import StandardResultsSetPagination
-
+from API.Throttling.ThrottlingAuthUsers import UserReviewsThrottle
+from API.Throttling.ThrottlingAnonUsers import FeedbackThrottle
 from .serializers.Schemas import (
     SchemaRewiewCreateSerializer,
     AuthShema,
@@ -59,6 +60,7 @@ class ReviewsViewSet(viewsets.ModelViewSet):
 )
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
+# @throttle_classes([UserReviewsThrottle]) FIXME THROTTLE
 def review_create(request):
     serializer = ReviewSerializer(data=request.data)
     if serializer.is_valid():
@@ -93,6 +95,7 @@ def review_create(request):
 )
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated])
+# @throttle_classes([UserReviewsThrottle]) FIXME THROTTLE
 def update_review(request, review_id):
     try:
         review = Review.objects.get(id=review_id)
@@ -113,7 +116,7 @@ def update_review(request, review_id):
 
 
 @api_view(["DELETE"])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated]) FIXME THROTTLE
 def delete_review(request, review_id):
     try:
         review = Review.objects.get(id=review_id)
@@ -131,6 +134,7 @@ def delete_review(request, review_id):
 
 
 @api_view(["POST"])
+# @throttle_classes([FeedbackThrottle]) FIXME THROTTLE
 def feedback(request):
     serializer = FeedBackSerializer(data=request.data)
     if serializer.is_valid():

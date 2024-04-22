@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-
+from rest_framework.throttling import AnonRateThrottle
 
 from django_filters import rest_framework as filters
 
@@ -18,3 +18,4 @@ class ProductViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = ProductFilter
     pagination_class = StandardResultsSetPagination
+    # throttle_classes = [AnonRateThrottle] FIXME
