@@ -266,3 +266,6 @@ def change_password(request, uidb64, token):
             },
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+
+
