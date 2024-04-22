@@ -10,7 +10,7 @@ UI_SETTINGS = {
     "navbar_fixed": True,
     "layout_boxed": False,
     "footer_fixed": True,
-    "sidebar_fixed": True,
+    "sidebar_fixed": False,
     "sidebar": "sidebar-dark-primary",
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": True,
