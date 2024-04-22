@@ -3,7 +3,7 @@ from django_filters.rest_framework import FilterSet
 
 from django.db.models import Q
 
-from DB.models import Product, Tags, SubCatalog, Compound, Color, Size, Catalog
+from DB.models import Product, Tags, SubCatalog, Compound, Color, Size
 
 
 class ProductFilter(FilterSet):
@@ -55,7 +55,7 @@ class ProductFilter(FilterSet):
             "color_id",
             "size_id",
         ]
-    
+
     def filter_most_sold(self, queryset, name, value):
         if value:
             return queryset.order_by("-total_sales")
