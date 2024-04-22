@@ -39,8 +39,8 @@ class ProductFilter(FilterSet):
         label="По размеру",
         required=False,
     )
-    most_sale = filters.BooleanFilter(
-        method="filter_most_sale", field_name="most_sale", label="По популярности"
+    most_sold = filters.BooleanFilter(
+        method="filter_most_sold", label="По популярности"
     )
 
     class Meta:
@@ -56,7 +56,7 @@ class ProductFilter(FilterSet):
             "size_id",
         ]
 
-    def filter_most_sale(self, queryset, name, value):
+    def filter_most_sold(self, queryset, name, value):
         if value:
             return queryset.order_by("-total_sales")
 
