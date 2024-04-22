@@ -4,4 +4,3 @@ from .OurWork.admin import OurWorkAdmin
 from .Service.admin import ServiceAdmin
 from .Slider.admin import SliderAdmin
 from .Site.admin import SiteInfoAdmin
-from .Social.admin import SocailAdmin

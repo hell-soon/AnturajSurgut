@@ -7,7 +7,6 @@ from .AdminModels import (
     OurWorkAdmin,
     ServiceAdmin,
     SliderAdmin,
-    SocailAdmin,
     SiteInfoAdmin,
 )
 
@@ -15,7 +14,6 @@ from .AdminModels import (
 admin.site.register(SiteInfo, SiteInfoAdmin)
 admin.site.register(OurWorkImage, SiteImageAdmin)
 admin.site.register(SiteImage, SiteImageAdmin)
-admin.site.register(SocialAccount, SocailAdmin)
 admin.site.register(Sertificate, SertificateAdmin)
 admin.site.register(OurWork, OurWorkAdmin)
 admin.site.register(Service, ServiceAdmin)

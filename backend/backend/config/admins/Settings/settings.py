@@ -38,6 +38,7 @@ JAZZ_SETTINGS = {
         "sitedb.OurWork": "fas fa-briefcase",
         "sitedb.OurWorkImage": "fas fa-image",
         "sitedb.Sertificate": "fas fa-certificate",
+        "sitedb.SiteInfo": "fa-solid fa-house",
         "sitedb.Vacancy": "fas fa-certificate",
         "telegram.TelegramImage": "fas fa-image",
         "telegram.TelegramNews": "fas fa-paper-plane",
