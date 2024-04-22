@@ -54,7 +54,6 @@ class ServiceSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "text",
-            "table",
             "image",
             "sliders",
             "our_works",

@@ -1,8 +1,8 @@
-from django.urls import reverse
-
 from rest_framework import status
 
-from users.tests import Setup
+from django.urls import reverse
+
+from API.tests import Setup
 
 
 class UserTestCase(Setup):

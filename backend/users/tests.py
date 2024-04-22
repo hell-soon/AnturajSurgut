@@ -1,30 +1,8 @@
-from django.core.management import call_command
-from django.urls import reverse
-from rest_framework.test import APITestCase
 from rest_framework import status
-from .models import CustomUser
-from icecream import ic
 
+from django.urls import reverse
 
-class Setup(APITestCase):
-    def setUp(self):
-        call_command("create_data")
-        self.user = CustomUser.objects.create_user(
-            email="nT0n7@example.com",
-            password="TestPassword123",
-            first_name="Test",
-            last_name="User",
-        )
-
-        response = self.client.post(
-            reverse("login_user"),
-            data={
-                "email": self.user.email,
-                "password": "TestPassword123",
-            },
-        )
-        self.token = response.data["access"]
-        self.refresh = response.data["refresh"]
+from API.tests import Setup
 
 
 # ТЕСТЫ НА ПРОВЕРКУ СИСТЕМУ АВТОРИЗАЦИИ

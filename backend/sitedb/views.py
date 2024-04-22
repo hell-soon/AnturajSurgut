@@ -91,3 +91,9 @@ class ServiceViewSet(viewsets.ReadOnlyModelViewSet):
         response_data = {"services": service_serializer.data}
 
         return Response(response_data)
+
+
+class V2ServiceViewSet(viewsets.ModelViewSet):
+    queryset = Service.objects.filter(is_active=True)
+    serializer_class = ServiceSerializer
+    http_method_names = ["get"]

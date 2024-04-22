@@ -30,6 +30,7 @@ django-colorfield==0.11.0
 django-cors-headers==4.3.1
 django-filter==23.5
 django-image-uploader-widget==0.4.4
+django-jazzmin==3.0.0
 django-localflavor==4.0
 django-rest-swagger==2.2.0
 djangorestframework==3.14.0

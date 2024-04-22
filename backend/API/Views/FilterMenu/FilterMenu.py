@@ -6,6 +6,7 @@ from drf_yasg import openapi
 
 from DB.models import Color, Size, Compound
 from API.serializers.MenuSerializers import MenuSerializer
+from API.Utils.Prices.MinMaxPrice import calculated_range_cost
 
 
 class FilterMenu(APIView):
@@ -53,10 +54,13 @@ class FilterMenu(APIView):
         }
     )
     def get(self, request):
+        cost_range = calculated_range_cost()
         data = {
             "color": Color.objects.all(),
             "size": Size.objects.all(),
             "compound": Compound.objects.all(),
         }
         serializer = MenuSerializer(instance=data, context={"request": request})
-        return Response(serializer.data)
+        data = serializer.data
+        data["cost_range"] = cost_range
+        return Response(data)

@@ -2,8 +2,8 @@ from django.urls import reverse
 
 from rest_framework import status
 
-from users.tests import Setup
-from icecream import ic
+from API.tests import Setup
+
 
 
 class SiteTestCase(Setup):

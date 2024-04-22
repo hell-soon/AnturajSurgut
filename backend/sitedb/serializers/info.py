@@ -48,17 +48,15 @@ class WokrTimeSerializer(serializers.ModelSerializer):
 
 class FullInfoSerializer(serializers.Serializer):
     contact = ContactSerializer()
-    # social_accounts = SocialAccountSerializer(many=True)
-    requisites = RequisitesSerializer()
     address = AddressSerializer()
+    requisites = RequisitesSerializer()
     work_time = WokrTimeSerializer()
 
     class Meta:
         fields = [
             "contact",
-            # "social_accounts",
-            "requisites",
             "address",
+            "requisites",
             "work_time",
         ]
 
