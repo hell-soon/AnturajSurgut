@@ -18,6 +18,7 @@ from DB.management.Classes.Users.admin import AdminsCreator
 from DB.management.Classes.Users.groups import GroupCreator
 from DB.management.Classes.Reviews.Reviews import ReviewsCreator
 from DB.management.Classes.Additions.Compound import CompoundCreator
+from DB.management.Classes.Order.status import StatusCreator
 
 
 class Command(BaseCommand):
@@ -58,6 +59,9 @@ class Command(BaseCommand):
 
         order_type_creator = OrderTypeCreator()
         order_type_creator.create()
+
+        order_status_creator = StatusCreator()
+        order_status_creator.create()
 
         payment_type_creator = PaymentTypeCreator()
         payment_type_creator.create()

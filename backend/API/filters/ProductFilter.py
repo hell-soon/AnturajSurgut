@@ -59,6 +59,7 @@ class ProductFilter(FilterSet):
     def filter_most_sold(self, queryset, name, value):
         if value:
             return queryset.order_by("-total_sales")
+        return queryset
 
     # ФИЛЬТР ПО КАТАЛОГУ
     def filter_catalog_id(self, queryset, name, value):

@@ -57,15 +57,18 @@ class PaymentType(models.Model):
         return self.name
 
 
+class OrderStatus(models.Model):
+    name = models.CharField(max_length=50, verbose_name="Название")
+
+    class Meta:
+        verbose_name = "Статус заказа"
+        verbose_name_plural = "Статусы заказов"
+
+    def __str__(self):
+        return self.name
+
+
 class Order(models.Model):
-    CHOICES_STATUS = (
-        ("1", "Не готов"),
-        ("2", "Готов к выдаче"),
-        ("3", "Передан в доставку"),
-        ("4", "Доставлен"),
-        ("5", "Отменен"),
-        ("6", "Завершен"),
-    )
     user_initials = models.CharField(max_length=100, verbose_name="Инициалы покупателя")
     user_email = models.EmailField(
         verbose_name="Электронная почта", blank=True, null=True
@@ -93,8 +96,8 @@ class Order(models.Model):
     order_face = models.ForeignKey(
         OrderFace, verbose_name="Тип лица", on_delete=models.CASCADE
     )
-    order_status = models.CharField(
-        max_length=1, choices=CHOICES_STATUS, default="1", verbose_name="Статус"
+    order_status = models.ForeignKey(
+        OrderStatus, verbose_name="Статус", on_delete=models.CASCADE, default=1
     )
     order_additionalservices = models.ManyToManyField(
         Additionalservices, verbose_name="Доп.услуги", blank=True

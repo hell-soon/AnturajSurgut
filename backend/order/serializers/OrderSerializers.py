@@ -10,6 +10,7 @@ from order.models import (
     OrderFace,
     OrderAddress,
     LegalDate,
+    OrderStatus,
 )
 from .OrderComponentSerializers import (
     ProductQuantitySerializer,
@@ -58,7 +59,6 @@ class OrderSerializer(serializers.ModelSerializer):
             "order_face",
             "order_additionalservices",
             "comment",
-            "order_status",
             "track_number",
             "payment_type",
             "sertificate",
