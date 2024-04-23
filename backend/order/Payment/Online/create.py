@@ -10,8 +10,6 @@ from django.conf import settings
 Configuration.account_id = settings.YOOKASSA_ACCOUNT_ID
 Configuration.secret_key = settings.YOOKASSA_SECRET
 
-SITE_URL = settings.SITE_URL
-
 
 def create_online_check(order):
     total_cost = order.total_cost()
@@ -21,7 +19,7 @@ def create_online_check(order):
             "amount": {"value": total_cost, "currency": "RUB"},
             "confirmation": {
                 "type": "redirect",
-                "return_url": SITE_URL,
+                "return_url": settings.SITE_URL,
             },
             "capture": True,
             "description": text,

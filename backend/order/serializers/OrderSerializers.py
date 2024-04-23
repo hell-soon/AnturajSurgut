@@ -70,25 +70,25 @@ class OrderSerializer(serializers.ModelSerializer):
         type = data.get("order_type")
         if type.name == "Самовывоз" and data.get("address"):
             raise serializers.ValidationError(
-                {"address_error": "Нельзя указать адрес самовывоза"}
+                {"error": ["Нельзя указать адрес самовывоза"]}
             )
 
         if type.name != "Самовывоз" and not data.get("address"):
-            raise serializers.ValidationError(
-                {"address_error": "Необходимо указать адрес"}
-            )
+            raise serializers.ValidationError({"error": ["Необходимо указать адрес"]})
 
         order_face = data.get("order_face")
         legal_data = data.get("legal")
         if order_face and order_face.name == "Юридическое лицо" and not legal_data:
             raise serializers.ValidationError(
                 {
-                    "legal": 'Для заказа "Юридическое лицо" необходимо предоставить данные о юридическом лице.'
+                    "error": [
+                        'Для заказа "Юридическое лицо" необходимо предоставить данные о юридическом лице.'
+                    ]
                 }
             )
         if not any(data.get(field) for field in ["user_email", "user_phone"]):
             raise serializers.ValidationError(
-                {"user_error": "Необходимо заполнить хотя бы одно из полей"}
+                {"error": ["Необходимо заполнить хотя бы одно из полей"]}
             )
         return data
 
@@ -161,3 +161,7 @@ class OrderSerializer(serializers.ModelSerializer):
             OrderItems.objects.create(order=order, product=product, quantity=quantity)
 
         return order
+
+        """
+        ОШИБКИ В ОБЩИЙ ВИД {"error": ["string"]}
+        """

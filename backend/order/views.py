@@ -29,6 +29,7 @@ from .Payment.Online.create import create_online_check
                 properties={
                     "message": openapi.Schema(type=openapi.TYPE_STRING),
                     "order_number": openapi.Schema(type=openapi.TYPE_STRING),
+                    "payment_url": openapi.Schema(type=openapi.TYPE_STRING),
                 },
             ),
         ),
