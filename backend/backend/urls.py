@@ -14,6 +14,7 @@ urlpatterns = [
     path(f"api/{settings.API_VERSION}/order/", include("order.urls")),
     path(f"api/{settings.API_VERSION}/review/", include("reviews.urls")),
     path(f"api/{settings.API_VERSION}/site/", include("sitedb.urls")),
+    path(f"api/{settings.API_VERSION}/vacancy/", include("vacancy.urls")),
     path(
         "api/docs/",
         schema_view.with_ui("swagger"),

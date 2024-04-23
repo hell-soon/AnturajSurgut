@@ -4,7 +4,14 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Order, Additionalservices, OrderFace, OrderType, PaymentType
+from .models import (
+    Order,
+    Additionalservices,
+    OrderFace,
+    OrderType,
+    PaymentType,
+    OrderStatus,
+)
 from .serializers.OrderSerializers import OrderSerializer
 from .serializers.OrderUpdateSerializers import UpdateOrderSerializer
 from .serializers.OrderComponentSerializers import (
@@ -85,13 +92,13 @@ def update_order(request, order_number):
     try:
         order = Order.objects.get(order_number=order_number)
     except Order.DoesNotExist:
-        return Response({"error": "Заказ не найден"}, status=status.HTTP_404_NOT_FOUND)
+        return Response(
+            {"error": ["Заказ не найден"]}, status=status.HTTP_404_NOT_FOUND
+        )
 
     serializer = UpdateOrderSerializer(order, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer.is_valid(raise_exception=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @swagger_auto_schema(
