@@ -5,7 +5,6 @@ services:
     command: bash -c "python manage.py migrate && python manage.py create_data && python manage.py collectstatic --noinput && gunicorn backend.wsgi:application --bind 0.0.0.0:8080 --workers 1"
     volumes:
       - ./backend:/backend
-      - db: /backend/backend/config/db.sqlite3
       - static:/backend/staticfiles
       - media:/backend/media
     env_file:
@@ -55,7 +54,6 @@ services:
       - ./nginx:/etc/nginx/conf.d
       - static:/backend/staticfiles
       - media:/backend/media
-      - db:/backend/backend/config/db.sqlite3
     depends_on:
       - backend
       - frontend
