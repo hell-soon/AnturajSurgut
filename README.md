@@ -2,4 +2,4 @@
 
 `backend` - папка с Django.
 
-`frontend` - папка с vue
+`frontend` - папка с Nuxt.ts
