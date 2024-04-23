@@ -64,6 +64,7 @@ class UserInfoView(APIView):
         data = serializer.data
 
         if user_orders:
+            print("sadsad")
             data["orders"] = get_user_order(user)
 
         return Response(data)

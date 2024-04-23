@@ -12,7 +12,7 @@ def send_email_for_track_number(pk, track_number):
         "initials": order.user_initials,
         "order_number": order.order_number,
         "order_address": address,
-        "order_status": order.order_status,
+        "order_status": order.order_status.name,
         "track_number": track_number,
     }
     send_html_email(

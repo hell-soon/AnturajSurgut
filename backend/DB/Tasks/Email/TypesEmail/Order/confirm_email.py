@@ -12,7 +12,7 @@ def send_order_confirmation_email(pk):
         "initials": order.user_initials,
         "order_number": order.order_number,
         "order_address": address,
-        "order_status": order.order_status,
+        "order_status": order.order_status.name,
         "order_comment": order.comment,
         "order_paymant": order.order_paymant,
     }

@@ -5,7 +5,6 @@ from order.models import Order
 from ...Send.send_html import send_html_email
 
 
-
 @shared_task
 def send_email_for_manager(pk):
     group, _ = Group.objects.get_or_create(name="Менеджеры")
@@ -18,7 +17,7 @@ def send_email_for_manager(pk):
         "user_email": order.user_email,
         "user_phone": order.user_phone,
         "order_number": order.order_number,
-        "order_status": order.order_status,
+        "order_status": order.order_status.name,
         "order_comment": order.comment,
         "site_url": url,
     }

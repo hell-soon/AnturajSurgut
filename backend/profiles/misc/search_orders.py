@@ -10,7 +10,7 @@ def get_user_order(user):
         for order in orders:
             order_dict = {}
             order_dict["order_number"] = order.order_number
-            order_dict["order_status"] = STATUS_MAP[order.order_status]
+            order_dict["order_status"] = order.order_status.name
             order_dict["created_at"] = order.created_at.strftime("%d.%m.%Y" + " %H:%M")
             order_list.append(order_dict)
         return order_list
