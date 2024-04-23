@@ -25,6 +25,7 @@ export const useProductListStore = defineStore('productList', {
         this.productList = res
       }
       catch (err) {
+        this.params.page = 1
         this.error = err
       }
     },

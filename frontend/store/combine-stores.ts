@@ -2,6 +2,7 @@ import { useGlobalStore } from './common/global.store'
 import { useCatalogListStore } from './module/home/catalog-list.store'
 import { useProductListStore } from './module/home/product-pop-list.store'
 import { useContactListStore } from './module/shared/contact.store'
+import { useProductFilterstStore } from './module/shared/product-filters.store'
 
 type ExtractStoreId<T> = T extends { $id: infer U } ? U : never
 
@@ -10,6 +11,7 @@ interface IStoreTypes {
   catalogList: ReturnType<typeof useCatalogListStore>
   productList: ReturnType<typeof useProductListStore>
   contactList: ReturnType<typeof useContactListStore>
+  productFilters: ReturnType<typeof useProductFilterstStore>
 }
 
 type StoreKeys = ExtractStoreId<IStoreTypes[keyof IStoreTypes]>
@@ -19,6 +21,7 @@ export const stores: Readonly<{ [K in StoreKeys]: () => IStoreTypes[K] }> = Obje
   catalogList: useCatalogListStore,
   productList: useProductListStore,
   contactList: useContactListStore,
+  productFilters: useProductFilterstStore,
 })
 
 function setupStore<T extends StoreKeys>(key: T): Readonly<IStoreTypes[T]>
