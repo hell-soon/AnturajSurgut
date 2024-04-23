@@ -9,19 +9,28 @@ from .models import Vacancy
 from API.Utils.Paginator.PaginationClass import StandardResultsSetPagination
 
 
-class VacancyView(APIView):
+class VacancyView(ListAPIView):
     queryset = Vacancy.objects.filter(is_active=True).order_by("-created_at")
     serializer_class = VacancySerializer
     permission_classes = [AllowAny, IsAuthenticated]
     pagination_class = StandardResultsSetPagination
 
-    def get_queryset(self):
-        return self.queryset.all()
-
     def get_serializer_class(self):
         if self.request.method == "POST":
             return VacancyResponseSerializer
+
+        elif "id" in self.kwargs:
+            return BaseVacancySerializer
         return self.serializer_class
+
+    def get_queryset(self):
+        if "id" in self.kwargs:
+            # Если запрос идет на 'test/{id}/', возвращаем информацию о выбранном объекте
+            return Vacancy.objects.filter(id=self.kwargs["id"])
+
+        else:
+            # Если запрос идет на 'test/', возвращаем исходный GET запрос
+            return super().get_queryset()
 
     def post(self, request):
         if request.user.is_authenticated:
@@ -39,6 +48,3 @@ class VacancyView(APIView):
             {"detail": "Учетные данные не были предоставлены."},
             status=status.HTTP_401_UNAUTHORIZED,
         )
-
-    def get(self, request):
-        return Response({"success": "GET"})

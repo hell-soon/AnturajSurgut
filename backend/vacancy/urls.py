@@ -5,4 +5,5 @@ from .views import VacancyView
 
 urlpatterns = [
     path("test/", VacancyView.as_view()),
+    path("test/<int:id>/", VacancyView.as_view()),
 ]
