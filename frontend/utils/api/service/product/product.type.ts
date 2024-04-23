@@ -11,4 +11,5 @@ export interface ProductParams {
   size_id?: number[]
   page?: number
   page_size?: number
+  most_sold?: boolean
 }
