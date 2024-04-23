@@ -9,8 +9,11 @@ watch(() => store.productList.params, (newValue) => {
   store.productList.fetchProductList(paramsCopy)
 }, { deep: true })
 
-store.productList.fetchProductList()
 store.catalogList.fetchCatalogList()
+store.productList.fetchProductList(store.productList.params)
+
+if (store.productList.params)
+  store.productList.fetchProductList(store.productList.params)
 </script>
 
 <template>
