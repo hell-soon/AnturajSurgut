@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     "order.apps.OrderConfig",  # Order API
     "API.apps.ApiConfig",  # Product API
     "reviews.apps.ReviewsConfig",  # Reviews API
+    "vacancy.apps.VacancyConfig",  # Vacancy API
     "django_filters",  # Filters
     "colorfield",  # color field
     "rest_framework",  # API

@@ -220,7 +220,3 @@ class SocialAccount(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class Vacancy(models.Model):
-    pass
