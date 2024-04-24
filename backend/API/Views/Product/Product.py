@@ -8,7 +8,7 @@ from django_filters import rest_framework as filters
 
 from API.serializers.MainProductSerializers import ProductSerializer
 from API.filters.ProductFilter import ProductFilter
-from API.Utils.Paginator.PaginationClass import StandardResultsSetPagination
+from backend.paginator import StandardResultsSetPagination
 from API.serializers.DetailProductSerializers import DetailProductSerializer
 from DB.models import Product, ProductInfo
 
