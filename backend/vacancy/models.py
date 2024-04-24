@@ -9,8 +9,8 @@ class Vacancy(models.Model):
     work_time = models.CharField(max_length=100, verbose_name="График работы")
     is_active = models.BooleanField(default=True, verbose_name="Активна")
     salary = models.CharField(max_length=100, verbose_name="Зарплата")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
 
     def save(self, *args, **kwargs):
         if self.salary is None:
