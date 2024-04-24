@@ -13,7 +13,7 @@ class Review(models.Model):
     rating = models.PositiveIntegerField(
         verbose_name="Рейтинг", validators=[MinValueValidator(0), MaxValueValidator(5)]
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 
     class Meta:
         verbose_name = "Отзыв"

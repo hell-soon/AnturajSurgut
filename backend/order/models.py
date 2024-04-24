@@ -116,6 +116,9 @@ class Order(models.Model):
     payment_id = models.CharField(
         max_length=255, verbose_name="ID платежа в Юкассе", blank=True
     )
+    # user = models.ForeignKey(
+    #     CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True
+    # )
 
     class Meta:
         verbose_name = "Заказ"

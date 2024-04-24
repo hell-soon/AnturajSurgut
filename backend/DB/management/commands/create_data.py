@@ -26,6 +26,15 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         User = get_user_model()
+        try:
+            admin_creator = AdminsCreator(User)
+            created_admin = admin_creator.create()
+
+            group_creator = GroupCreator()
+            groups = group_creator.create()
+        except Exception as e:
+            pass
+
         test_data_dir = "media/TestDataImage"
         catalog_creator = CatalogsCreator(test_data_dir)
         catalogs = catalog_creator.create()
@@ -73,17 +82,6 @@ class Command(BaseCommand):
         data = info_creator.create_pk()
         info_creator.create_contact(data)
         info_creator.create_social(data)
-
-        # Use this because celery in docker depence_on: - backend_container
-        try:
-
-            admin_creator = AdminsCreator(User)
-            created_admin = admin_creator.create()
-
-            group_creator = GroupCreator()
-            groups = group_creator.create()
-        except Exception as e:
-            pass
 
         reviews_creator = ReviewsCreator()
         reviews_creator.create()
