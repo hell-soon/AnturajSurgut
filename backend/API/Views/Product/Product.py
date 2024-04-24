@@ -32,7 +32,9 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         responce_data = {}
         info_serializer = DetailProductSerializer(product_info, many=True)
-        product_serializer = ProductSerializer(product)
+        product_serializer = self.get_serializer_class()(
+            product, context={"request": request}
+        )
         responce_data = product_serializer.data
         responce_data["product_info"] = info_serializer.data
         return Response(responce_data)

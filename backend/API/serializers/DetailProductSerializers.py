@@ -20,15 +20,15 @@ class DetailProductSerializer(serializers.ModelSerializer):
             "promotion_cost",
         ]
 
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        info = {
-            "product_info_id": data["id"],
-            "color": data["color"],
-            "size": data["size"],
-            "quantity": data["quantity"],
-            "cost": data["cost"],
-            "promotion": data["promotion"],
-            "promotion_cost": data["promotion_cost"],
-        }
-        return info
+    # def to_representation(self, instance):
+    #     data = super().to_representation(instance)
+    #     info = {
+    #         "product_info_id": data["id"],
+    #         "color": data["color"],
+    #         "size": data["size"],
+    #         "quantity": data["quantity"],
+    #         "cost": data["cost"],
+    #         "promotion": data["promotion"],
+    #         "promotion_cost": data["promotion_cost"],
+    #     }
+    #     return info
