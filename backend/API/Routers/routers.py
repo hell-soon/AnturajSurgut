@@ -8,7 +8,7 @@ from API.Views.Tags.TagsView import TagsViewSet
 
 router = routers.DefaultRouter()
 router.register(r"subcatalog", SubCatalogViewSet)
-router.register(r"product", ProductViewSet)
+router.register(r"list", ProductViewSet)
 router.register(r"catalog", CatalogViewSet)
 router.register(r"order", OrderViewSet)
 router.register(r"tags", TagsViewSet)

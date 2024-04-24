@@ -42,14 +42,6 @@ SET_LOGGING = {
             "formatter": "security_error",
             "level": "INFO",
         },
-        "telegram_bot": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.path.join(BASE_DIR, "logs/telegram_bot.log"),
-            "maxBytes": 1024 * 1024 * 5,
-            "backupCount": 5,
-            "formatter": "error_format",
-            "level": "ERROR",
-        },
         "payment_create": {
             "class": "logging.handlers.RotatingFileHandler",
             "filename": os.path.join(BASE_DIR, "logs/payment_create.log"),
@@ -70,17 +62,15 @@ SET_LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "verbose",
         },
+        "console_debug": {
+            "class": "logging.StreamHandler",
+        },
     },
     "loggers": {
         "django.request": {"handlers": ["errors"], "level": "ERROR", "propagate": True},
         "django.security": {
             "handlers": ["security"],
             "level": "INFO",
-            "propagate": True,
-        },
-        "tg_bot": {
-            "handlers": ["telegram_bot"],
-            "level": "ERROR",
             "propagate": True,
         },
         "payment_create": {
@@ -96,6 +86,14 @@ SET_LOGGING = {
         "debug": {
             "handlers": ["console"],
             "level": "INFO",
+        },
+        "loggers": {
+            "django.db.backends": {
+                "level": "DEBUG",
+            },
+        },
+        "root": {
+            "handlers": ["console_debug"],
         },
     },
 }

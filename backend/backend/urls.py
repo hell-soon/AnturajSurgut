@@ -8,7 +8,7 @@ from API.schema.schema import schema_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path(f"api/{settings.API_VERSION}/list/", include("API.urls")),
+    path(f"api/{settings.API_VERSION}/product/", include("API.urls")),
     path(f"api/{settings.API_VERSION}/auth/", include("users.urls")),
     path(f"api/{settings.API_VERSION}/profile/", include("profiles.urls")),
     path(f"api/{settings.API_VERSION}/order/", include("order.urls")),

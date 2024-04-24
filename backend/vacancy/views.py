@@ -1,50 +1,49 @@
-from rest_framework import status
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.generics import ListAPIView
-from rest_framework.views import APIView
+from rest_framework import status, viewsets
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .Serializers.vacancyserializer import VacancySerializer, BaseVacancySerializer
 from .Serializers.vacancyresponse import VacancyResponseSerializer
-from .models import Vacancy
+from .models import Vacancy, ResponseVacancy
 from API.Utils.Paginator.PaginationClass import StandardResultsSetPagination
+from rest_framework.decorators import action, permission_classes
 
 
-class VacancyView(ListAPIView):
+class VacancyViewSet(viewsets.ModelViewSet):
     queryset = Vacancy.objects.filter(is_active=True).order_by("-created_at")
     serializer_class = VacancySerializer
-    permission_classes = [AllowAny, IsAuthenticated]
+    http_method_names = ["get", "post"]
     pagination_class = StandardResultsSetPagination
 
     def get_serializer_class(self):
-        if self.request.method == "POST":
-            return VacancyResponseSerializer
-
-        elif "id" in self.kwargs:
+        if self.action == "retrieve":
             return BaseVacancySerializer
-        return self.serializer_class
+        return super().get_serializer_class()
 
-    def get_queryset(self):
-        if "id" in self.kwargs:
-            # Если запрос идет на 'test/{id}/', возвращаем информацию о выбранном объекте
-            return Vacancy.objects.filter(id=self.kwargs["id"])
-
-        else:
-            # Если запрос идет на 'test/', возвращаем исходный GET запрос
-            return super().get_queryset()
-
-    def post(self, request):
+    @action(detail=True, methods=["post"])
+    @permission_classes([IsAuthenticated])
+    def respond(self, request, pk=None):
         if request.user.is_authenticated:
-            serializer = self.get_serializer_class()
-            serializer = serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save(user=request.user)
+            vacancy = self.get_object()
+
+            if not ResponseVacancy.objects.filter(
+                vacancy=vacancy, user=request.user
+            ).exists():
+                serializer = VacancyResponseSerializer(data=request.data)
+                serializer.is_valid(raise_exception=True)
+                serializer.save(vacancy=vacancy, user=request.user)
+                return Response(
+                    {
+                        "message": "Спасибо за ваш отклик! Мы свяжемся с вами в ближайшее время!"
+                    },
+                    status=status.HTTP_201_CREATED,
+                )
+            else:
+                return Response(
+                    {"detail": "Пользователь уже откликнулся на эту вакансию"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        else:
             return Response(
-                {
-                    "message": "Спасибо за ваш отклик, мы свяжемся с вами в ближайшее время!"
-                },
-                status=status.HTTP_201_CREATED,
+                {"detail": "Учетные данные не были предоставлены"},
+                status=status.HTTP_401_UNAUTHORIZED,
             )
-        return Response(
-            {"detail": "Учетные данные не были предоставлены."},
-            status=status.HTTP_401_UNAUTHORIZED,
-        )

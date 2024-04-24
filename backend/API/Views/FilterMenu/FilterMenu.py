@@ -8,6 +8,8 @@ from DB.models import Color, Size, Compound
 from API.serializers.MenuSerializers import MenuSerializer
 from API.Utils.Prices.MinMaxPrice import calculated_range_cost
 
+import time
+
 
 class FilterMenu(APIView):
     @swagger_auto_schema(
@@ -54,6 +56,7 @@ class FilterMenu(APIView):
         }
     )
     def get(self, request):
+        time_start = time.time()
         cost_range = calculated_range_cost()
         data = {
             "color": Color.objects.all(),
@@ -63,4 +66,6 @@ class FilterMenu(APIView):
         serializer = MenuSerializer(instance=data, context={"request": request})
         data = serializer.data
         data["cost_range"] = cost_range
+        end_time = time.time()
+        print(end_time - time_start)
         return Response(data)
