@@ -46,7 +46,7 @@ def update_user_view(request):
 @api_view(["POST"])
 def tg_order_buttons(request):
     try:
-        user = CustomUser.objects.get(user_tg_id=request.data.get("tg_id"))
+        user = CustomUser.objects.get(tg_id=request.data.get("tg_id"))
         orders = get_user_order(user)
     except CustomUser.DoesNotExist:
         return Response({"orders": None})
