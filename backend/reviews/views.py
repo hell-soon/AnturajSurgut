@@ -1,22 +1,14 @@
 from rest_framework import status
 from rest_framework import viewsets
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.decorators import permission_classes, throttle_classes
-
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 
 from API.Utils.Paginator.PaginationClass import StandardResultsSetPagination
 from API.Throttling.ThrottlingAuthUsers import UserReviewsThrottle
 from API.Throttling.ThrottlingAnonUsers import FeedbackThrottle
-from .serializers.Schemas import (
-    SchemaRewiewCreateSerializer,
-    AuthShema,
-    SuccessSerializer,
-)
+
 from .serializers.ReviewsMainSerializers import ReviewSerializer
 from .serializers.ReviewsChangeSerializers import ReviewChangeSerializer
 from .serializers.FeedbackSerializers import FeedBackSerializer
@@ -26,111 +18,57 @@ from .models import Review
 class ReviewsViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all().order_by("-created_at")
     serializer_class = ReviewSerializer
-    http_method_names = ["get"]
+    http_method_names = ["get", "post", "patch", "delete"]
     pagination_class = StandardResultsSetPagination
+    permission_classes = [AllowAny]
 
+    def get_permissions(self):
+        if self.action in ["create", "update", "destroy"]:
+            return [IsAuthenticated()]
+        return [AllowAny()]
 
-@swagger_auto_schema(
-    method="post",
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        properties={
-            "text": openapi.Schema(type=openapi.TYPE_STRING),
-            "rating": openapi.Schema(type=openapi.TYPE_INTEGER),
-        },
-    ),
-    responses={
-        201: openapi.Response(
-            description="Отзыв успешно опубликован", schema=SuccessSerializer()
-        ),
-        400: openapi.Response(
-            description="Некорректные данные",
-            schema=openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    "field_name": openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING),
-                    )
-                },
-            ),
-        ),
-        401: AuthShema.schema(),
-    },
-)
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
-# @throttle_classes([UserReviewsThrottle]) FIXME THROTTLE
-def review_create(request):
-    serializer = ReviewSerializer(data=request.data)
-    if serializer.is_valid():
+    def get_serializer_class(self):
+        if self.action == "update":
+            return ReviewChangeSerializer
+        return ReviewSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
+        headers = self.get_success_headers(serializer.data)
         return Response(
-            {"message": "Отзыв успешно опубликован"}, status=status.HTTP_201_CREATED
-        )
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@swagger_auto_schema(
-    method="put",
-    request_body=SchemaRewiewCreateSerializer,
-    responses={
-        200: openapi.Response(description="Отзыв обновлен", schema=ReviewSerializer()),
-        401: AuthShema.schema(),
-        403: openapi.Response(
-            description="Вы не можете изменить этот отзыв",
-            schema=openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={"error": openapi.Schema(type=openapi.TYPE_STRING)},
-            ),
-        ),
-        404: openapi.Response(
-            description="Отзыв не найден",
-            schema=openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={"error": openapi.Schema(type=openapi.TYPE_STRING)},
-            ),
-        ),
-    },
-)
-@api_view(["PUT"])
-@permission_classes([IsAuthenticated])
-# @throttle_classes([UserReviewsThrottle]) FIXME THROTTLE
-def update_review(request, review_id):
-    try:
-        review = Review.objects.get(id=review_id)
-    except Review.DoesNotExist:
-        return Response({"error": "Отзыв не найден"}, status=status.HTTP_404_NOT_FOUND)
-
-    if review.user != request.user:
-        return Response(
-            {"error": "Вы не можете изменить этот отзыв"},
-            status=status.HTTP_403_FORBIDDEN,
+            {"message": "Отзыв успешно опубликован"},
+            status=status.HTTP_201_CREATED,
+            headers=headers,
         )
 
-    serializer = ReviewChangeSerializer(review, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(["DELETE"])
-# @permission_classes([IsAuthenticated]) FIXME THROTTLE
-def delete_review(request, review_id):
-    try:
-        review = Review.objects.get(id=review_id)
-    except Review.DoesNotExist:
-        return Response({"error": "Отзыв не найден"}, status=status.HTTP_404_NOT_FOUND)
-
-    if review.user != request.user:
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop("partial", False)
+        instance = self.get_object()
+        if instance.user != request.user:
+            return Response(
+                {"detail": "У вас нет разрешения на изменение этого отзыва"},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
         return Response(
-            {"error": "Вы не можете удалить этот отзыв"},
-            status=status.HTTP_403_FORBIDDEN,
+            {"message": "Отзыв успешно обновлен"}, status=status.HTTP_200_OK
         )
 
-    review.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.user != request.user:
+            return Response(
+                {"detail": "У вас нет разрешения на удаление этого отзыва"},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        self.perform_destroy(instance)
+        return Response(
+            {"message": "Отзыв успешно удален"}, status=status.HTTP_204_NO_CONTENT
+        )
 
 
 @api_view(["POST"])
