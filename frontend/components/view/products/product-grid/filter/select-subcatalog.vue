@@ -7,7 +7,11 @@ const url = useRequestURL()
 const router = useRouter()
 
 // Функция для создания наблюдателя параметров
-function watchParam(paramName: string, storeKey: keyof ProductParams, fetchData?: (value: number) => void) {
+function watchParam(
+  paramName: string,
+  storeKey: keyof ProductParams,
+  fetchData?: (value: number) => void,
+) {
   watch(() => store.productList.params[storeKey], (newValue) => {
     const url = useRequestURL()
 

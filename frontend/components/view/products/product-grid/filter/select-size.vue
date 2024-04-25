@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { watchParam } from '~/utils/helpers/filters-watch'
+
 const store = setupStore(['productFilters', 'productList'])
+
+watchParam('size_id', 'size_id')
 </script>
 
 <template>

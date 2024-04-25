@@ -11,7 +11,6 @@ const store = setupStore(['productFilters', 'productList'])
     item-value="id"
     :items="store.productFilters.productFilters?.compound"
     variant="underlined"
-
     multiple
   >
     <template #selection="{ item, index }">
