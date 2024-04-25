@@ -6,7 +6,7 @@ const store = setupStore(['productFilters', 'productList'])
   <v-select
     v-model="store.productList.params.compound_id"
     clearable
-    label="Материял"
+    label="Материал"
     item-title="name"
     item-value="id"
     :items="store.productFilters.productFilters?.compound"

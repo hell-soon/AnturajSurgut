@@ -1,14 +1,14 @@
 <script setup lang="ts">
 const store = setupStore(['productList', 'catalogList'])
 
-// const url = useRequestURL()
+const url = useRequestURL()
 const router = useRouter()
 
 watch(() => store.productList.params.catalog_id, () => {
   store.productList.params.subcatalog_id = undefined
   if (store.productList.params.catalog_id)
     store.catalogList.fetchSubcatalog(store.productList.params.catalog_id)
-})
+}, { immediate: true })
 
 watch(() => store.productList.params.subcatalog_id, () => {
   const url = useRequestURL()
@@ -33,10 +33,10 @@ watch(() => store.productList.params.subcatalog_id, () => {
   router.push(url.pathname + url.search)
 })
 
-// if (url.searchParams.has('subcatalog'))
-//   store.productList.params.subcatalog_id = Number.parseInt(url.searchParams.get('subcatalog_id')!)
-// else
-//   store.productList.params.subcatalog_id = undefined
+if (url.searchParams.has('subcatalog'))
+  store.productList.params.subcatalog_id = JSON.parse(url.searchParams.get('subcatalog')!)
+else
+  store.productList.params.subcatalog_id = undefined
 </script>
 
 <template>

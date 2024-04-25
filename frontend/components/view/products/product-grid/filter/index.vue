@@ -6,26 +6,34 @@ import SelectSize from './select-size.vue'
 import SelectCompound from './select-compound.vue'
 import PriceInpuit from './price-input.vue'
 
+import type { ProductParams } from '~/utils/api/service/product/product.type'
+
 const url = useRequestURL()
 const router = useRouter()
 
 const store = setupStore(['productList'])
 
-watch(() => store.productList.params.high_rating, () => {
-  const url = useRequestURL()
+function watchParam(paramName: string, storeKey: keyof ProductParams) {
+  watch(() => store.productList.params[storeKey], (newValue) => {
+    const url = useRequestURL()
 
-  if (store.productList.params.high_rating)
-    url.searchParams.append('high_rating', 'true')
+    if (newValue)
+      url.searchParams.append(paramName, 'true')
+    else
+      url.searchParams.delete(paramName)
+
+    router.push(url.pathname + url.search)
+  })
+
+  if (url.searchParams.has(paramName))
+    store.productList.params[storeKey] = true as unknown as undefined // Set to true explicitly
   else
-    url.searchParams.delete('high_rating')
+    store.productList.params[storeKey] = undefined // Set to undefined explicitly
+}
 
-  router.push(url.pathname + url.search)
-})
-
-if (url.searchParams.has('high_rating'))
-  store.productList.params.high_rating = true
-else
-  store.productList.params.high_rating = undefined
+// Использование функции для каждого параметра
+watchParam('high_rating', 'high_rating')
+watchParam('most_sold', 'most_sold')
 
 function Clear() {
   store.productList.params = {}
