@@ -4,9 +4,9 @@ import type {
 } from '~/types/models/catalog'
 
 export function getCatalogList() {
-  return getReq<CatalogResponse[]>('/list/catalog/')
+  return getReq<CatalogResponse[]>('/product/catalog/')
 }
 
 export function getSubcatalog(catalog_id: number) {
-  return getReq<SubCatalogResponse[]>('/list/subcatalog', { catalog_id })
+  return getReq<SubCatalogResponse[]>('/product/subcatalog', { catalog_id })
 }

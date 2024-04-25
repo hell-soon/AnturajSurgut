@@ -1,11 +1,11 @@
 import type { ProductParams } from '~/utils/api/service/product/product.type'
 
-const store = setupStore(['productFilters', 'productList'])
-
-const router = useRouter()
-const url = useRequestURL()
-
 export function watchParam(paramName: string, storeKey: keyof ProductParams) {
+  const store = setupStore(['productFilters', 'productList'])
+
+  const router = useRouter()
+  const url = useRequestURL()
+
   watch(() => store.productList.params[storeKey], (newValue) => {
     const url = useRequestURL()
     if (newValue) {

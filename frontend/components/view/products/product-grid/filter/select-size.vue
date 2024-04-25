@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watchParam } from '~/utils/helpers/filters-watch'
+import { watchParam } from '~/utils/helpers/filters'
 
 const store = setupStore(['productFilters', 'productList'])
 
