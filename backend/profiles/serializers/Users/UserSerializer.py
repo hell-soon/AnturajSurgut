@@ -3,24 +3,37 @@ from django.db.models import Q
 
 from rest_framework import serializers
 
-from order.models import Order, OrderStatus
+from order.models import Order, OrderStatus, OrderItems
 from reviews.models import Review
 from django.core.validators import MinValueValidator, MaxValueValidator
+from order.serializers.OrderComponentSerializers import OrderItemsSerializer
 
 
-class OrderStatusSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OrderStatus
-        fields = ["name"]
-
-
-class OrderSerializer(serializers.ModelSerializer):
-    order_status = OrderStatusSerializer()
-    created_at = serializers.DateTimeField(format="%d.%m.%Y %H:%M")
-
+class BaseorderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
+        fields = "__all__"
+
+
+class ProfilListeOrderSerializer(BaseorderSerializer):
+    order_status = serializers.CharField(source="order_status.name")
+    created_at = serializers.DateTimeField(format="%d.%m.%Y %H:%M")
+
+    class Meta(BaseorderSerializer.Meta):
         fields = ["id", "order_number", "order_status", "created_at"]
+
+
+class ProfileDetailOrderSerializer(BaseorderSerializer):
+    order_status = serializers.CharField(source="order_status.name")
+    created_at = serializers.DateTimeField(format="%d.%m.%Y %H:%M")
+    items = serializers.SerializerMethodField()
+
+    class Meta(BaseorderSerializer.Meta):
+        fields = ["id", "order_number", "order_status", "created_at", "items"]
+
+    def get_items(self, obj):
+        items = obj.orderitems_set.all()
+        return OrderItemsSerializer(items, many=True).data
 
 
 class BaseUserSerializer(serializers.ModelSerializer):
@@ -96,7 +109,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
-class ReviewSerializer(serializers.ModelSerializer):
+class ProfileReviewSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(read_only=True, format="%d.%m.%Y")
     rating = serializers.IntegerField(
         required=True,

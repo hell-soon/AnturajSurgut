@@ -17,7 +17,9 @@ from users.models import CustomUser
 from .serializers.Users.UserSerializer import (
     UserSerializer,
     UserUpdateSerializer,
-    ReviewSerializer,
+    ProfileReviewSerializer,
+    ProfilListeOrderSerializer,
+    ProfileDetailOrderSerializer,
 )
 
 from .misc.search_orders import get_user_order
@@ -25,6 +27,8 @@ from reviews.models import Review
 from icecream import ic
 
 from backend.paginator import StandardResultsSetPagination
+from order.models import Order
+from django.db.models import Q
 
 
 @api_view(["POST"])
@@ -43,8 +47,13 @@ class UserInfoViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        if self.action in ["update_review", "review_delete", "review_detail"]:
+        if self.action.startswith("review"):
             return Review.objects.filter(user=self.request.user).order_by("-created_at")
+        if self.action.startswith("order"):
+            return Order.objects.filter(
+                Q(user_phone=self.request.user.phone)
+                | Q(user_email=self.request.user.email)
+            ).order_by("-created_at")
         return super().get_queryset()
 
     def get_serializer_class(self):
@@ -58,9 +67,14 @@ class UserInfoViewSet(viewsets.ModelViewSet):
             "review_detail",
             "update_review",
         ]:
-            return ReviewSerializer
-        else:
-            return self.serializer_class
+
+            return ProfileReviewSerializer
+        if self.action == "orders":
+            return ProfilListeOrderSerializer
+        elif self.action == "order_info":
+            return ProfileDetailOrderSerializer
+
+        return self.serializer_class
 
     @action(detail=False, methods=["get"])
     def current(self, request):
@@ -71,8 +85,7 @@ class UserInfoViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["get"])
     def review(self, request):
-        user = request.user
-        reviews = Review.objects.filter(user=user).order_by("-created_at")
+        reviews = self.get_queryset()
         paginator = StandardResultsSetPagination()
         page = paginator.paginate_queryset(reviews, request)
         serializer = self.get_serializer_class()(page, many=True)
@@ -139,6 +152,24 @@ class UserInfoViewSet(viewsets.ModelViewSet):
         return Response(
             {"message": "Данные успешно обновлены"}, status=status.HTTP_200_OK
         )
+
+    @action(detail=False, methods=["get"])
+    def orders(self, request):
+        orders = self.get_queryset()
+        paginator = StandardResultsSetPagination()
+        page = paginator.paginate_queryset(orders, request)
+        serializer = self.get_serializer_class()(page, many=True)
+        return paginator.get_paginated_response(serializer.data)
+
+    @action(detail=True, methods=["get"])
+    def order_info(self, request, pk=None):
+        order = self.get_object()
+        serializer = self.get_serializer_class()(order)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=["patch"])
+    def change_order(self, request):
+        pass
 
     @action(detail=False, methods=["get"])
     def telegram_id(self, request):

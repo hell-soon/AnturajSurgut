@@ -24,5 +24,11 @@ urlpatterns = [
         ),
         name="review_detail",
     ),
+    path("profile/orders/", UserInfoViewSet.as_view({"get": "orders"}), name="orders"),
+    path(
+        "profile/orders/<int:pk>/",
+        UserInfoViewSet.as_view({"get": "order_info"}),
+        name="order_info",
+    ),
     path("tg/", tg_order_buttons, name="tg_view"),
 ]
