@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
 import type { Review } from '~/types/models/review'
 
 const props = defineProps<{ info: Review }>()
-
+const { sm, xs } = useDisplay()
 const rating = props.info.rating
 </script>
 
@@ -27,6 +28,7 @@ const rating = props.info.rating
         color="orange-lighten-2"
         active-color="orange-lighten-1"
         readonly
+        :density="sm || xs ? 'comfortable' : 'default'"
       />
     </div>
   </div>
@@ -37,7 +39,7 @@ const rating = props.info.rating
   display: flex;
   flex-direction: column;
   gap: $cover-16;
-  padding: $cover-24;
+  padding: clamp($cover-16, 5vw, $cover-24);
   border-radius: $cover-12;
   box-shadow: $shadow-card-review;
   margin: $cover-30 $cover-24;
