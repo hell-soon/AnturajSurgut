@@ -8,5 +8,5 @@ export function getCatalogList() {
 }
 
 export function getSubcatalog(catalog_id: number) {
-  return getReq<SubCatalogResponse[]>('/product/subcatalog', { catalog_id })
+  return getReq<SubCatalogResponse[]>('/product/subcatalog/', { catalog_id })
 }

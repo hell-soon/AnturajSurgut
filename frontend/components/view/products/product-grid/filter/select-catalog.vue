@@ -8,18 +8,18 @@ watch(() => store.productList.params.catalog_id, () => {
   const url = useRequestURL()
 
   if (store.productList.params.catalog_id) {
-    if (url.searchParams.has('catalog'))
-      url.searchParams.set('catalog', store.productList.params.catalog_id.toString())
+    if (url.searchParams.has('catalog_id'))
+      url.searchParams.set('catalog_id', store.productList.params.catalog_id.toString())
     else
-      url.searchParams.append('catalog', store.productList.params.catalog_id.toString())
+      url.searchParams.append('catalog_id', store.productList.params.catalog_id.toString())
   }
-  else { url.searchParams.delete('catalog') }
+  else { url.searchParams.delete('catalog_id') }
 
   router.push(url.pathname + url.search)
 })
 
-if (url.searchParams.has('catalog'))
-  store.productList.params.catalog_id = Number.parseInt(url.searchParams.get('catalog')!)
+if (url.searchParams.has('catalog_id'))
+  store.productList.params.catalog_id = Number.parseInt(url.searchParams.get('catalog_id')!)
 else
   store.productList.params.catalog_id = undefined
 </script>
