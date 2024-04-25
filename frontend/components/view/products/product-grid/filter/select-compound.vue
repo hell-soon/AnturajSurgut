@@ -1,17 +1,20 @@
 <script setup lang="ts">
+import { watchParam } from '~/utils/helpers/filters'
+
 const store = setupStore(['productFilters', 'productList'])
+
+watchParam('compound_id', 'compound_id')
 </script>
 
 <template>
   <v-select
     v-model="store.productList.params.compound_id"
     clearable
-    label="Материял"
+    label="Материал"
     item-title="name"
     item-value="id"
     :items="store.productFilters.productFilters?.compound"
     variant="underlined"
-
     multiple
   >
     <template #selection="{ item, index }">

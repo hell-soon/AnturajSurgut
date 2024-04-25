@@ -1,17 +1,14 @@
 <script setup lang="ts">
 const store = setupStore(['productList', 'catalogList', 'productFilters'])
 
+store.catalogList.fetchCatalogList()
+store.productFilters.fetchProductFilters()
+
 watch(() => store.productList.params, (newValue) => {
   const paramsCopy = { ...newValue }
-  paramsCopy.page = 1
+  // store.productList.params.page = 1
   store.productList.fetchProductList(paramsCopy)
-}, { deep: true })
-
-store.catalogList.fetchCatalogList()
-store.productList.fetchProductList()
-store.productFilters.fetchProductFilters()
-// if (store.productList.params)
-//   store.productList.fetchProductList(store.productList.params)
+}, { deep: true, immediate: true, flush: 'sync' })
 </script>
 
 <template>

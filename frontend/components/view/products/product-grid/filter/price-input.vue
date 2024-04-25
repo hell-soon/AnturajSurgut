@@ -1,8 +1,16 @@
 <script setup lang="ts">
 const store = setupStore(['productFilters', 'productList'])
 
-const min = store.productFilters.productFilters?.cost_range.min.toString()
-const max = store.productFilters.productFilters?.cost_range.max.toString()
+const min = ref()
+const max = ref()
+
+watch (() => store.productFilters.productFilters?.cost_range, () => {
+  min.value = store.productFilters.productFilters?.cost_range.min.toString()
+  max.value = store.productFilters.productFilters?.cost_range.max.toString()
+})
+
+min.value = store.productFilters.productFilters?.cost_range.min.toString()
+max.value = store.productFilters.productFilters?.cost_range.max.toString()
 </script>
 
 <template>

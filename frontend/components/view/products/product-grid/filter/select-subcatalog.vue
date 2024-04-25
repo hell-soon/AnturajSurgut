@@ -1,42 +1,48 @@
 <script setup lang="ts">
+import type { ProductParams } from '~/utils/api/service/product/product.type'
+
 const store = setupStore(['productList', 'catalogList'])
 
-// const url = useRequestURL()
+const url = useRequestURL()
 const router = useRouter()
 
-watch(() => store.productList.params.catalog_id, () => {
-  store.productList.params.subcatalog_id = undefined
-  if (store.productList.params.catalog_id)
-    store.catalogList.fetchSubcatalog(store.productList.params.catalog_id)
-})
+// Функция для создания наблюдателя параметров
+function watchParam(
+  paramName: string,
+  storeKey: keyof ProductParams,
+  fetchData?: (value: number) => void,
+) {
+  watch(() => store.productList.params[storeKey], (newValue) => {
+    const url = useRequestURL()
 
-watch(() => store.productList.params.subcatalog_id, () => {
-  const url = useRequestURL()
-
-  if (store.productList.params.subcatalog_id) {
-    const subcatalogArray = store.productList.params.subcatalog_id
-
-    if (url.searchParams.has('subcatalog')) {
-      const serializedSubcatalog = JSON.stringify(subcatalogArray)
-      url.searchParams.set('subcatalog', serializedSubcatalog)
+    if (newValue) {
+      const serializedValue = JSON.stringify(newValue)
+      url.searchParams.set(paramName, serializedValue)
     }
-
     else {
-      const serializedSubcatalog = JSON.stringify(subcatalogArray)
-      url.searchParams.append('subcatalog', serializedSubcatalog)
+      url.searchParams.delete(paramName)
     }
+
+    router.push(url.pathname + url.search)
+  })
+
+  if (url.searchParams.has(paramName)) {
+    const deserializedValue = JSON.parse(url.searchParams.get(paramName)!)
+    store.productList.params[storeKey] = deserializedValue
   }
   else {
-    url.searchParams.delete('subcatalog')
+    store.productList.params[storeKey] = undefined
   }
 
-  router.push(url.pathname + url.search)
+  if (fetchData && store.productList.params[storeKey])
+    fetchData(store.productList.params[storeKey] as number)
+}
+
+watchParam('catalog_id', 'catalog_id', (catalogId) => {
+  store.catalogList.fetchSubcatalog(catalogId)
 })
 
-// if (url.searchParams.has('subcatalog'))
-//   store.productList.params.subcatalog_id = Number.parseInt(url.searchParams.get('subcatalog_id')!)
-// else
-//   store.productList.params.subcatalog_id = undefined
+watchParam('subcatalog_id', 'subcatalog_id')
 </script>
 
 <template>
