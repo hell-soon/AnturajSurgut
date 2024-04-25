@@ -57,12 +57,6 @@ class UserUpdateSerializer(serializers.ModelSerializer):
                 {"error": "Телефон может содержать только цифры и знак '+'"}
             )
 
-        # Проверяем имя и фамилию TODO FIX
-        # if not data.get("first_name") and not data.get("last_name"):
-        #     raise serializers.ValidationError(
-        #         {"error": "Имя и фамилия не могут быть пустыми одновременно"}
-        #     )
-
         # Проверяем email на уникальность
         if (
             data.get("email")

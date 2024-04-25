@@ -15,7 +15,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ["user", "text", "rating", "created_at"]
+        fields = ["user", "id", "text", "rating", "created_at"]
         read_only_fields = ["created_at"]
 
     def to_representation(self, instance):

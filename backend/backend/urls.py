@@ -10,7 +10,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path(f"api/{settings.API_VERSION}/product/", include("API.urls")),
     path(f"api/{settings.API_VERSION}/auth/", include("users.urls")),
-    path(f"api/{settings.API_VERSION}/profile/", include("profiles.urls")),
+    path(f"api/{settings.API_VERSION}/users/", include("profiles.urls")),
     path(f"api/{settings.API_VERSION}/order/", include("order.urls")),
     path(f"api/{settings.API_VERSION}/review/", include("reviews.urls")),
     path(f"api/{settings.API_VERSION}/site/", include("sitedb.urls")),
