@@ -28,9 +28,6 @@ watch(() => stores.productList.catalog_id, () => {
       Каталог
     </h2>
     <Swiper />
-    <!-- <h2 class="text-black">
-      Популярные предложения
-    </h2> -->
     <Transition name="fade">
       <div v-if="visible" class="product-cards">
         <ProductCard
@@ -64,7 +61,16 @@ watch(() => stores.productList.catalog_id, () => {
   grid-template-rows: 600px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: $cover-50;
+  gap: clamp($cover-20, 20vw, $cover-50);
   justify-content: center;
+  align-items: center;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 628px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 </style>

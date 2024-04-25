@@ -41,12 +41,11 @@ defineProps<{ card: ProductResult }>()
 
   &-img {
     width: 100%;
-    height: 350px;
-    object-fit: cover;
 
     img {
       width: 100%;
-      height: 100%;
+      height: 350px;
+      object-fit: cover;
     }
   }
 
@@ -69,6 +68,10 @@ defineProps<{ card: ProductResult }>()
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 3;
       position: relative;
+
+      @media (max-width: 1024px) {
+        max-height: 120px;
+      }
     }
   }
 
