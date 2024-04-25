@@ -1,13 +1,8 @@
-from django.urls import path, include
+from django.urls import path
 from .views import tg_order_buttons, UserInfoViewSet
-from rest_framework import routers
 
-router = routers.SimpleRouter()
-
-# router.register("profile", UserInfoViewSet)
 
 urlpatterns = [
-    path("", include(router.urls)),
     path(
         "profile/",
         UserInfoViewSet.as_view({"get": "current", "patch": "update"}),
@@ -27,7 +22,7 @@ urlpatterns = [
                 "delete": "review_delete",
             }
         ),
-        name="review",
+        name="review_detail",
     ),
     path("tg/", tg_order_buttons, name="tg_view"),
 ]
