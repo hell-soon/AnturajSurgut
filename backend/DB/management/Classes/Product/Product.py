@@ -7,7 +7,7 @@ class ProductCreator:
     def create(self, sub_catalogs, tags, compaunds):
         products = []
         for sub_catalog in sub_catalogs:
-            for i in range(5):
+            for i in range(10):
                 product_name = f"{sub_catalog.name} {i+1}"
                 product = Product(
                     name=product_name,
@@ -21,7 +21,7 @@ class ProductCreator:
             created_products = Product.objects.bulk_create(products)
 
         for product in created_products:
-            product.tags.set(random.sample(tags, random.randint(1, 7)))
+            product.tags.set(random.sample(tags, random.randint(1, 5)))
 
         # Присвоение случайных изображений после сохранения объектов
         all_images = list(ProductImage.objects.all())
@@ -32,6 +32,6 @@ class ProductCreator:
                 product.image.add(image)
 
         for product in created_products:
-            product.compound.set(random.sample(compaunds, random.randint(1, 5)))
+            product.compound.set(random.sample(compaunds, random.randint(1, 4)))
 
         return created_products

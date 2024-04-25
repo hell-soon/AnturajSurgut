@@ -6,6 +6,7 @@ from order.models import (
     PaymentType,
     OrderAddress,
     LegalDate,
+    OrderItems,
 )
 from sitedb.models import Sertificate
 
@@ -79,3 +80,9 @@ class LegalDateSerializer(serializers.ModelSerializer):
             "ras_check",
             "legal_address",
         ]
+
+
+class OrderItemsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItems
+        fields = ["product", "color", "size", "cost", "quantity", "total_cost"]

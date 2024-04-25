@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from .Serializers.vacancyserializer import VacancySerializer, BaseVacancySerializer
 from .Serializers.vacancyresponse import VacancyResponseSerializer
 from .models import Vacancy, ResponseVacancy
-from API.Utils.Paginator.PaginationClass import StandardResultsSetPagination
+from backend.paginator import StandardResultsSetPagination
 from rest_framework.decorators import action, permission_classes
 
 

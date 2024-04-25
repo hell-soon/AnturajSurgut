@@ -17,7 +17,7 @@ class ReviewsCreator:
 
     def create(self):
         review = []
-        for i in range(5):
+        for i in range(20):
             review.append(
                 Review(
                     user=random.choice(self.user),

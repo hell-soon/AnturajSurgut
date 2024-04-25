@@ -8,12 +8,12 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=True)
-    password = serializers.CharField(write_only=True, required=True)
+    password1 = serializers.CharField(write_only=True, required=True)
     password_repeat = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = get_user_model()
-        fields = ["email", "first_name", "last_name", "password", "password_repeat"]
+        fields = ["email", "first_name", "last_name", "password1", "password_repeat"]
 
     def validate_email(self, value):
         if get_user_model().objects.filter(email=value).exists():
@@ -32,7 +32,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             )
 
     def validate(self, data):
-        if data["password"] != data["password_repeat"]:
+        if data["password1"] != data["password_repeat"]:
             raise serializers.ValidationError({"error": ["Пароли не совпадают."]})
 
         return data
@@ -44,7 +44,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         email = validated_data.pop("email")
         first_name = validated_data.pop("first_name")
         last_name = validated_data.pop("last_name")
-        password = validated_data.pop("password")
+        password = validated_data.pop("password1")
 
         base_username = slugify(f"{first_name}-{last_name}")
         username = base_username

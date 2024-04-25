@@ -13,7 +13,7 @@ class ProductInfoCreator:
                 size = random.choice(sizes)
                 quantity = random.randint(1, 100)  # Количество от 1 до 100
                 cost = round(
-                    random.uniform(100, 1000), 2
+                    random.uniform(100, 10000), 2
                 )  # Цена от 100 до 1000 с округлением до 2 знаков после запятой
                 promotion = random.choice([True, False])  # Рандомное определение акции
                 promotion_cost = (

@@ -6,6 +6,8 @@ from .ComponentSerializers import (
     CompoundSerializer,
 )
 
+from icecream import ic
+
 
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,14 +32,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "tags",
             "compound",
         )
-
-    def validate(self, data):
-        product_id = data.get("id")
-        try:
-            product = Product.objects.get(id=product_id)
-        except Product.DoesNotExist:
-            raise serializers.ValidationError("Товар с указанным ID не найден")
-        return data
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

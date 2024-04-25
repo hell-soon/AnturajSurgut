@@ -19,6 +19,21 @@ class CustomUserAdmin(admin.ModelAdmin):
         "date_joined",
         "is_staff",
     )
+    fields = (
+        "first_name",
+        "last_name",
+        "email",
+        "phone",
+        "password",
+        "is_staff",
+        "is_superuser",
+        "groups",
+        "user_permissions",
+        "username",
+        "tg_id",
+    )
+
+    filter_horizontal = ("groups", "user_permissions")
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)

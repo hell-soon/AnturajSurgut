@@ -3,7 +3,7 @@ from django_filters import rest_framework as filters
 
 from API.filters.TagsFilter import TagsFilter
 from API.serializers.ComponentSerializers import TagsSerializer
-from API.Utils.Paginator.PaginationClass import StandardResultsSetPagination
+from backend.paginator import StandardResultsSetPagination
 
 from DB.models import Tags
 
