@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
 import Timeline from '~/utils/mock/timelines'
+
+const { sm, xs } = useDisplay()
 </script>
 
 <template>
@@ -7,7 +10,7 @@ import Timeline from '~/utils/mock/timelines'
     <h2 class="text-black">
       мы работаем по следующим направлениям
     </h2>
-    <v-timeline direction="horizontal">
+    <v-timeline :direction="sm || xs ? 'vertical' : 'horizontal'">
       <v-timeline-item
         v-for="(item, index) in Timeline"
         :key="index"
