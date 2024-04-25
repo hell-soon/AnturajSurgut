@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
 import Map from '../shared/yandex-map.vue'
+
+const { sm, xs } = useDisplay()
 
 const about = [
   {
@@ -45,7 +48,7 @@ const data = store.contactList.contactList
 
 <template>
   <footer>
-    <div class="container link-hover">
+    <div v-if="!sm && !xs" class="container link-hover">
       <div class="nav">
         <div class="nav-list">
           <div class="nav-list__block">

@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
 
+const { sm, xs } = useDisplay()
 </script>
 
 <template>
-  <HeaderWindow />
+  <HeaderWindow v-if="!sm && !xs" />
+  <HeaderMobile v-else />
 </template>
