@@ -4,7 +4,7 @@ from rest_framework import routers
 
 
 router = routers.DefaultRouter()
-router.register(r"review", ReviewsViewSet)
+router.register(r"list", ReviewsViewSet)
 
 
 urlpatterns = [

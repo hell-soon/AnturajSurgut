@@ -12,7 +12,7 @@ urlpatterns = [
     path(f"api/{settings.API_VERSION}/auth/", include("users.urls")),
     path(f"api/{settings.API_VERSION}/users/", include("profiles.urls")),
     path(f"api/{settings.API_VERSION}/order/", include("order.urls")),
-    path(f"api/{settings.API_VERSION}/review/", include("reviews.urls")),
+    path(f"api/{settings.API_VERSION}/reviews/", include("reviews.urls")),
     path(f"api/{settings.API_VERSION}/site/", include("sitedb.urls")),
     path(f"api/{settings.API_VERSION}/vacancy/", include("vacancy.urls")),
     path(

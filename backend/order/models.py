@@ -176,7 +176,10 @@ class OrderItems(models.Model):
         Order, on_delete=models.CASCADE, verbose_name="номер заказа"
     )
     product = models.ForeignKey(
-        ProductInfo, on_delete=models.CASCADE, verbose_name="Товар"
+        ProductInfo,
+        related_name="order_items",
+        on_delete=models.CASCADE,
+        verbose_name="Товар",
     )
     color = models.CharField(max_length=100, verbose_name="Цвет", blank=True, null=True)
     size = models.CharField(
@@ -237,7 +240,10 @@ class OrderItems(models.Model):
 
 class OrderAddress(models.Model):
     order = models.ForeignKey(
-        Order, on_delete=models.CASCADE, verbose_name="номер заказа"
+        Order,
+        related_name="items",
+        on_delete=models.CASCADE,
+        verbose_name="номер заказа",
     )
     city = models.CharField(max_length=100, verbose_name="Город")
     region = models.CharField(max_length=100, verbose_name="Область", blank=True)
