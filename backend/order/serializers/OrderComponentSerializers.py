@@ -1,14 +1,17 @@
 from rest_framework import serializers
 from order.models import (
     Additionalservices,
-    OrderType,
-    OrderFace,
-    PaymentType,
     OrderAddress,
     LegalDate,
-    OrderItems,
 )
 from sitedb.models import Sertificate
+
+from .OrderUtilsSerializers import (
+    OrderTypeSerializer,
+    PaymentTypeSerializer,
+    OrderFaceSerializer,
+    OrderStatusSerializer,
+)
 
 
 class AdditionalservicesSerializer(serializers.ModelSerializer):
@@ -28,28 +31,11 @@ class SertificateSerializer(serializers.Serializer):
         fields = ["id", "code", "quantity"]
 
 
-class OrderTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OrderType
-        fields = ["id", "name"]
-
-
-class OrderFaceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OrderFace
-        fields = ["id", "name"]
-
-
-class PaymentTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PaymentType
-        fields = ["id", "name"]
-
-
-class CombinedDataSerializer(serializers.Serializer):
-    order_type = OrderTypeSerializer(many=True)
+class OrderUtilsSerializer(serializers.Serializer):
     order_face = OrderFaceSerializer(many=True)
+    order_type = OrderTypeSerializer(many=True)
     payment_type = PaymentTypeSerializer(many=True)
+    order_status = OrderStatusSerializer(many=True)
 
 
 class OrderAddressSerializer(serializers.ModelSerializer):
@@ -80,9 +66,3 @@ class LegalDateSerializer(serializers.ModelSerializer):
             "ras_check",
             "legal_address",
         ]
-
-
-class OrderItemsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OrderItems
-        fields = ["product", "color", "size", "cost", "quantity", "total_cost"]
