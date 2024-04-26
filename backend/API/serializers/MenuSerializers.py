@@ -1,20 +1,19 @@
 from rest_framework import serializers
 from .ComponentSerializers import ColorSerializer, SizeSerializer, CompoundSerializer
+from API.Utils.Prices.MinMaxPrice import calculated_range_cost
+
+
+class CostRangeSerializer(serializers.Serializer):
+    min = serializers.IntegerField()
+    max = serializers.IntegerField()
 
 
 class MenuSerializer(serializers.Serializer):
-    color = serializers.SerializerMethodField()
-    size = serializers.SerializerMethodField()
-    compound = serializers.SerializerMethodField()
+    color = ColorSerializer(many=True)
+    size = SizeSerializer(many=True)
+    compound = CompoundSerializer(many=True)
+    cost_range = CostRangeSerializer(read_only=True)
 
-    class Meta:
-        fields = ["color", "size", "compound"]
-
-    def get_color(self, obj):
-        return ColorSerializer(obj["color"], many=True).data
-
-    def get_size(self, obj):
-        return SizeSerializer(obj["size"], many=True).data
-
-    def get_compound(self, obj):
-        return CompoundSerializer(obj["compound"], many=True).data
+    def get_cost_range(self, obj):
+        cost_range = calculated_range_cost()
+        return cost_range

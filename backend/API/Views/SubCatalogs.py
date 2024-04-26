@@ -3,7 +3,7 @@ from django_filters import rest_framework as filters
 
 from DB.models import SubCatalog
 from API.serializers.ComponentSerializers import SubSerializer
-from API.filters.SubCatalogFilter import SubCatalogFilter
+from API.Filters.SubCatalogFilter import SubCatalogFilter
 
 
 class SubCatalogViewSet(viewsets.ModelViewSet):

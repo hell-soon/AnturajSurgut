@@ -3,13 +3,17 @@ from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle
 from rest_framework.decorators import action
 
+
 from django_filters import rest_framework as filters
 
 
-from API.serializers.MainProductSerializers import ProductSerializer
-from API.filters.ProductFilter import ProductFilter
 from backend.paginator import StandardResultsSetPagination
+
+
+from API.serializers.MainProductSerializers import ProductSerializer
+from API.Filters.ProductFilter import ProductFilter
 from API.serializers.DetailProductSerializers import DetailProductSerializer
+
 from DB.models import Product, ProductInfo
 
 

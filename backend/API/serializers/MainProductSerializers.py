@@ -6,8 +6,6 @@ from .ComponentSerializers import (
     CompoundSerializer,
 )
 
-from icecream import ic
-
 
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:

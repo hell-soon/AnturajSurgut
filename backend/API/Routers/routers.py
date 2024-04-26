@@ -1,9 +1,9 @@
 from rest_framework import routers
-from API.Views.SubCatalog.SubCatalog import SubCatalogViewSet
-from API.Views.Product.Product import ProductViewSet
-from API.Views.Catalog.catalog import CatalogViewSet
-from API.Views.Order.Order import OrderViewSet
-from API.Views.Tags.TagsView import TagsViewSet
+from API.Views.SubCatalogs import SubCatalogViewSet
+from API.Views.Product import ProductViewSet
+from API.Views.Catalogs import CatalogViewSet
+from API.Views.Order import OrderViewSet
+from API.Views.Tags import TagsViewSet
 
 
 router = routers.DefaultRouter()
