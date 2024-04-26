@@ -17,7 +17,7 @@ class CatalogsCreator:
             Catalog(name="Обувь"),
             Catalog(name="Товары для дома"),
             Catalog(name="Интерьер"),
-            Catalog(name="Школьная фомра"),
+            Catalog(name="Школьная форма"),
             Catalog(name="Подарки"),
             Catalog(name="Ткани"),
             Catalog(name="Фурнитура"),

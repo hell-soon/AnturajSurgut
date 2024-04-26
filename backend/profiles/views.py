@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from django.db.models import Q
+from django_filters import rest_framework as filters
 
 from backend.paginator import StandardResultsSetPagination
 
@@ -20,6 +21,8 @@ from .serializers.Users.UserSerializer import (
     ProfileDetailOrderSerializer,
 )
 from .misc.search_orders import get_user_order
+from reviews.filters.reviewfilter import ReviewsFilter
+from order.filters.orderfilter import OrderFilter
 
 
 @api_view(["POST"])
@@ -36,15 +39,24 @@ class UserInfoViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.filter(is_active=True)
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.DjangoFilterBackend]
 
     def get_queryset(self):
         if self.action.startswith("review"):
-            return Review.objects.filter(user=self.request.user).order_by("-created_at")
+            self.filterset_class = ReviewsFilter
+            queryset = Review.objects.filter(user=self.request.user).order_by(
+                "-created_at"
+            )
+            queryset = self.filter_queryset(queryset)
+            return queryset
         if self.action.startswith("order"):
-            return Order.objects.filter(
+            self.filterset_class = OrderFilter
+            queryset = Order.objects.filter(
                 Q(user_phone=self.request.user.phone)
                 | Q(user_email=self.request.user.email)
             ).order_by("-created_at")
+            queryset = self.filter_queryset(queryset)
+            return queryset
         return super().get_queryset()
 
     def get_serializer_class(self):
