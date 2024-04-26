@@ -60,7 +60,7 @@ header {
 
 .list {
   display: flex;
-  gap: 55px;
+  gap: clamp(15px, 2vw, 55px);
   justify-content: center;
 }
 </style>

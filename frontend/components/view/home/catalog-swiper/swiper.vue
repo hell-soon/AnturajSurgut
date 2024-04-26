@@ -14,9 +14,17 @@ const _swiperOptions = {
     stretch: 0,
     scale: 0.7,
   },
-  slidesPerView: 3,
   effect: 'coverflow',
   centeredSlides: true,
+
+  breakpoints: {
+    320: {
+      slidesPerView: 1.2,
+    },
+    768: {
+      slidesPerView: 3,
+    },
+  },
 }
 
 function onSlideChange(e: any) {

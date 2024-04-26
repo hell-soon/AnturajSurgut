@@ -1,8 +1,14 @@
+<script setup lang="ts">
+import { useDisplay } from 'vuetify'
+
+const { sm, xs } = useDisplay()
+</script>
+
 <template>
   <div class="block">
     <img class="img top" src="/public/img/home-view/zavetuscha-top.png" alt="zavetuscha">
     <div class="text">
-      <img src="/public/img/home-view/cluboc.png" alt="cluboc">
+      <img v-if="!sm && !xs" src="/public/img/home-view/cluboc.png" alt="cluboc">
       <h3 class="text-black">
         Мы специализируемся на продаже высококачественных тканей и аксессуаров,
         работая в тесном сотрудничестве с производителями
@@ -16,7 +22,7 @@
 .text {
   position: relative;
   width: 100%;
-  height: 310px;
+  height: clamp(200px, 30vw, 310px);
   display: flex;
   text-align: center;
   align-items: center;
@@ -44,7 +50,6 @@
 
   .img {
     top: 0;
-    width: 1440px;
   }
 
   .top {

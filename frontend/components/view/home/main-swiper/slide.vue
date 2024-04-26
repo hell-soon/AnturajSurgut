@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { useDisplay } from 'vuetify'
 import Button from '~/components/shared/button.vue'
 import type { ButtonType } from '~/components/shared/button.vue'
 import type { SiteSliderResponse } from '~/utils/api/service/slider/slider.type'
 
 const props = defineProps<{ slide: SiteSliderResponse }>()
+
+const { sm, xs } = useDisplay()
 
 const button: ButtonType = {
   link: props.slide.url,
@@ -12,9 +15,15 @@ const button: ButtonType = {
 </script>
 
 <template>
-  <div class="slide">
+  <div
+    class="slide" :style="{
+      background: sm || xs ? `linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.2) 100%),
+      url(${slide.image})` : ``,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center' }"
+  >
     <div class="slide-text d-flex flex-column">
-      <p class="text-h4" v-html="slide.text" />
+      <p class="text-h4" :style="{ color: sm || xs ? 'white' : '' }" v-html="slide.text" />
       <Button :item="button" />
     </div>
     <div class="slide-img">
@@ -52,6 +61,12 @@ const button: ButtonType = {
     height: 100%;
     justify-content: space-around;
     padding: $cover-30;
+  }
+
+  @media (max-width: 1024px) {
+    &-img {
+      display: none;
+    }
   }
 }
 </style>

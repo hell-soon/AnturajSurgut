@@ -7,6 +7,18 @@ defineProps<{ slider: ReviewList }>()
 
 const _swiperOptions = {
   slidesPerView: 4,
+
+  breakpoints: {
+    320: {
+      slidesPerView: 1,
+    },
+    768: {
+      slidesPerView: 2,
+    },
+    1024: {
+      slidesPerView: 3,
+    },
+  },
 }
 </script>
 
