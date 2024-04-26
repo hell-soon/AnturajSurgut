@@ -1,7 +1,7 @@
 from celery import shared_task
 
 from smsru.service import SmsRuApi
-from ..Email.TypesEmail.Managers.sms_error import send_error_for_manager
+from ..Email.ManagersEmails.sms_error import send_error_for_manager
 
 
 @shared_task
