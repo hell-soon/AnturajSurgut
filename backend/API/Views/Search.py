@@ -7,7 +7,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 
 from API.serializers.SearchSerializers import SearchSerializer
-from API.serializers.MainProductSerializers import ProductSerializer
+from API.serializers.ProductSerializers import ProductSerializer
 from backend.paginator import StandardResultsSetPagination
 from DB.models import Product
 

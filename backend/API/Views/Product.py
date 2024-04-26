@@ -6,11 +6,14 @@ from rest_framework.decorators import action
 
 from django_filters import rest_framework as filters
 
+from drf_yasg.utils import swagger_auto_schema
+
 
 from backend.paginator import StandardResultsSetPagination
 
 
-from API.serializers.MainProductSerializers import ProductSerializer
+from API.serializers.ProductSerializers import ProductSerializer
+from API.serializers.Schemas import ProductInfoResponse
 from API.Filters.ProductFilter import ProductFilter
 from API.serializers.DetailProductSerializers import DetailProductSerializer
 
@@ -25,20 +28,23 @@ class ProductViewSet(viewsets.ModelViewSet):
     filterset_class = ProductFilter
     pagination_class = StandardResultsSetPagination
 
+    @swagger_auto_schema(
+        responses={200: ProductInfoResponse(), 404: {"detail": "Страница не найдена."}},
+    )
     @action(detail=True, methods=["get"])
     def info(self, request, pk=None):
+        responce_data = {}
         product = self.get_object()
         product_info = ProductInfo.objects.filter(product_id=product.id)
-        if not product_info.exists():
-            return Response("Информация о товаре не найдена")
-        if not product.product_status:
-            return Response("Товар отключен")
-
-        responce_data = {}
-        info_serializer = DetailProductSerializer(product_info, many=True)
         product_serializer = self.get_serializer_class()(
             product, context={"request": request}
         )
         responce_data = product_serializer.data
+        
+        if not product_info.exists():
+            responce_data["product_info"] = []
+            return Response(responce_data, status=200)
+
+        info_serializer = DetailProductSerializer(product_info, many=True)
         responce_data["product_info"] = info_serializer.data
         return Response(responce_data)

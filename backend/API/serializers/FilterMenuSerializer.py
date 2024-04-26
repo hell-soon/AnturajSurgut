@@ -8,7 +8,7 @@ class CostRangeSerializer(serializers.Serializer):
     max = serializers.IntegerField()
 
 
-class MenuSerializer(serializers.Serializer):
+class FilterMenuSerializer(serializers.Serializer):
     color = ColorSerializer(many=True)
     size = SizeSerializer(many=True)
     compound = CompoundSerializer(many=True)
