@@ -2,13 +2,13 @@ from order.models import OrderStatus
 
 
 class StatusCreator:
-    def create(self):
+    def create(self, order_settings):
         status = [
-            OrderStatus(name="Не готов"),
-            OrderStatus(name="Готов к выдаче"),
-            OrderStatus(name="Передан в доставку"),
-            OrderStatus(name="Доставлен"),
-            OrderStatus(name="Отменен"),
-            OrderStatus(name="Завершен"),
+            OrderStatus(settings=order_settings, name="Не готов"),
+            OrderStatus(settings=order_settings, name="Готов к выдаче"),
+            OrderStatus(settings=order_settings, name="Передан в доставку"),
+            OrderStatus(settings=order_settings, name="Доставлен"),
+            OrderStatus(settings=order_settings, name="Отменен"),
+            OrderStatus(settings=order_settings, name="Завершен"),
         ]
         OrderStatus.objects.bulk_create(status)

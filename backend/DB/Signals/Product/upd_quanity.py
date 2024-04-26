@@ -5,7 +5,7 @@ from order.models import Order
 
 @receiver(post_save, sender=Order)
 def cancel_order(sender, instance, **kwargs):
-    if instance.order_status == "5":
+    if instance.order_status.name == "Отменен":
         order_items = instance.orderitems_set.all()
         for order_item in order_items:
             order_item.product.quantity += order_item.quantity

@@ -1,15 +1,22 @@
 from django.db import models
 from DB.models import ProductInfo
-from django.db.models import Q
-from users.models import CustomUser
-from icecream import ic
+
 from sitedb.models import Sertificate
 
 from django.core.exceptions import ValidationError
 from .misc.upd_info import quantity_check
 from .misc.code_generator import generate_order_number
-from django.db.models import F
-from decimal import Decimal
+
+
+class OrderSettings(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Наименование")
+
+    class Meta:
+        verbose_name = "Настройка"
+        verbose_name_plural = "Настройки"
+
+    def __str__(self):
+        return self.name
 
 
 class Additionalservices(models.Model):
@@ -25,6 +32,7 @@ class Additionalservices(models.Model):
 
 
 class OrderType(models.Model):
+    settings = models.ForeignKey(OrderSettings, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, verbose_name="Тип")
 
     class Meta:
@@ -36,6 +44,7 @@ class OrderType(models.Model):
 
 
 class OrderFace(models.Model):
+    settings = models.ForeignKey(OrderSettings, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, verbose_name="Название")
 
     class Meta:
@@ -47,6 +56,7 @@ class OrderFace(models.Model):
 
 
 class PaymentType(models.Model):
+    settings = models.ForeignKey(OrderSettings, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, verbose_name="Название")
 
     class Meta:
@@ -58,6 +68,7 @@ class PaymentType(models.Model):
 
 
 class OrderStatus(models.Model):
+    settings = models.ForeignKey(OrderSettings, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, verbose_name="Название")
 
     class Meta:

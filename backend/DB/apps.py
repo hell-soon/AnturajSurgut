@@ -9,4 +9,4 @@ class DbConfig(AppConfig):
     verbose_name_plural = "База данных"
 
     def ready(self):
-        from .Signals import Order, Product
+        from .Signals import Product

@@ -19,6 +19,7 @@ from DB.management.Classes.Users.groups import GroupCreator
 from DB.management.Classes.Reviews.Reviews import ReviewsCreator
 from DB.management.Classes.Additions.Compound import CompoundCreator
 from DB.management.Classes.Order.status import StatusCreator
+from DB.management.Classes.Order.settings import SettingsCreator
 
 
 class Command(BaseCommand):
@@ -63,17 +64,20 @@ class Command(BaseCommand):
         productinfo_creator = ProductInfoCreator()
         productinfo_creator.create(products, colors, size)
 
+        order_settings_creator = SettingsCreator()
+        order_settings = order_settings_creator.create()
+
         order_face_creator = OrderFaceCreator()
-        order_face_creator.create()
+        order_face_creator.create(order_settings)
 
         order_type_creator = OrderTypeCreator()
-        order_type_creator.create()
+        order_type_creator.create(order_settings)
 
         order_status_creator = StatusCreator()
-        order_status_creator.create()
+        order_status_creator.create(order_settings)
 
         payment_type_creator = PaymentTypeCreator()
-        payment_type_creator.create()
+        payment_type_creator.create(order_settings)
 
         slider_creator = SliderCreator(test_data_dir)
         slider_creator.create()
