@@ -1,18 +1,17 @@
 from rest_framework import status, viewsets
-from rest_framework.views import APIView
-from rest_framework.decorators import (
-    api_view,
-    permission_classes,
-    throttle_classes,
-    action,
-)
+from rest_framework.decorators import api_view, action
 from rest_framework.throttling import UserRateThrottle
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from django.db.models import Q
+from django_filters import rest_framework as filters
+
+from backend.paginator import StandardResultsSetPagination
 
 from users.models import CustomUser
-
+from order.models import Order
+from reviews.models import Review
 
 from .serializers.Users.UserSerializer import (
     UserSerializer,
@@ -21,14 +20,9 @@ from .serializers.Users.UserSerializer import (
     ProfilListeOrderSerializer,
     ProfileDetailOrderSerializer,
 )
-
 from .misc.search_orders import get_user_order
-from reviews.models import Review
-from icecream import ic
-
-from backend.paginator import StandardResultsSetPagination
-from order.models import Order
-from django.db.models import Q
+from reviews.filters.reviewfilter import ReviewsFilter
+from order.filters.orderfilter import OrderFilter
 
 
 @api_view(["POST"])
@@ -45,15 +39,24 @@ class UserInfoViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.filter(is_active=True)
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.DjangoFilterBackend]
 
     def get_queryset(self):
         if self.action.startswith("review"):
-            return Review.objects.filter(user=self.request.user).order_by("-created_at")
+            self.filterset_class = ReviewsFilter
+            queryset = Review.objects.filter(user=self.request.user).order_by(
+                "-created_at"
+            )
+            queryset = self.filter_queryset(queryset)
+            return queryset
         if self.action.startswith("order"):
-            return Order.objects.filter(
+            self.filterset_class = OrderFilter
+            queryset = Order.objects.filter(
                 Q(user_phone=self.request.user.phone)
                 | Q(user_email=self.request.user.email)
             ).order_by("-created_at")
+            queryset = self.filter_queryset(queryset)
+            return queryset
         return super().get_queryset()
 
     def get_serializer_class(self):
@@ -67,7 +70,6 @@ class UserInfoViewSet(viewsets.ModelViewSet):
             "review_detail",
             "update_review",
         ]:
-
             return ProfileReviewSerializer
         if self.action == "orders":
             return ProfilListeOrderSerializer
@@ -107,7 +109,6 @@ class UserInfoViewSet(viewsets.ModelViewSet):
     def update_review(self, request, *args, **kwargs):
         partial = kwargs.pop("partial", False)
         instance = self.get_object()
-        ic(self.get_serializer_class())
         if instance.user != request.user:
             return Response(
                 {"detail": "У вас нет разрешения на изменение этого отзыва"},
@@ -116,6 +117,8 @@ class UserInfoViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
+        if getattr(instance, "_prefetched_objects_cache", None):
+            instance._prefetched_objects_cache = {}
         return Response(
             {"message": "Отзыв успешно обновлен"}, status=status.HTTP_200_OK
         )
@@ -135,6 +138,8 @@ class UserInfoViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_403_FORBIDDEN,
             )
         self.perform_destroy(instance)
+        if getattr(instance, "_prefetched_objects_cache", None):
+            instance._prefetched_objects_cache = {}
         return Response(
             {"message": "Отзыв успешно удален"}, status=status.HTTP_204_NO_CONTENT
         )

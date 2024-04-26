@@ -1,5 +1,13 @@
 from django.contrib import admin
-from order.models import OrderItems, OrderAddress, LegalDate
+from order.models import (
+    OrderItems,
+    OrderAddress,
+    LegalDate,
+    OrderStatus,
+    OrderType,
+    OrderFace,
+    PaymentType,
+)
 
 
 class OrderItemsInline(admin.TabularInline):
@@ -39,3 +47,23 @@ class LegalDateAdmin(admin.StackedInline):
         if self.model.objects.filter(order=obj).exists():
             return 0
         return self.extra
+
+
+class OrderStatusInline(admin.TabularInline):
+    model = OrderStatus
+    extra = 1
+
+
+class OrderTypeInline(admin.TabularInline):
+    model = OrderType
+    extra = 1
+
+
+class OrderFaceInline(admin.TabularInline):
+    model = OrderFace
+    extra = 1
+
+
+class PaymentTypeInline(admin.TabularInline):
+    model = PaymentType
+    extra = 1
