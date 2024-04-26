@@ -1,6 +1,5 @@
 from rest_framework import routers
 from API.Views.SubCatalogs import SubCatalogViewSet
-from API.Views.Product import ProductViewSet
 from API.Views.Catalogs import CatalogViewSet
 from API.Views.Order import OrderViewSet
 from API.Views.Tags import TagsViewSet

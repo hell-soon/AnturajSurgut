@@ -2,7 +2,7 @@ from celery import shared_task
 from django.conf import settings
 from django.contrib.auth.models import Group
 from order.models import Order
-from ...Send.send_html import send_html_email
+from ..send_html import send_html_email
 
 
 @shared_task

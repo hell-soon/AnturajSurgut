@@ -1,6 +1,6 @@
 from celery import shared_task
 from django.contrib.auth.models import Group
-from ...Send.send_html import send_html_email
+from ...send_html import send_html_email
 
 
 @shared_task

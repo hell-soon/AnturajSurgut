@@ -2,16 +2,10 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from .models import Order, OrderItems, OrderAddress
 
-from DB.Tasks.Email.TypesEmail.Managers.send_menagers import (
+from DB.Tasks.Email import (
     send_email_for_manager,
-)
-from DB.Tasks.Email.TypesEmail.Order.confirm_email import (
     send_order_confirmation_email,
-)
-from DB.Tasks.Email.TypesEmail.Order.change_status import (
     send_email_for_change_order_status,
-)
-from DB.Tasks.Email.TypesEmail.Order.change_track_number import (
     send_email_for_track_number,
 )
 

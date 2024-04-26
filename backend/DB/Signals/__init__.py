@@ -1,1 +1,1 @@
-from .Product import cancel_order
+from .Product.upd_quanity import cancel_order
