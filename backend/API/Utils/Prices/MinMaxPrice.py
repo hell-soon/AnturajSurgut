@@ -15,8 +15,8 @@ def calculated_range_cost():
     )
 
     cost_range = {
-        "min": min(first_data["min_cost"], second_data["min_promotion_cost"]),
-        "max": max(first_data["max_cost"], second_data["max_promotion_cost"]),
+        "min": round(min(first_data["min_cost"], second_data["min_promotion_cost"])),
+        "max": round(max(first_data["max_cost"], second_data["max_promotion_cost"])),
     }
 
     return cost_range
