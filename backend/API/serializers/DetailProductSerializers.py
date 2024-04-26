@@ -1,17 +1,17 @@
 from rest_framework import serializers
 from DB.models import ProductInfo
-from .ComponentSerializers import *
-from icecream import ic
+from .ComponentSerializers import ColorSerializer, SizeSerializer
 
 
 class DetailProductSerializer(serializers.ModelSerializer):
     color = ColorSerializer()
     size = SizeSerializer()
+    product_info_id = serializers.IntegerField(source="id")
 
     class Meta:
         model = ProductInfo
         fields = [
-            "id",
+            "product_info_id",
             "color",
             "size",
             "quantity",
@@ -19,16 +19,3 @@ class DetailProductSerializer(serializers.ModelSerializer):
             "promotion",
             "promotion_cost",
         ]
-
-    # def to_representation(self, instance):
-    #     data = super().to_representation(instance)
-    #     info = {
-    #         "product_info_id": data["id"],
-    #         "color": data["color"],
-    #         "size": data["size"],
-    #         "quantity": data["quantity"],
-    #         "cost": data["cost"],
-    #         "promotion": data["promotion"],
-    #         "promotion_cost": data["promotion_cost"],
-    #     }
-    #     return info

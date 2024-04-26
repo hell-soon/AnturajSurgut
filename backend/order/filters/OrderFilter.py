@@ -1,8 +1,6 @@
-from django_filters import filters, ModelMultipleChoiceFilter
+from django_filters import ModelMultipleChoiceFilter
 from django_filters.rest_framework import FilterSet
 
-from django.db.models import FloatField, Sum
-from django.db.models.functions import Coalesce
 
 from order.models import Order, OrderStatus
 

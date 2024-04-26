@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from django_filters import rest_framework as filters
 
-from API.filters.TagsFilter import TagsFilter
+from API.Filters.TagsFilter import TagsFilter
 from API.serializers.ComponentSerializers import TagsSerializer
 from backend.paginator import StandardResultsSetPagination
 

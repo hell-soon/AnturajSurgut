@@ -1,4 +1,4 @@
-from DB.Tasks.Email.Send.send_html import send_html_email
+from DB.Tasks.Email.send_html import send_html_email
 from celery import shared_task
 from django.contrib.auth.models import Group
 

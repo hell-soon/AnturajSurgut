@@ -1,14 +1,18 @@
 from django.urls import path, include
-
-from .Views.Order import OrderInfoView
-from .Views.Search.SearchView import GlobalSearch
-from .Views.FilterMenu.FilterMenu import FilterMenu
-from .Routers.routers import router
+from .Views.Catalogs import CatalogViewSet
+from .Views.Tags import TagsViewSet
+from .Views.SubCatalogs import SubCatalogViewSet
+from .Views.Product import ProductViewSet
+from .Views.Search import GlobalSearch
+from .Views.Filters import FilterMenu
 
 
 urlpatterns = [
-    path("", include(router.urls)),
-    path("order-info/<str:order_number>/", OrderInfoView.as_view(), name="order-info"),
+    path("catalog/", CatalogViewSet.as_view({"get": "list"})),
+    path("subcatalog/", SubCatalogViewSet.as_view({"get": "list"})),
+    path("tags/", TagsViewSet.as_view({"get": "list"})),
+    path("list/", ProductViewSet.as_view({"get": "list"})),
+    path("list/<int:pk>/", ProductViewSet.as_view({"get": "info"})),
     path("search/", GlobalSearch.as_view()),
     path("filters/", FilterMenu.as_view()),
 ]

@@ -1,7 +1,7 @@
 from celery import shared_task
 from order.models import Order, OrderAddress
 from DB.utils.codes import STATUS_MAP
-from ...Send.send_html import send_html_email
+from ..send_html import send_html_email
 
 
 @shared_task

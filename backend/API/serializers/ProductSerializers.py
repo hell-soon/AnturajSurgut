@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from DB.models import Product, ProductImage
+from DB.models import Product, ProductImage, ProductInfo
 from .ComponentSerializers import (
     SubCatalogSerializer,
     TagsSerializer,
     CompoundSerializer,
 )
-
-from icecream import ic
+from .DetailProductSerializers import DetailProductSerializer
+from .ComponentSerializers import *
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -37,7 +37,8 @@ class ProductSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
         product_catalog = data["sub_catalog"].pop("catalog")
         product_subcatalog = data.pop("sub_catalog")
-        catalog = {
+
+        new_data = {
             "catalog": {
                 "id": product_catalog["id"],
                 "name": product_catalog["name"],
@@ -50,4 +51,28 @@ class ProductSerializer(serializers.ModelSerializer):
             },
             "product": data,
         }
-        return catalog
+        return new_data
+
+
+class Test(serializers.ModelSerializer):
+    color = ColorSerializer()
+    size = SizeSerializer()
+    product_info_id = serializers.IntegerField(source="id")
+
+    class Meta:
+        model = ProductInfo
+        fields = [
+            "product",
+            "product_info_id",
+            "color",
+            "size",
+            "quantity",
+            "cost",
+            "promotion",
+            "promotion_cost",
+        ]
+
+
+class TestV2(serializers.Serializer):
+    product = ProductSerializer(read_only=True)
+    product_info = DetailProductSerializer(read_only=True, many=True)

@@ -19,7 +19,7 @@ from .serializers.OrderComponentSerializers import (
     OrderTypeSerializer,
     PaymentTypeSerializer,
     AdditionalservicesSerializer,
-    CombinedDataSerializer,
+    OrderUtilsSerializer,
 )
 from icecream import ic
 from .Payment.Online.create import create_online_check
@@ -122,26 +122,17 @@ def get_additional_services(request):
     responses={
         200: openapi.Response(
             description="Список типов заказов, типов лиц и типов оплат",
-            schema=CombinedDataSerializer(),
+            schema=OrderUtilsSerializer(),
         ),
     },
 )
 @api_view(["GET"])
 def order_utils(request):
-    order_types = OrderType.objects.all()
-    order_faces = OrderFace.objects.all()
-    payment_types = PaymentType.objects.all()
-
-    # Сериализация данных
-    order_type_serializer = OrderTypeSerializer(order_types, many=True)
-    order_face_serializer = OrderFaceSerializer(order_faces, many=True)
-    payment_type_serializer = PaymentTypeSerializer(payment_types, many=True)
-
-    # Объединение данных в один словарь
-    combined_data = {
-        "order_type": order_type_serializer.data,
-        "order_face": order_face_serializer.data,
-        "payment_type": payment_type_serializer.data,
+    data = {
+        "order_type": OrderType.objects.all(),
+        "order_face": OrderFace.objects.all(),
+        "payment_type": PaymentType.objects.all(),
+        "order_status": OrderStatus.objects.all(),
     }
-
-    return Response(combined_data)
+    serializer = OrderUtilsSerializer(data)
+    return Response(serializer.data)

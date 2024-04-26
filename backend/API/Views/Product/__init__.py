@@ -1,1 +1,0 @@
-from .Product import ProductViewSet

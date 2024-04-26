@@ -22,7 +22,7 @@ from .serializers.Users.UserSerializer import (
 )
 from .misc.search_orders import get_user_order
 from reviews.filters.reviewfilter import ReviewsFilter
-from order.filters.orderfilter import OrderFilter
+from order.filters.OrderFilter import OrderFilter
 
 
 @api_view(["POST"])
