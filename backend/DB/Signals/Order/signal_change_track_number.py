@@ -26,7 +26,10 @@ def order_change_track_number(sender, instance, **kwargs):
 
     if old_instance.order_status != instance.order_status:
         if instance.user_email:
-            send_email_for_change_order_status.delay(instance.pk, instance.order_status)
+            send_email_for_change_order_status.delay(
+                instance.pk, instance.order_status.name
+            )
         if instance.user_phone:
             sms_text = f"Статус заказа:{instance.order_number} измнился. \n Статус: {instance.order_status.name}."
             send_sms_to_user.delay(instance.user_phone, sms_text)
+    

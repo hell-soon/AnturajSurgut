@@ -19,7 +19,6 @@ class BaseorderSerializer(serializers.ModelSerializer):
 class ProfilListeOrderSerializer(BaseorderSerializer):
     order_status = serializers.CharField(source="order_status.name")
     created_at = serializers.DateTimeField(format="%d.%m.%Y %H:%M")
-    total_cost = serializers.FloatField(required=False)
 
     class Meta(BaseorderSerializer.Meta):
         fields = [
@@ -28,7 +27,6 @@ class ProfilListeOrderSerializer(BaseorderSerializer):
             "order_status",
             "created_at",
             "order_paymant",
-            "total_cost",
         ]
 
 
