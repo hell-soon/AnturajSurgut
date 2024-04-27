@@ -11,7 +11,6 @@ def generate_error_schema(serializer_class):
     if hasattr(serializer_class, "validate") and serializer_class.validate != getattr(
         serializer_class.__base__, "validate", None
     ):
-        # Добавление non_field_errors в схему ответа
         error_schema["error"] = openapi.Schema(
             type=openapi.TYPE_ARRAY, items=openapi.Schema(type=openapi.TYPE_STRING)
         )
