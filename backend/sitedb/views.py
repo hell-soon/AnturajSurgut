@@ -11,7 +11,6 @@ from .models import (
     WokrTime,
 )
 from .serializers.info import (
-    SocialAccountSerializer,
     ContactSerializer,
     FullInfoSerializer,
     FooterSerializer,
@@ -75,25 +74,3 @@ class ContactViewSet(viewsets.ModelViewSet):
         return Response(response_data)
 
 
-class ServiceViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Service.objects.filter(is_active=True)
-    serializer_class = ServiceSerializer
-
-    def list(self, request, *args, **kwargs):
-        preview = request.query_params.get("preview", "").lower() in ["true", "1"]
-        services = self.get_queryset()
-
-        if preview:
-            service_serializer = PreviewServiceSerializer(services, many=True)
-        else:
-            service_serializer = self.get_serializer(services, many=True)
-
-        response_data = {"services": service_serializer.data}
-
-        return Response(response_data)
-
-
-class V2ServiceViewSet(viewsets.ModelViewSet):
-    queryset = Service.objects.filter(is_active=True)
-    serializer_class = ServiceSerializer
-    http_method_names = ["get"]

@@ -67,15 +67,10 @@ class ProfileDetailOrderSerializer(BaseorderSerializer):
         return OrderItemsSerializer(items, many=True).data
 
 
-class BaseUserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = get_user_model()
-        fields = "__all__"
-
-
-class UserSerializer(BaseUserSerializer):
-
-    class Meta(BaseUserSerializer.Meta):
         fields = ["id", "first_name", "last_name", "email", "phone", "tg_id"]
 
 
