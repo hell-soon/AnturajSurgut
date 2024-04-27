@@ -1,10 +1,11 @@
-from rest_framework import routers
-from django.urls import path, include
+from django.urls import path
 
 from .views import *
 
-router = routers.DefaultRouter()
 
-router.register(r"list", VacancyViewSet)
-
-urlpatterns = [path("", include(router.urls))]
+urlpatterns = [
+    path("list/", VacancyViewSet.as_view({"get": "list"})),
+    path(
+        "list/<int:pk>/", VacancyViewSet.as_view({"post": "respond", "get": "retrieve"})
+    ),
+]

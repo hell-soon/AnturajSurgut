@@ -4,12 +4,13 @@ from rest_framework.views import APIView
 from django.db.models import Q
 
 from drf_yasg.utils import swagger_auto_schema
-
+from drf_yasg import openapi
 
 from API.serializers.SearchSerializers import SearchSerializer
 from API.serializers.ProductSerializers import ProductSerializer
 from API.serializers.Schemas import ProductPaginationSerializer
 from backend.paginator import StandardResultsSetPagination
+from backend.schema.errors import generate_error_schema
 from DB.models import Product
 
 # TODO)) Если поисковой запрос пустой, то что-то придумать надо будет
@@ -20,8 +21,13 @@ class GlobalSearch(APIView):
 
     @swagger_auto_schema(
         request_body=SearchSerializer,
-        responses={200: ProductPaginationSerializer(many=True)},
-        pagination_class=StandardResultsSetPagination,
+        responses={
+            200: ProductPaginationSerializer(many=True),
+            400: openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties=generate_error_schema(SearchSerializer),
+            ),
+        },
     )
     def post(self, request):
         search_serializer = SearchSerializer(data=request.data)

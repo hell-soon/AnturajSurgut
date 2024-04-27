@@ -11,6 +11,8 @@ from rest_framework.throttling import AnonRateThrottle
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+from backend.schema.errors import generate_error_schema
+
 from .models import CustomUser
 from .tasks import send_link_for_change_pass
 from .serializers.Register.UserRegister import UserRegisterSerializer
@@ -36,32 +38,7 @@ from .serializers.Update.UserPasswordUpdate import UserUpdatePasswordSerializer
             description="Запрос не прошел валидацию",
             schema=openapi.Schema(
                 type=openapi.TYPE_OBJECT,
-                properties={
-                    "first_name": openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING),
-                    ),
-                    "last_name": openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING),
-                    ),
-                    "email": openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING),
-                    ),
-                    "password": openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING),
-                    ),
-                    "password_repeat": openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING),
-                    ),
-                    "error": openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING),
-                    ),
-                },
+                properties=generate_error_schema(UserRegisterSerializer),
             ),
         ),
     },
@@ -98,20 +75,7 @@ def register_user(request):
             description="Некорректные данные запроса",
             schema=openapi.Schema(
                 type=openapi.TYPE_OBJECT,
-                properties={
-                    "email": openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING),
-                    ),
-                    "password": openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING),
-                    ),
-                    "error": openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING),
-                    ),
-                },
+                properties=generate_error_schema(UserLoginSerializer),
             ),
         ),
     },
@@ -152,18 +116,8 @@ def user_login_view(request):
             description="Некорректные данные запроса",
             schema=openapi.Schema(
                 type=openapi.TYPE_OBJECT,
-                properties={
-                    "email": openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING),
-                    ),
-                },
+                properties=generate_error_schema(UserEmailSerializer),
             ),
-            examples={
-                "application/json": {
-                    "email": ["Пользователь с таким email не существует."],
-                }
-            },
         ),
     },
 )
@@ -219,20 +173,7 @@ def email_for_change_pass(request):
             description="Некорректные данные запроса",
             schema=openapi.Schema(
                 type=openapi.TYPE_OBJECT,
-                properties={
-                    "password": openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING),
-                    ),
-                    "password_repeat": openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING),
-                    ),
-                    "error": openapi.Schema(
-                        type=openapi.TYPE_ARRAY,
-                        items=openapi.Schema(type=openapi.TYPE_STRING),
-                    ),
-                },
+                properties=generate_error_schema(UserUpdatePasswordSerializer),
             ),
         ),
     },
