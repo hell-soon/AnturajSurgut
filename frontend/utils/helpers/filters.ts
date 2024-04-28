@@ -4,6 +4,8 @@ export function watchParam(
   paramName: string,
   storeKey: keyof ProductParams,
   fetchData?: (value: number) => void,
+  // paramValue?: boolean,
+
 ) {
   const store = setupStore(['productFilters', 'productList'])
 
@@ -13,6 +15,9 @@ export function watchParam(
   watch(() => store.productList.params[storeKey], (newValue) => {
     const url = useRequestURL()
     if (newValue) {
+      // if (paramName === 'high_rating' || 'most_sold')
+      //   url.searchParams.set(paramName, paramValue.toString())
+
       const serializedValue = JSON.stringify(newValue)
       url.searchParams.set(paramName, serializedValue)
     }
@@ -27,7 +32,15 @@ export function watchParam(
   })
 
   if (url.searchParams.has(paramName)) {
-    const deserializedValue = JSON.parse(url.searchParams.get(paramName)!)
-    store.productList.params[storeKey] = deserializedValue
+    if (paramName === 'high_rating' || 'most_sold') {
+      store.productList.params[storeKey] = true as unknown as undefined
+    }
+    else {
+      const deserializedValue = JSON.parse(url.searchParams.get(paramName)!)
+      store.productList.params[storeKey] = deserializedValue
+    }
   }
+
+  if (fetchData && store.productList.params[storeKey])
+    fetchData(store.productList.params[storeKey] as number)
 }

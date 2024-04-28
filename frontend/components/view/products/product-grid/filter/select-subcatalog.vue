@@ -3,7 +3,7 @@ import { watchParam } from '~/utils/helpers/filters'
 
 const store = setupStore(['productList', 'catalogList'])
 
-watchParam('catalog_id', 'catalog_id', (catalog_id) => {
+watchParam('catalog_id', 'catalog_id', (catalog_id: number) => {
   store.catalogList.fetchSubcatalog(catalog_id)
 })
 
@@ -12,8 +12,8 @@ watchParam('subcatalog_id', 'subcatalog_id')
 
 <template>
   <v-select
-    v-if="store.productList.params.catalog_id"
     v-model="store.productList.params.subcatalog_id"
+    disabled
     clearable
     label="Подкаталог"
     density="comfortable"
@@ -23,5 +23,6 @@ watchParam('subcatalog_id', 'subcatalog_id')
     variant="underlined"
     chips
     multiple
+    closable-chips
   />
 </template>
