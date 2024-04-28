@@ -23,7 +23,9 @@
         </tr>
         <tr>
             <td colspan="2" class="content">
+                {% if sms_id %}
                 <p>ID СМС: <strong>{{ sms_id }}</strong></p>
+                {% endif %}
                 <p>Номер телефона: <strong>{{ phone }}</strong></p>
                 <p>Сообщение об ошибке: <strong>{{ error_message }}</strong></p>
                 <p>Пожалуйста, проверьте систему для устранения проблемы.</p>
