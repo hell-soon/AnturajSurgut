@@ -10,7 +10,7 @@ def send_email_for_manager(pk):
     group, _ = Group.objects.get_or_create(name="Менеджеры")
     recipient_list = group.user_set.all()
     order = Order.objects.get(pk=pk)
-    url = f"{settings.SITE_URL}/admin/database/order/{order.id}/change/"
+    url = f"{settings.SITE_URL}/admin/order/order/{order.id}/change/"
     data = {
         "id": order.id,
         "initials": order.user_initials,

@@ -1,6 +1,6 @@
 from django.conf import settings
 from celery import shared_task
-from order.models import Order, OrderAddress
+from order.models import Order
 from ..send_html import send_html_email
 
 
