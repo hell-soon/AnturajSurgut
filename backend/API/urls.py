@@ -5,7 +5,7 @@ from .Views.SubCatalogs import SubCatalogViewSet
 from .Views.Product import ProductViewSet
 from .Views.Search import GlobalSearch
 from .Views.Filters import FilterMenu
-from .Views.test import test
+
 
 urlpatterns = [
     path("catalog/", CatalogViewSet.as_view({"get": "list"})),
@@ -15,5 +15,4 @@ urlpatterns = [
     path("list/<int:pk>/", ProductViewSet.as_view({"get": "info"})),
     path("search/", GlobalSearch.as_view()),
     path("filters/", FilterMenu.as_view()),
-    path("test/", test),
 ]

@@ -12,13 +12,9 @@ body {
 .table {
     margin: 0 auto;
     width: 40%;
-    text-align: center;
 }
 
-.table td,
-.table th {
-    text-align: center;
-}
+
 
 
 .coupon-code {

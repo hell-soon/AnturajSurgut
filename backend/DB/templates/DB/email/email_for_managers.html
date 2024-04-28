@@ -1,69 +1,54 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legal Entity Contact Information</title>
+    <link rel="stylesheet" href="{{site_url}}/static/css/Order.css">
     <style type="text/css">
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-        }
-
-        .container {
-            width: 80%;
-            margin: auto;
-            padding: 20px;
-        }
-
-        .header {
-            background: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .content {
-            margin-top: 20px;
-        }
-
-        .footer {
-            margin-top: 20px;
-            padding: 10px;
-            background: #333;
-            color: #fff;
-            text-align: center;
+        {
+            % include "fonts/NextArt/next-art.css" %
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Заказ от Юридического лица</h1>
-        </div>
-        <div class="content">
-            <p>Уважаемые менеджеры</p>
-            <p>Поступил новый заказ от Юридического лица, пожалуйста, свяжитесь с ним по указанной контактной
-                информации</p>
-            <p>Инициалы заказчика: <strong>{{ initials }}</strong></p>
-            {% if user_email %}
-            <p>Почта заказчика: <strong>{{ user_email }}</strong></p>
-            {% endif %}
-            {% if user_phone %}
-            <p>Телефон заказчика: <strong>{{ user_phone }}</strong></p>
-            {% endif %}
-            {% if order_comment %}
-            <p>Заказчик указал дополнительную информацию по заказу: <strong>{{ order_comment }}</strong></p>
-            {% endif %}
-            <p>Номер заказа: <a href="{{ site_url }}"> {{ order_number }}</a>
-            </p>
-        </div>
-        <div class="footer">
-            <p>Это письмо сформировано автоматически. Пожалуйста, не отвечайте на него.</p>
-        </div>
-    </div>
+
+    <table class="table">
+        <tr>
+            <td colspan="2" class="header"
+                style="background: url('http://77.221.140.100/img/header/green-texture.jpg')">
+                <h1>Заказ от Юридического лица</h1>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="content">
+                <p>Уважаемые менеджеры</p>
+                <p>Поступил новый заказ от Юридического лица, пожалуйста, свяжитесь с ним по указанной контактной
+                    информации</p>
+                <p>Инициалы заказчика: <strong>{{ initials }}</strong></p>
+                {% if user_email %}
+                <p>Почта заказчика: <strong>{{ user_email }}</strong></p>
+                {% endif %}
+                {% if user_phone %}
+                <p>Телефон заказчика: <strong>{{ user_phone }}</strong></p>
+                {% endif %}
+                {% if order_comment %}
+                <p>Заказчик указал дополнительную информацию по заказу: <strong>{{ order_comment }}</strong></p>
+                {% endif %}
+                <p>Номер заказа: <a href="{{ site_url }}"> {{ order_number }}</a>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="footer">
+                <span class="footer-text">Это письмо сформировано автоматически. Пожалуйста, не отвечайте на
+                    него.</span>
+            </td>
+        </tr>
+    </table>
+
 </body>
 
 </html>
