@@ -27,18 +27,24 @@ class UpdateOrderSerializer(serializers.ModelSerializer):
         )
         for service in value:
             if service in existing_services:
-                pass
-
+                raise serializers.ValidationError(
+                    {
+                        "order_additionalservices": f"Услуга {service} уже добавлена в заказ"
+                    }
+                )
         return value
 
     def validate_order_status(self, value):
-        if self.instance.order_status == "5":
-            raise serializers.ValidationError("Нельзя отменить уже отмененный заказ")
+        if (self.instance.order_status.name).lower() == "отменен":
+            raise serializers.ValidationError(
+                {"order_status": "Нельзя отменить уже отмененный заказ"}
+            )
 
         if self.instance and self.instance.order_status != "1":
-            status = STATUS_MAP.get(self.instance.order_status)
             raise serializers.ValidationError(
-                "Ошибка при отмене заказа, статус: " + status
+                {
+                    "order_status": f"Ошибка при отмене заказа, статус: {self.instance.order_status.name}"
+                }
             )
 
         return value
@@ -69,42 +75,36 @@ class UpdateOrderSerializer(serializers.ModelSerializer):
                 )
         return value
 
-    def updata_items(self, instance, validated_data):
-        if "items" in validated_data:
-            existing_items = instance.orderitems_set.all()
-            items_data = validated_data.pop("items")
-            for item_data in items_data:
-                product_info_id = item_data["product_info_id"]
-                quantity = item_data["quantity"]
-                product = ProductInfo.objects.get(id=product_info_id)
-                # Проверка на существование данного товара в заказе
-                existing_item = existing_items.filter(product=product).first()
-                if existing_item:
-                    if quantity == 0:
-                        existing_item.delete()  # Удаляем товар из заказа если количество равно 0
-                    else:
-                        existing_item.quantity = quantity
-                        existing_item.save()
-                elif (
-                    quantity > 0
-                ):  # Товар добавляется в заказ только если его количество больше 0
-                    OrderItems.objects.create(
-                        order=instance, product=product, quantity=quantity
-                    )
+    def update_items(self, instance, items_data):
+        existing_items = instance.orderitems_set.all()
+        for item_data in items_data:
+            product_info_id = item_data["product_info_id"]
+            quantity = item_data["quantity"]
+            product = ProductInfo.objects.get(id=product_info_id)
+            existing_item = existing_items.filter(product=product).first()
+            if existing_item:
+                if quantity == 0:
+                    existing_item.delete()
+                else:
+                    existing_item.quantity = quantity
+                    existing_item.save()
+            elif quantity > 0:
+                OrderItems.objects.create(
+                    order=instance, product=product, quantity=quantity
+                )
 
     def update(self, instance, validated_data):
-        # обновление товаров в заказе
-        self.updata_items(instance, validated_data)
+        items_data = validated_data.pop("items", None)
+        if items_data is not None:
+            self.update_items(instance, items_data)
 
-        # обновление доп услуг на заказ
-        if "order_additionalservices" in validated_data:
-            instance.order_additionalservices.set(
-                validated_data["order_additionalservices"]
-            )
+        order_additionalservices = validated_data.pop("order_additionalservices", None)
+        if order_additionalservices is not None:
+            instance.order_additionalservices.set(order_additionalservices)
 
-        # Обновление статуса( только для отмены заказа если прошел валидацию по статусу )
-        if "order_status" in validated_data:
-            instance.order_status = validated_data["order_status"]
+        order_status = validated_data.pop("order_status", None)
+        if order_status is not None:
+            instance.order_status = order_status
 
         instance.save()
         return instance

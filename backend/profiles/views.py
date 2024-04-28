@@ -16,23 +16,17 @@ from reviews.models import Review
 from .serializers.Users.UserSerializer import (
     UserSerializer,
     UserUpdateSerializer,
-    ProfileReviewSerializer,
+)
+from .serializers.Users.UserOrderSerializer import (
     ProfilListeOrderSerializer,
     ProfileDetailOrderSerializer,
 )
-from .misc.search_orders import get_user_order
+
+from .serializers.Users.UserReviewSerializer import ProfileReviewSerializer
+
+
 from reviews.filters.reviewfilter import ReviewsFilter
 from order.filters.OrderFilter import OrderFilter
-
-
-@api_view(["POST"])
-def tg_order_buttons(request):
-    try:
-        user = CustomUser.objects.get(tg_id=request.data.get("tg_id"))
-        orders = get_user_order(user)
-    except CustomUser.DoesNotExist:
-        return Response({"orders": None})
-    return Response({"orders": orders})
 
 
 class UserInfoViewSet(viewsets.ModelViewSet):
