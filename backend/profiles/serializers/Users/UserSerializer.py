@@ -1,70 +1,7 @@
 from django.contrib.auth import get_user_model
-from django.db.models import Q
+
 
 from rest_framework import serializers
-
-from order.models import Order, OrderStatus, OrderItems
-from reviews.models import Review
-from django.core.validators import MinValueValidator, MaxValueValidator
-
-# from order.serializers.OrderComponentSerializers import OrderItemsSerializer
-
-
-class BaseorderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Order
-        fields = "__all__"
-
-
-class ProfilListeOrderSerializer(BaseorderSerializer):
-    order_status = serializers.CharField(source="order_status.name")
-    created_at = serializers.DateTimeField(format="%d.%m.%Y %H:%M")
-
-    class Meta(BaseorderSerializer.Meta):
-        fields = [
-            "id",
-            "order_number",
-            "order_status",
-            "created_at",
-            "order_paymant",
-        ]
-
-
-class OrderItemsSerializer(serializers.ModelSerializer):
-    product_id = serializers.IntegerField(source="product.product.id")
-    product_info_id = serializers.IntegerField(source="product.id")
-
-    class Meta:
-        model = OrderItems
-        fields = [
-            "product_id",
-            "product_info_id",
-            "color",
-            "size",
-            "cost",
-            "quantity",
-            "total_cost",
-        ]
-
-
-class ProfileDetailOrderSerializer(BaseorderSerializer):
-    order_status = serializers.CharField(source="order_status.name")
-    created_at = serializers.DateTimeField(format="%d.%m.%Y %H:%M")
-    items = serializers.SerializerMethodField()
-
-    class Meta(BaseorderSerializer.Meta):
-        fields = [
-            "id",
-            "order_number",
-            "order_status",
-            "created_at",
-            "order_paymant",
-            "items",
-        ]
-
-    def get_items(self, obj):
-        items = obj.orderitems_set.all()
-        return OrderItemsSerializer(items, many=True).data
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -133,16 +70,3 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         if password:
             instance.set_password(password)
         return super().update(instance, validated_data)
-
-
-class ProfileReviewSerializer(serializers.ModelSerializer):
-    created_at = serializers.DateTimeField(read_only=True, format="%d.%m.%Y")
-    rating = serializers.IntegerField(
-        required=True,
-        validators=[MinValueValidator(0), MaxValueValidator(5)],
-    )
-
-    class Meta:
-        model = Review
-        fields = ["id", "text", "rating", "created_at"]
-        read_only_fields = ["created_at"]

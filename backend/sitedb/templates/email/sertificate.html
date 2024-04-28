@@ -1,59 +1,56 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://77.221.140.100/static/css/CouponEmail.css">
+
     <title>Track Number Added</title>
-    <style type="text/css">
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-        }
-
-        .container {
-            width: 80%;
-            margin: auto;
-            padding: 20px;
-        }
-
-        .header {
-            background: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .content {
-            margin-top: 20px;
-        }
-
-        .footer {
-            margin-top: 20px;
-            padding: 10px;
-            background: #333;
-            color: #fff;
-            text-align: center;
+    <style>
+        {
+            % include "fonts/NextArt/next-art.css" %
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>В Антураж появился новый сертификат</h1>
-        </div>
-        <div class="content">
-            <p>Не упусти возможность воспользоваться нашим сертификатом!</p>
-            <p>Код сертификата: <strong>{{ certificate }}</strong></p>
-            <p>Срок действия сертификата до <strong>{{ end_date }}</strong></p>
-            <p>Количество использований ограничено: <strong>{{ quanity }}</strong></p>
-        </div>
-        <div class="footer">
-            <p>До встречи в Антураж</p>
-            <p>Это письмо сформировано автоматически. Пожалуйста, не отвечайте на него.</p>
-        </div>
-    </div>
+    <table class="table">
+        <tr>
+            <td colspan="2" class="header"
+                style="background: url('http://77.221.140.100/img/header/green-texture.jpg')">
+                <h1>В Антураж появился новый сертификат</h1>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="content-header">
+                <h2>Скидка {{ discount }}%</h2>
+            </td>
+        </tr>
+        <tr class="coupon">
+            <td class="coupon-code">
+                <span>{{ code }}</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="content-footer">
+                <p>Вы можете воспользоваться сертификатом при оформлении заказа на сайте. Срок действия ограничен до:
+                    {{ end_date }} по Сургуту. <br>Количество использований осталось: <span>{{ quanity }}</span>.
+                </p>
+                <div class="footer">
+                    <a href="{{ site_url }}" class="btn">перейти</a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="footer">
+                <span class="footer-text">Это письмо сформировано автоматически. Пожалуйста, не отвечайте на
+                    него.</span>
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>

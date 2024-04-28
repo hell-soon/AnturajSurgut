@@ -1,8 +1,9 @@
 from rest_framework import status, viewsets
-from rest_framework.decorators import api_view, action
-from rest_framework.throttling import UserRateThrottle
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+
+# from rest_framework.throttling import UserRateThrottle
 
 from django.db.models import Q
 from django_filters import rest_framework as filters
@@ -16,23 +17,17 @@ from reviews.models import Review
 from .serializers.Users.UserSerializer import (
     UserSerializer,
     UserUpdateSerializer,
-    ProfileReviewSerializer,
+)
+from .serializers.Users.UserOrderSerializer import (
     ProfilListeOrderSerializer,
     ProfileDetailOrderSerializer,
 )
-from .misc.search_orders import get_user_order
+
+from .serializers.Users.UserReviewSerializer import ProfileReviewSerializer
+
+
 from reviews.filters.reviewfilter import ReviewsFilter
 from order.filters.OrderFilter import OrderFilter
-
-
-@api_view(["POST"])
-def tg_order_buttons(request):
-    try:
-        user = CustomUser.objects.get(tg_id=request.data.get("tg_id"))
-        orders = get_user_order(user)
-    except CustomUser.DoesNotExist:
-        return Response({"orders": None})
-    return Response({"orders": orders})
 
 
 class UserInfoViewSet(viewsets.ModelViewSet):
@@ -172,10 +167,6 @@ class UserInfoViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer_class()(order)
         return Response(serializer.data)
 
-    @action(detail=False, methods=["patch"])
+    @action(detail=True, methods=["patch"])
     def change_order(self, request):
-        pass
-
-    @action(detail=False, methods=["get"])
-    def telegram_id(self, request):
         pass

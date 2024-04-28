@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import tg_order_buttons, UserInfoViewSet
+from .views import UserInfoViewSet
 
 
 urlpatterns = [
@@ -30,5 +30,4 @@ urlpatterns = [
         UserInfoViewSet.as_view({"get": "order_info"}),
         name="order_info",
     ),
-    path("tg/", tg_order_buttons, name="tg_view"),
 ]
