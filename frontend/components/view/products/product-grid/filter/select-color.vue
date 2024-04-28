@@ -10,12 +10,13 @@ watchParam('color_id', 'color_id')
   <v-select
     v-model="store.productList.params.color_id"
     clearable
-    label="Цвета"
+    label="Цвет"
     item-title="name"
     item-value="id"
     :items="store.productFilters.productFilters?.color"
     variant="underlined"
     multiple
+    closable-chips
   >
     <template #selection="{ item, index }">
       <v-chip

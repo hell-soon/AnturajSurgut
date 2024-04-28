@@ -6,27 +6,22 @@ const store = setupStore(['productList'])
 
 <template>
   <div>
-    <h1 class="text-black">
-      Product Grid
-    </h1>
-    <div>
-      <v-container>
-        <v-row v-if="store.productList.productList?.results.length">
-          <v-col
-            v-for="(card, i) in store.productList.productList?.results"
-            :key="i"
-            sm="3"
-          >
-            <Card :card="card" />
-          </v-col>
-        </v-row>
-        <v-row v-else calss="d-flex">
-          <h1 class="text-black w-100 d-flex align-center justify-center">
-            Нема, епта!
-          </h1>
-        </v-row>
-      </v-container>
-    </div>
+    <v-container>
+      <v-row v-if="store.productList.productList?.results.length">
+        <v-col
+          v-for="(card, i) in store.productList.productList?.results"
+          :key="i"
+          sm="3"
+        >
+          <Card :card="card" />
+        </v-col>
+      </v-row>
+      <v-row v-else calss="d-flex">
+        <h3 class="text-black w-100 d-flex align-center justify-center">
+          Товаров нет!
+        </h3>
+      </v-row>
+    </v-container>
   </div>
 </template>
 

@@ -14,14 +14,25 @@ max.value = store.productFilters.productFilters?.cost_range.max.toString()
 </script>
 
 <template>
-  <v-container>
-    <span class="text-black footnote d-flex align-center justify-center">Цена</span>
-    <v-row>
-      <v-col>
-        <v-text-field v-model="store.productList.params.price_min" clearable :placeholder="`${min} руб.`" variant="underlined" />
+  <v-container class="pa-0">
+    <v-row no-gutters>
+      <v-col cols="10">
+        <v-text-field
+          v-model="store.productList.params.price_min"
+          clearable
+          label="Цена от"
+          :placeholder="`${min} руб.`"
+          variant="underlined"
+        />
       </v-col>
-      <v-col>
-        <v-text-field v-model="store.productList.params.price_max" clearable :placeholder="`${max} руб.`" variant="underlined" />
+      <v-col cols="10">
+        <v-text-field
+          v-model="store.productList.params.price_max"
+          clearable
+          label="Цена до"
+          :placeholder="`${max} руб.`"
+          variant="underlined"
+        />
       </v-col>
     </v-row>
   </v-container>

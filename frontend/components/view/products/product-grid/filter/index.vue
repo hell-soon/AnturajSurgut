@@ -5,71 +5,68 @@ import SelectColor from './select-color.vue'
 import SelectSize from './select-size.vue'
 import SelectCompound from './select-compound.vue'
 import PriceInpuit from './price-input.vue'
-
-import type { ProductParams } from '~/utils/api/service/product/product.type'
-
-const url = useRequestURL()
-const router = useRouter()
+import { watchParam } from '~/utils/helpers/filters'
 
 const store = setupStore(['productList'])
 
-function watchParam(paramName: string, storeKey: keyof ProductParams) {
-  watch(() => store.productList.params[storeKey], (newValue) => {
-    const url = useRequestURL()
-
-    if (newValue)
-      url.searchParams.append(paramName, 'true')
-    else
-      url.searchParams.delete(paramName)
-
-    router.push(url.pathname + url.search)
-  })
-
-  if (url.searchParams.has(paramName))
-    store.productList.params[storeKey] = true as unknown as undefined // Set to true explicitly
-  else
-    store.productList.params[storeKey] = undefined // Set to undefined explicitly
-}
-
-// Использование функции для каждого параметра
-watchParam('high_rating', 'high_rating')
-watchParam('most_sold', 'most_sold')
-
-function Clear() {
-  store.productList.params = {}
-  router.push(url.pathname)
-}
+// watchParam('high_rating', 'high_rating', undefined, !!store.productList.params.high_rating)
+// watchParam('most_sold', 'most_sold', undefined, !!store.productList.params.most_sold)
 </script>
 
 <template>
-  <div>
-    <h1 class="text-black">
-      Filters
-    </h1>
-    <div class="filter-block">
-      <PriceInpuit />
+  <v-card
+    title="Фильтры"
+    class="card"
+    elevation="3"
+  >
+    <div>
       <v-checkbox
         v-model="store.productList.params.high_rating"
         label="По популярности"
+        hide-details
       />
       <v-checkbox
         v-model="store.productList.params.most_sold"
         label="Самые продаваемые"
       />
-      <SelectCatalog />
-      <SelectSubcatalog />
-      <SelectColor />
-      <SelectSize />
-      <SelectCompound />
+      <v-expansion-panels
+        variant="accordion"
+        multiple
+      >
+        <v-expansion-panel
+          title="Цена"
+        >
+          <v-expansion-panel-text>
+            <PriceInpuit />
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+
+        <v-expansion-panel
+          title="Каталог"
+        >
+          <v-expansion-panel-text>
+            <SelectCatalog />
+            <SelectSubcatalog />
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+
+        <v-expansion-panel
+          title="Парамаетры"
+        >
+          <v-expansion-panel-text>
+            <SelectColor />
+            <SelectSize />
+            <SelectCompound />
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </div>
-    <v-btn @click="Clear">
-      Очистить
-    </v-btn>
-  </div>
+  </v-card>
 </template>
 
 <style scoped lang="scss">
-.filter-block {
-  width: 100%;
+.card {
+  position: sticky !important;
+  top: 10px;
 }
 </style>
