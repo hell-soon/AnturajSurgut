@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'NEXT-ART';
+    src: url(NEXT-ART_Bold.otf) format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NEXT-ART';
+    src: url(NEXT-ART_SemiBold.otf) format('opentype');
+    font-weight: 600;
+    font-style: normal;
+}
