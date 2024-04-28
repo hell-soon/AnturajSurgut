@@ -9,6 +9,6 @@ from .views import (
 urlpatterns = [
     path("service/", get_additional_services, name="get_additional_services"),
     path("create/", create_order, name="create_order"),
-    path("update/<str:order_number>/", update_order, name="update_order"),
+    # path("update/<int:pk>/", update_order, name="update_order"),
     path("types/", order_utils),
 ]

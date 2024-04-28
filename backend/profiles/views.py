@@ -172,10 +172,6 @@ class UserInfoViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer_class()(order)
         return Response(serializer.data)
 
-    @action(detail=False, methods=["patch"])
+    @action(detail=True, methods=["patch"])
     def change_order(self, request):
-        pass
-
-    @action(detail=False, methods=["get"])
-    def telegram_id(self, request):
         pass
