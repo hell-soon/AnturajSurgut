@@ -1,6 +1,6 @@
 import { getCatalogList, getSubcatalog } from './service/catalog/catalog'
 import { getContactList } from './service/contact/contact'
-import { getProductFilterList } from './service/product-filter/filter'
+import { getProductFilterList, getProductTagsList } from './service/product-filter/filter'
 import { getProductList } from './service/product/product'
 import { postProfileAuth } from './service/profile/profile'
 import { getReviewList } from './service/review/review'
@@ -12,6 +12,7 @@ export const api = {
   subcatalog: getSubcatalog,
   product: getProductList,
   filter: getProductFilterList,
+  tags: getProductTagsList,
   contact: getContactList,
   review: getReviewList,
   auth: postProfileAuth,

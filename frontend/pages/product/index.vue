@@ -18,6 +18,7 @@ watch(() => store.productList.params, (newValue) => {
         <ViewProductsProductGridFilter />
       </div>
       <div class="card-grid">
+        <ViewProductsProductGridTegsGroups />
         <ViewProductsProductGrid />
         <v-pagination
           v-if="store.productList.productList?.total_pages! > 1"

@@ -32,13 +32,11 @@ export function watchParam(
   })
 
   if (url.searchParams.has(paramName)) {
-    if (paramName === 'high_rating' || 'most_sold') {
-      store.productList.params[storeKey] = true as unknown as undefined
-    }
-    else {
-      const deserializedValue = JSON.parse(url.searchParams.get(paramName)!)
-      store.productList.params[storeKey] = deserializedValue
-    }
+    // if (paramName === 'high_rating' || 'most_sold') {
+    //   store.productList.params[storeKey] = true as unknown as undefined
+    // }
+    const deserializedValue = JSON.parse(url.searchParams.get(paramName)!)
+    store.productList.params[storeKey] = deserializedValue
   }
 
   if (fetchData && store.productList.params[storeKey])
