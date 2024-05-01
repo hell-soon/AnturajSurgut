@@ -10,7 +10,16 @@ def get_min_cost(product_id):
         product_id=product_id, promotion=True
     ).aggregate(Min("promotion_cost"))["promotion_cost__min"]
 
-    if min_promotion_price and min_promotion_price < min_regular_price:
+    if min_regular_price is not None and min_promotion_price is not None:
+        return (
+            round(min_promotion_price)
+            if min_promotion_price < min_regular_price
+            else round(min_regular_price)
+        )
+    elif min_promotion_price is not None:
         return round(min_promotion_price)
-    else:
+    elif min_regular_price is not None:
+
         return round(min_regular_price)
+    else:
+        return None
