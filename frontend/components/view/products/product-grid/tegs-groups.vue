@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { watchParam } from '~/utils/helpers/filters'
+
 const store = setupStore(['productList', 'productFilters'])
 
 store.productFilters.fetchProductTags()
@@ -18,8 +20,8 @@ watchEffect(() => {
         v-for="i in store.productFilters.productTags"
         :key="i.id"
         :text="i.name"
-        filter
         :value="i.id"
+        filter
       />
     </v-chip-group>
   </v-responsive>

@@ -15,7 +15,7 @@ export const useProductListStore = defineStore('productList', {
     productList: null,
     catalog_id: 1,
     params: {},
-    error: {},
+    error: null,
   }),
 
   actions: {
@@ -25,8 +25,8 @@ export const useProductListStore = defineStore('productList', {
         this.productList = res
       }
       catch (err) {
-        this.params.page = 1
         this.error = err
+        this.params.page = 1
       }
     },
   },

@@ -6,7 +6,6 @@ store.productFilters.fetchProductFilters()
 
 watch(() => store.productList.params, (newValue) => {
   const paramsCopy = { ...newValue }
-  // store.productList.params.page = 1
   store.productList.fetchProductList(paramsCopy)
 }, { deep: true, immediate: true, flush: 'sync' })
 </script>
