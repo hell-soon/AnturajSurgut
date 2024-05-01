@@ -11,7 +11,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <v-responsive class="overflow-y-auto" max-width="1000px">
+  <v-responsive class="overflow-y-auto">
     <v-chip-group
       v-model="store.productList.params.tags"
       multiple
