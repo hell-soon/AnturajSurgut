@@ -2,11 +2,13 @@
 import type { ProductResult } from '~/types/models/product'
 
 defineProps<{ card: ProductResult }>()
+
+const store = setupStore(['productList'])
 </script>
 
 <template>
   <NuxtLink
-    v-if="card.product"
+    v-if="store.productList.loading === false && card.product"
     :to="`/product/${card.product.id}`"
     class="card"
   >

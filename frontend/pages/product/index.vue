@@ -7,6 +7,11 @@ store.productFilters.fetchProductFilters()
 watch(() => store.productList.params, (newValue) => {
   const paramsCopy = { ...newValue }
   store.productList.fetchProductList(paramsCopy)
+
+  store.productList.loading = true
+  setTimeout(() => {
+    store.productList.loading = false
+  }, 500)
 }, { deep: true, immediate: true, flush: 'sync' })
 </script>
 
