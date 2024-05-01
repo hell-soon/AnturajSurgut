@@ -1,6 +1,6 @@
 import { useGlobalStore } from './common/global.store'
 import { useCatalogListStore } from './module/home/catalog-list.store'
-import { useProductListStore } from './module/home/product-pop-list.store'
+import { useProductListStore } from './module/home/product-list.store'
 import { useContactListStore } from './module/shared/contact.store'
 import { useProductFilterstStore } from './module/shared/product-filters.store'
 
