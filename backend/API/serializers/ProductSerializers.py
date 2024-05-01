@@ -1,12 +1,11 @@
 from rest_framework import serializers
-from DB.models import Product, ProductImage, ProductInfo
+from DB.models import Product, ProductImage
 from .ComponentSerializers import (
     SubCatalogSerializer,
     TagsSerializer,
     CompoundSerializer,
 )
-from .DetailProductSerializers import DetailProductSerializer
-from .ComponentSerializers import *
+from API.Utils.Prices.GetMinCost import get_min_cost
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -20,6 +19,7 @@ class ProductSerializer(serializers.ModelSerializer):
     image = ProductImageSerializer(many=True)
     compound = CompoundSerializer(many=True)
     sub_catalog = SubCatalogSerializer()
+    min_cost = serializers.SerializerMethodField(required=False)
 
     class Meta:
         model = Product
@@ -31,7 +31,11 @@ class ProductSerializer(serializers.ModelSerializer):
             "sub_catalog",
             "tags",
             "compound",
+            "min_cost",
         )
+
+    def get_min_cost(self, obj):
+        return get_min_cost(obj.id)
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -52,27 +56,3 @@ class ProductSerializer(serializers.ModelSerializer):
             "product": data,
         }
         return new_data
-
-
-class Test(serializers.ModelSerializer):
-    color = ColorSerializer()
-    size = SizeSerializer()
-    product_info_id = serializers.IntegerField(source="id")
-
-    class Meta:
-        model = ProductInfo
-        fields = [
-            "product",
-            "product_info_id",
-            "color",
-            "size",
-            "quantity",
-            "cost",
-            "promotion",
-            "promotion_cost",
-        ]
-
-
-class TestV2(serializers.Serializer):
-    product = ProductSerializer(read_only=True)
-    product_info = DetailProductSerializer(read_only=True, many=True)
