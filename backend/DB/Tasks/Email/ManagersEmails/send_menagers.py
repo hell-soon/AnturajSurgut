@@ -16,7 +16,7 @@ def send_email_for_manager(pk):
         "initials": order.user_initials,
         "user_email": order.user_email,
         "user_phone": order.user_phone,
-        "order_number": order.order_number,
+        "order_number": order.id,
         "order_status": order.order_status.name,
         "order_comment": order.comment,
         "site_url": url,

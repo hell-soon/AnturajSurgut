@@ -12,7 +12,7 @@ def send_email_for_change_order_status(pk, order_status):
     status_name = STATUS_MAP.get(order_status)
     data = {
         "initials": order.user_initials,
-        "order_number": order.order_number,
+        "order_number": order.id,
         "order_address": address,
         "order_status": status_name,
         "created_at": order.created_at,

@@ -13,7 +13,7 @@ Configuration.secret_key = settings.YOOKASSA_SECRET
 
 def create_online_check(order):
     total_cost = order.total_cost()
-    text = f"Оплата заказа {order.order_number}.\nСпасибо за покупку в Антураж!"
+    text = f"Оплата заказа {order.id}.\nСпасибо за покупку в Антураж!"
     payment = Payment.create(
         {
             "amount": {"value": total_cost, "currency": "RUB"},

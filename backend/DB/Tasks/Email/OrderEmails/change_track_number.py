@@ -10,7 +10,7 @@ def send_email_for_track_number(pk, track_number):
     recipient_list = [order.user_email]
     data = {
         "initials": order.user_initials,
-        "order_number": order.order_number,
+        "order_number": order.id,
         "order_address": address,
         "order_status": order.order_status.name,
         "track_number": track_number,

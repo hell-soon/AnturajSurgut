@@ -8,45 +8,25 @@ from order.models import (
     OrderFace,
     PaymentType,
 )
+from DB.models import ProductInfo
 
 
-class OrderItemsInline(admin.TabularInline):
+class OrderItemsInline(admin.StackedInline):
     model = OrderItems
-
-    extra = 1
-    readonly_fields = [
-        "color",
-        "size",
-        "cost",
-        "total_cost",
-    ]
+    extra = 0
+    readonly_fields = ["product", "color", "size", "quantity", "cost", "total_cost"]
 
 
 class OrderAddressInline(admin.StackedInline):
     model = OrderAddress
     extra = 1
     max_num = 1
-    fields = ["region", "city", "street", "house", "apartment", "floor", "post_index"]
-
-    def get_extra(self, request, obj=None, **kwargs):
-        if not obj:
-            return self.extra
-        if self.model.objects.filter(order=obj).exists():
-            return 0
-        return self.extra
 
 
 class LegalDateAdmin(admin.StackedInline):
     model = LegalDate
     extra = 1
     max_num = 1
-
-    def get_extra(self, request, obj=None, **kwargs):
-        if not obj:
-            return self.extra
-        if self.model.objects.filter(order=obj).exists():
-            return 0
-        return self.extra
 
 
 class OrderStatusInline(admin.TabularInline):

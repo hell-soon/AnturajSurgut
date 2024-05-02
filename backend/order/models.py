@@ -88,12 +88,6 @@ class Order(models.Model):
         max_length=20, verbose_name="Номер телефона", blank=True, null=True
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Сформирован")
-    order_number = models.CharField(
-        max_length=10,
-        verbose_name="Номер заказа",
-        unique=True,
-        default=generate_order_number,
-    )
     order_type = models.ForeignKey(
         OrderType,
         verbose_name="Тип доставки",
@@ -165,6 +159,12 @@ class Order(models.Model):
         self.full_clean()
 
         super(Order, self).save(*args, **kwargs)
+        self.update_product_quantities()
+
+    def update_product_quantities(self):
+        for item in self.orderitems_set.all():
+            item.product.quantity -= item.quantity
+            item.product.save(update_fields=["quantity"])
 
     def total_cost(self):
         total = 0
@@ -179,7 +179,7 @@ class Order(models.Model):
         return round(total, 2)
 
     def __str__(self):
-        return f"Заказ: {self.order_number}"
+        return f"Заказ: {self.id}"
 
 
 class OrderItems(models.Model):
@@ -188,7 +188,7 @@ class OrderItems(models.Model):
     )
     product = models.ForeignKey(
         ProductInfo,
-        related_name="order_items",
+        related_name="items",
         on_delete=models.CASCADE,
         verbose_name="Товар",
     )
@@ -225,23 +225,15 @@ class OrderItems(models.Model):
             self.total_cost = round(self.cost * self.quantity, 2)
 
     def save(self, *args, **kwargs):
-        if self.pk is None:  # Проверяем, что это новый объект
+        if self.pk is None:
             self.calculate_price()
             self.color = self.product.color.name
             self.size = self.product.size.name
 
-            # Списание товара со склада
-            self.product.quantity -= self.quantity
-            self.product.save(update_fields=["quantity"])
-
         if self.pk:
             original_obj = OrderItems.objects.get(pk=self.pk)
             if original_obj.quantity != self.quantity:
-                quantity_check(
-                    original_obj.quantity,
-                    self.quantity,
-                    ProductInfo.objects.get(pk=self.product.pk),
-                )
+                quantity_check(original_obj.quantity, self.quantity, self.product)
                 self.calculate_price()
         super(OrderItems, self).save(*args, **kwargs)
 
@@ -252,7 +244,6 @@ class OrderItems(models.Model):
 class OrderAddress(models.Model):
     order = models.ForeignKey(
         Order,
-        related_name="items",
         on_delete=models.CASCADE,
         verbose_name="номер заказа",
     )

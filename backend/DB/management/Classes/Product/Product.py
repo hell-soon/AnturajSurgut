@@ -7,7 +7,7 @@ class ProductCreator:
     def create(self, sub_catalogs, tags, compaunds):
         products = []
         for sub_catalog in sub_catalogs:
-            for i in range(10):
+            for i in range(4):
                 product_name = f"{sub_catalog.name} {i+1}"
                 product = Product(
                     name=product_name,

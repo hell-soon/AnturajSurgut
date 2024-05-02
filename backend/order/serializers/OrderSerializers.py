@@ -52,7 +52,6 @@ class OrderSerializer(serializers.ModelSerializer):
             "user_phone",
             "items",
             "created_at",
-            "order_number",
             "order_type",
             "address",
             "order_face",
