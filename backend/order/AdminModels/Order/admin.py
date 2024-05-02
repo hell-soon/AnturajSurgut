@@ -27,26 +27,13 @@ class OrderAdmin(admin.ModelAdmin):
     filter_horizontal = ["order_additionalservices"]
     search_fields = ("id", "user_email", "user_phone", "user_initials")
     empty_value_display = "-"
-    list_editable = ("order_status", "order_paymant")
-    list_select_related = ("product_info", "items")
+
     inlines = [OrderItemsInline, OrderAddressInline, LegalDateAdmin]
 
     # Подсчет общей стоимости заказа
     def show_total_price(self, obj):
         total = obj.total_cost()
         return f"{total} руб."
-
-    def get_queryset(self, request):
-        return (
-            super()
-            .get_queryset(request)
-            .select_related(
-                "order_type",
-                "order_face",
-                "order_status",
-                "payment_type",
-            )
-        )
 
 
 class AdressAdmin(admin.ModelAdmin):

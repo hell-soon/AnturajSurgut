@@ -1,20 +1,7 @@
 from rest_framework import serializers
 from DB.models import Product, Size, Color
 
-from .ComponentSerializers import ColorSerializer, SizeSerializer, TypeSerializer
-from icecream import ic
-
-
-class PriceSerializer(serializers.Serializer):
-    promotion = serializers.BooleanField()
-    promotion_cost = serializers.DecimalField(max_digits=10, decimal_places=2)
-    cost = serializers.DecimalField(max_digits=10, decimal_places=2)
-    quantity = serializers.IntegerField()
-
-
-class SizeV2Serializer(serializers.Serializer):
-    size = serializers.CharField()
-    price = PriceSerializer()
+from .ComponentSerializers import ColorSerializer, SizeSerializer
 
 
 class TestSerializer(serializers.Serializer):
