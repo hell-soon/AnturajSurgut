@@ -25,6 +25,7 @@ urlpatterns = [
     path("smsru/", include("smsru.urls")),
     path("telegram/", include("telegram.urls")),
     path("ckeditor5/", include("django_ckeditor_5.urls")),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
 
