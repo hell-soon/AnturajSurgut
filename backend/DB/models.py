@@ -147,7 +147,9 @@ class Compound(models.Model):
         return f"{self.name}"
 
 
-# На поле rating используется валидация для того чтоб в дальнейшем можно было сделать механизм расчета рейтинга, но пока это заглушка TODO))
+# На поле rating используется валидация
+# (для того чтоб в дальнейшем можно было сделать механизм расчета рейтинга,
+# но пока это заглушка TODO))
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название")
     description = CKEditor5Field("Описание", config_name="extends")
@@ -170,13 +172,18 @@ class Product(models.Model):
         help_text="Рейтинг товара, заполняется автоматически",
         validators=[MinValueValidator(0), MaxValueValidator(5)],
     )
+    colors = models.ManyToManyField(
+        Color, verbose_name="Цвета", blank=True, help_text="цвета"
+    )
 
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
 
     def calculate_rating(self):
-        # Рейтинг товара расчитывается из количества его продаж, в дальшейшем можно обновить механизм расчета рейтинга( добавить положительный и отрицательный рейтинг) TODO
+        # Рейтинг товара расчитывается из количества его продаж,
+        # в дальшейшем можно обновить механизм расчета рейтинга
+        # ( добавить положительный и отрицательный рейтинг) TODO
         return random.randint(1, 5)
 
     def __str__(self):
@@ -190,6 +197,9 @@ class ProductInfo(models.Model):
     )
     size = models.ForeignKey(
         Size, on_delete=models.CASCADE, verbose_name="Размер", blank=True, null=True
+    )
+    type = models.ForeignKey(
+        Type, on_delete=models.CASCADE, verbose_name="Тип", blank=True, null=True
     )
     quantity = models.IntegerField(default=0, verbose_name="Количество")
     cost = models.FloatField(null=True, blank=True, verbose_name="Цена")
