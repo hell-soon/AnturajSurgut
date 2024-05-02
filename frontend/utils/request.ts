@@ -18,7 +18,6 @@ async function fetch<Res>(url: string, options?: any, headers?: any) {
     return result
   }
   catch (err) {
-    console.error(err)
     return Promise.reject(err)
   }
 }

@@ -9,8 +9,8 @@ import { watchParam } from '~/utils/helpers/filters'
 
 const store = setupStore(['productList'])
 
-// watchParam('high_rating', 'high_rating', undefined, !!store.productList.params.high_rating)
-// watchParam('most_sold', 'most_sold', undefined, !!store.productList.params.most_sold)
+watchParam('high_rating', 'high_rating', undefined)
+watchParam('most_sold', 'most_sold', undefined)
 </script>
 
 <template>

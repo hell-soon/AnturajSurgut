@@ -6,8 +6,12 @@ store.productFilters.fetchProductFilters()
 
 watch(() => store.productList.params, (newValue) => {
   const paramsCopy = { ...newValue }
-  // store.productList.params.page = 1
   store.productList.fetchProductList(paramsCopy)
+
+  store.productList.loading = true
+  setTimeout(() => {
+    store.productList.loading = false
+  }, 500)
 }, { deep: true, immediate: true, flush: 'sync' })
 </script>
 
@@ -18,6 +22,7 @@ watch(() => store.productList.params, (newValue) => {
         <ViewProductsProductGridFilter />
       </div>
       <div class="card-grid">
+        <ViewProductsProductGridTegsGroups />
         <ViewProductsProductGrid />
         <v-pagination
           v-if="store.productList.productList?.total_pages! > 1"

@@ -6,6 +6,7 @@ interface ProductListState {
   productList: ProductList | null
   catalog_id: number
   params: ProductParams
+  loading: boolean
   error: unknown
 }
 
@@ -15,7 +16,8 @@ export const useProductListStore = defineStore('productList', {
     productList: null,
     catalog_id: 1,
     params: {},
-    error: {},
+    loading: false,
+    error: null,
   }),
 
   actions: {
@@ -25,8 +27,8 @@ export const useProductListStore = defineStore('productList', {
         this.productList = res
       }
       catch (err) {
-        this.params.page = 1
         this.error = err
+        this.params.page = 1
       }
     },
   },
