@@ -39,9 +39,9 @@ class ProductViewSet(viewsets.ModelViewSet):
     )
     @action(detail=True, methods=["get"])
     def info(self, request, pk=None):
-        responce_data = {}
+        responce_data = {}  
         product = self.get_object()
-        product_info = ProductInfo.objects.filter(product_id=product.id)
+        product_info = ProductInfo.objects.filter(product=product)
         product_serializer = self.get_serializer_class()(
             product, context={"request": request}
         )
@@ -51,6 +51,6 @@ class ProductViewSet(viewsets.ModelViewSet):
             responce_data["product_info"] = []
             return Response(responce_data, status=200)
 
-        info_serializer = DetailProductSerializer(product_info, many=True)
+        info_serializer = DetailProductSerializer(product)
         responce_data["product_info"] = info_serializer.data
         return Response(responce_data)

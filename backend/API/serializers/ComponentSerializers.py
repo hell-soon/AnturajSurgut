@@ -23,6 +23,7 @@ class TagsSerializer(serializers.ModelSerializer):
 
 
 class ColorSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Color
         fields = ["id", "name", "color"]

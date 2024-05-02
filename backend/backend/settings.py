@@ -144,8 +144,6 @@ DATA BASE
 # Uncomment if you want to use sqlite
 DATABASES = SQLITE
 
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -166,8 +164,6 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 LANGUAGE_CODE = "ru"
 
@@ -182,8 +178,7 @@ USE_TZ = True
 STATIC SETTINGS
 """
 
-# STATIC_URL = "static/"
-# STATIC_ROOT = BASE_DIR / "staticfiles"
+
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
@@ -196,14 +191,12 @@ MEDIA SETTINGS
 """
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 """
-SITE_ID 
+SITE_ID
 """
 SITE_ID = 1
 
@@ -243,10 +236,9 @@ JWT TOKEN
 """
 
 SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=int(os.getenv("ACCESS_TOKEN_LIFETIME"))),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=int(os.getenv("REFRESH_TOKEN_LIFETIME"))),
     "ROTATE_REFRESH_TOKENS": True,
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
-    # "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=60),
 }
 
 """
