@@ -21,7 +21,7 @@ watch(() => store.productList.params, (newValue) => {
       <div class="filters">
         <ViewProductsProductGridFilter />
       </div>
-      <div class="card-grid">
+      <div class="d-flex flex-column ga-5">
         <ViewProductsProductGridTegsGroups />
         <ViewProductsProductGrid />
         <v-pagination
@@ -43,7 +43,7 @@ watch(() => store.productList.params, (newValue) => {
 
 .block {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 300px 75%;
   width: 100%;
   gap: $cover-50;
 }

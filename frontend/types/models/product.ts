@@ -1,4 +1,5 @@
 import type { Catalog } from './catalog'
+import type { ProductColor, ProductFIlterItem } from './product-filters'
 
 export interface ProductList {
   count: number
@@ -11,6 +12,7 @@ export interface ProductList {
 export interface ProductResult {
   catalog: Catalog
   product: Product
+  product_info?: ProductInfo
 }
 
 export interface Product {
@@ -20,7 +22,8 @@ export interface Product {
   image: ProductImage[]
   tags: TagsProduct[]
   compound: CompoundList[]
-  rating: number
+  min_cost: number
+  // rating: number
 }
 
 export interface CompoundList {
@@ -35,4 +38,21 @@ export interface ProductImage {
 export interface TagsProduct {
   id: number
   name: string
+}
+
+export interface ProductInfo {
+  info: Info[]
+}
+
+interface Info {
+  color: ProductColor
+  sizes: ProductInfoSize[]
+}
+
+interface ProductInfoSize {
+  size: ProductFIlterItem
+  cost: number
+  promotion: boolean
+  promotion_cost?: number
+  quantity: number
 }
