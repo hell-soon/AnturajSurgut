@@ -55,7 +55,7 @@ def create_order(request):  #
 
     response_data = {
         "message": "Заказ успешно создан",
-        "order_number": order.order_number,
+        "order_number": order.id,
     }
 
     if order.payment_type.name == "Онлайн оплата":
@@ -65,45 +65,6 @@ def create_order(request):  #
         response_data["payment_url"] = payment.confirmation.confirmation_url
 
     return Response(response_data, status=status.HTTP_201_CREATED)
-
-
-# @swagger_auto_schema(
-#     method="patch",
-#     request_body=UpdateOrderSerializer,
-#     responses={
-#         200: openapi.Response(
-#             description="заказ успешно обновлен",
-#             schema=openapi.Schema(
-#                 type=openapi.TYPE_OBJECT,
-#                 properties={
-#                     "message": openapi.Schema(type=openapi.TYPE_STRING),
-#                 },
-#             ),
-#         ),
-#         400: openapi.Response(
-#             description="Возвращается сообщение о том, что заказ не может быть обновлен, если его статус отличен От 'Не готов'",
-#             schema=openapi.Schema(
-#                 type=openapi.TYPE_OBJECT,
-#                 properties={
-#                     "error": openapi.Schema(type=openapi.TYPE_STRING),
-#                 },
-#             ),
-#         ),
-#     },
-# )
-@api_view(["PATCH"])
-def update_order(request, pk):
-    pass
-    # try:
-    #     order = Order.objects.get(pk=pk)
-    # except Order.DoesNotExist:
-    #     return Response({"error": "Заказ не найден"}, status=status.HTTP_404_NOT_FOUND)
-
-    # serializer = UpdateOrderSerializer(order, data=request.data, partial=True)
-    # if serializer.is_valid():
-    #     serializer.save()
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @swagger_auto_schema(

@@ -166,12 +166,12 @@ CKEDITOR_5_CONFIGS_SETTINGS = {
             "insertTable",
         ],
         "language": "ru",
-    "list": {
-        "properties": {
-            "styles": "true",
-            "startIndex": "true",
-            "reversed": "true",
-        }
+        "list": {
+            "properties": {
+                "styles": "true",
+                "startIndex": "true",
+                "reversed": "true",
+            }
+        },
     },
-}
 }

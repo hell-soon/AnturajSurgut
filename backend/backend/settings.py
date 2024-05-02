@@ -58,6 +58,10 @@ CORS_ALLOW_METHODS = [
 
 CSRF_TRUSTED_ORIGINS = [os.getenv("CSRF_TRUSTED_ORIGINS")]
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
 # Application definition1
 
 INSTALLED_APPS = [
@@ -87,6 +91,7 @@ INSTALLED_APPS = [
     "smsru",  # SMS
     "django_ckeditor_5",  # ckeditor
     "image_uploader_widget",  # Image Widget
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -99,6 +104,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
@@ -177,7 +183,6 @@ USE_TZ = True
 """
 STATIC SETTINGS
 """
-
 
 
 STATIC_URL = "/static/"

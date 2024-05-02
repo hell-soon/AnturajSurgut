@@ -191,7 +191,11 @@ class Product(models.Model):
 
 
 class ProductInfo(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Товар")
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        verbose_name="Товар",
+    )
     color = models.ForeignKey(
         Color, on_delete=models.CASCADE, verbose_name="Цвет", blank=True, null=True
     )

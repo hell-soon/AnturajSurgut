@@ -10,14 +10,13 @@ from order.models import (
     OrderFace,
     OrderAddress,
     LegalDate,
-    OrderStatus,
 )
 from .OrderComponentSerializers import (
     ProductQuantitySerializer,
     OrderAddressSerializer,
     LegalDateSerializer,
 )
-from DB.models import ProductInfo
+from DB.models import ProductInfo, Product
 from sitedb.models import Sertificate
 
 
@@ -53,7 +52,6 @@ class OrderSerializer(serializers.ModelSerializer):
             "user_phone",
             "items",
             "created_at",
-            "order_number",
             "order_type",
             "address",
             "order_face",
@@ -114,32 +112,6 @@ class OrderSerializer(serializers.ModelSerializer):
 
             return sertificate
 
-    def validate_items(self, value):
-        errors = {}
-        for index, item in enumerate(value):
-            product_info_id = item.get("product_info_id")
-            quantity = item.get("quantity")
-            if not product_info_id or not quantity:
-                errors[index] = (
-                    "Необходимо указать product_info_id и quantity для каждого товара."
-                )
-                continue
-
-            try:
-                info = ProductInfo.objects.get(id=product_info_id)
-                if quantity > info.quantity:
-                    errors[index] = (
-                        f"Количество товара в заказе превышает его количество на складе ({info.quantity} шт. на складе)."
-                    )
-            except ProductInfo.DoesNotExist:
-                errors[index] = "Такого товара больше не существует"
-                continue
-
-        if errors:
-            raise serializers.ValidationError(errors)
-
-        return value
-
     def create(self, validated_data):
         items_data = validated_data.pop("items")
         additional_services_data = validated_data.pop("order_additionalservices")
@@ -155,13 +127,18 @@ class OrderSerializer(serializers.ModelSerializer):
             LegalDate.objects.get_or_create(order=order, **legal_data)
 
         for item_data in items_data:
-            product_info_id = item_data["product_info_id"]
+            product_id = item_data["product_id"]
+            color_id = item_data["color_id"]
+            size_id = item_data["size_id"]
             quantity = item_data["quantity"]
-            product = ProductInfo.objects.get(id=product_info_id)
-            OrderItems.objects.create(order=order, product=product, quantity=quantity)
+            product = Product.objects.get(id=product_id)
+            product_info = ProductInfo.objects.get(
+                product=product, color_id=color_id, size_id=size_id
+            )
+            OrderItems.objects.create(
+                order=order,
+                product=product_info,
+                quantity=quantity,
+            )
 
         return order
-
-        """
-        ОШИБКИ В ОБЩИЙ ВИД {"error": ["string"]}
-        """

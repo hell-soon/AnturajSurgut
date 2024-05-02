@@ -1,7 +1,6 @@
 from django.urls import path
 from .views import (
     create_order,
-    update_order,
     get_additional_services,
     order_utils,
 )
@@ -9,6 +8,5 @@ from .views import (
 urlpatterns = [
     path("service/", get_additional_services, name="get_additional_services"),
     path("create/", create_order, name="create_order"),
-    # path("update/<int:pk>/", update_order, name="update_order"),
     path("types/", order_utils),
 ]

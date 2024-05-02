@@ -10,7 +10,7 @@ def send_order_confirmation_email(pk):
     recipient_list = [order.user_email]
     data = {
         "initials": order.user_initials,
-        "order_number": order.order_number,
+        "order_number": order.id,
         "order_status": order.order_status.name,
         "order_comment": order.comment,
         "order_paymant": order.order_paymant,
