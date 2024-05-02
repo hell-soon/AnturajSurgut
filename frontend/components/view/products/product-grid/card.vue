@@ -63,7 +63,7 @@ function favorite(id: number) {
     <div class="card-contant__footer">
       <div class="d-flex align-center ">
         <span class="footnote text-grey-darken-1">
-          Цена ₽
+          {{ card.product.min_cost }} ₽
         </span>
         <v-spacer />
         <v-btn

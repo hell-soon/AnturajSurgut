@@ -5,13 +5,13 @@ export interface ProductFilters {
   cost_range: ProductCostRange
 }
 
-interface ProductColor {
+export interface ProductColor {
   id: number
   name: string
   color: string
 }
 
-interface ProductFIlterItem {
+export interface ProductFIlterItem {
   id: number
   name: string
 }

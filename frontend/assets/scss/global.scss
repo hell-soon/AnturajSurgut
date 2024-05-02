@@ -35,6 +35,12 @@
   padding-inline: clamp(16px, 5vw, 30px) !important;
 }
 
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $cover-8;
+}
+
 h1 {
   font-family: NEXT-ART;
   font-size: clamp(30px, 4vw, 52px);

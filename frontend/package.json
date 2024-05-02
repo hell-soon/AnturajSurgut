@@ -34,7 +34,7 @@
     "vite-plugin-vuetify": "^2.0.3",
     "vue-tsc": "^2.0.16",
     "vue-yandex-maps": "^2.1.2",
-    "vuetify": "^3.6.1"
+    "vuetify": "^3.6.3"
   },
   "simple-git-hooks": {
     "pre-commit": "cd frontend && npx lint-staged",
