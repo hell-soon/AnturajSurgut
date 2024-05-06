@@ -4,7 +4,7 @@ from ..send_html import send_html_email
 
 
 @shared_task
-def send_email_for_track_number(pk, track_number):
+def send_email_for_track_number(pk: int, track_number: str):
     order = Order.objects.get(pk=pk)
     address = OrderAddress.objects.get(order=order).__str__()
     recipient_list = [order.user_email]
