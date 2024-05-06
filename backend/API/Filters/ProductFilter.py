@@ -1,9 +1,13 @@
 from django_filters import filters, ModelMultipleChoiceFilter
-from django_filters.rest_framework import FilterSet
+from django_filters.rest_framework import FilterSet, NumberFilter, BaseInFilter
 
 from django.db.models import Q
 
 from DB.models import Product, Tags, SubCatalog, Compound, Color, Size
+
+
+class NumberInFilter(BaseInFilter, NumberFilter):
+    pass
 
 
 class ProductFilter(FilterSet):
@@ -11,7 +15,9 @@ class ProductFilter(FilterSet):
         field_name="tags", to_field_name="id", queryset=Tags.objects.all()
     )
     high_rating = filters.BooleanFilter(
-        method="filter_high_rating", field_name="rating", label="По рейтингу(Boolean)"
+        method="filter_high_rating",
+        field_name="rating",
+        label="По рейтингу(Boolean)",
     )
     created_at = filters.DateFilter(lookup_expr="gte")
     catalog_id = filters.NumberFilter(
@@ -42,10 +48,14 @@ class ProductFilter(FilterSet):
     most_sold = filters.BooleanFilter(
         method="filter_most_sold", label="По популярности"
     )
+    product_ids = NumberInFilter(
+        field_name="id", lookup_expr="in", label="По id товаров"
+    )
 
     class Meta:
         model = Product
         fields = [
+            "product_ids",
             "tags",
             "created_at",
             "high_rating",
@@ -55,6 +65,11 @@ class ProductFilter(FilterSet):
             "color_id",
             "size_id",
         ]
+
+    def filter_product_ids(self, queryset, name, value):
+        if value:
+            return queryset.filter(id__in=value)
+        return queryset
 
     def filter_most_sold(self, queryset, name, value):
         if value:
@@ -108,21 +123,3 @@ class ProductFilter(FilterSet):
         if value:
             return queryset.order_by("-rating")
         return queryset
-
-
-"""
-СДЕЛАНЫЕ ФИЛЬТРЫ:
-
-КАТАЛОГИ
-ПОДКАТАЛОГИ
-ТЭГИ
-РЕЙТИНГ
-СОСТАВ
-ЦЕНА
-НОВЫЕ ТОВАРЫ
-ЦВЕТА
-РАЗМЕРЫ
-
-НАДО СДЕЛАТЬ:
-ЧАСТО ПРОДОВАЕМЫЙ ТОВАР
-"""
