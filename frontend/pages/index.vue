@@ -1,23 +1,33 @@
 <script setup lang="ts">
-const route = useRoute()
+import Swiper from '~/components/view/home/main-swiper/swiper.vue'
+
+const stores = setupStore(['productList', 'catalogList'])
+
+const params = {
+  catalog_id: 1,
+  page_size: 3,
+}
+
+await stores.productList.fetchProductList(params)
+await stores.catalogList.fetchCatalogList()
 </script>
 
 <template>
-  <v-app>
-    <h1 class="text-center">
-      Сургут епта!
-    </h1>
-    <p>
-      Current route: {{ route.path }}
-    </p>
-    <NuxtLink to="/about">
-      Перейти на 404
-    </NuxtLink>
-  </v-app>
+  <div class="container">
+    <Swiper />
+    <ViewHomeText />
+    <ViewHomeCatalogSwiper />
+    <ViewHomeTimelines />
+    <ViewHomeReviews />
+  </div>
 </template>
 
-<style lang="scss">
-h1 {
-  color: red;
+<style scoped lang="scss">
+.container {
+  margin-top: $cover-30;
+  margin-bottom: $cover-60;
+  display: flex;
+  flex-direction: column;
+  gap: 230px;
 }
 </style>

@@ -1,34 +1,14 @@
-html {
-  padding: 0;
-  margin: 0 auto;
-  height: 100%;
-  border: none;
-}
+@import './fonts.scss';
+@import './reset.scss';
 
-body {
-  margin: 0;
-  text-size-adjust: 100%;
-  overscroll-behavior: none;
-  box-sizing: border-box;
-
-  *,
-  *::before,
-  *::after {
-    margin: 0;
-    text-decoration: none;
-    box-sizing: border-box;
-    overscroll-behavior: none;
-  }
-}
+@import 'swiper/css';
+@import 'swiper/css/effect-creative';
+@import 'swiper/css/autoplay';
 
 .loading-lazy {
   &:not(.loaded),
   &:not(.error) {
-    background: linear-gradient(
-      90deg,
-      #333682,
-      #333682, 
-    );
+    background: linear-gradient(90deg, #333682, #333682);
     background-size: 300% 200%;
     -webkit-animation: Shine 2.25s ease infinite;
     -moz-animation: Shine 2.25s ease infinite;
@@ -44,6 +24,97 @@ body {
     }
     100% {
       background-position: 0% 50%;
+    }
+  }
+}
+
+.container {
+  max-width: 1440px;
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 5vw, 30px) !important;
+}
+
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $cover-8;
+}
+
+h1 {
+  font-family: NEXT-ART;
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 700;
+  line-height: clamp(38px, 4vw, 56px);
+  text-transform: lowercase;
+  color: $color-white;
+}
+
+h2,
+.h2 {
+  font-family: NEXT-ART;
+  font-size: clamp(26px, 4vw, 40px);
+  font-weight: 600;
+  line-height: clamp(30px, 4vw, 44px);
+  text-transform: lowercase;
+
+  color: $color-white;
+}
+
+h3,
+.h3 {
+  font-family: Onest;
+  font-size: clamp(22px, 4vw, 32px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: clamp(26px, 4vw, 36px);
+  color: $color-white;
+}
+
+.text-h4 {
+  font-family: NEXT-ART !important;
+}
+
+.bodyBold,
+.body,
+.footnote,
+.smallFootnote,
+.verySmallFootnot,
+.footnoteText {
+  font-family: Onest;
+}
+
+.bodyBold {
+  font-size: clamp(18px, 4vw, 24px);
+  font-weight: 700;
+  line-height: clamp(18px, 4vw, 28px);
+}
+
+.body {
+  font-size: clamp(18px, 4vw, 24px);
+  font-weight: 400;
+  line-height: clamp(18px, 4vw, 28px);
+  color: $color-white;
+}
+
+.footnote {
+  font-size: clamp(14px, 3vw, 20px);
+  font-weight: 400;
+  line-height: clamp(18px, 3vw, 24px);
+  color: $color-white;
+}
+
+.smallFootnote {
+  font-size: clamp(12px, 3vw, 16px);
+  font-weight: 500;
+  line-height: clamp(16px, 3vw, 20px);
+}
+
+.link-hover {
+  a {
+    transition: text-shadow 0.3s ease-in-out;
+    &:hover {
+      text-shadow: 6px 6px 6px rgba(0, 0, 0, 0.5);
     }
   }
 }

@@ -54,16 +54,14 @@ def order_change_track_number(sender, instance, **kwargs):
         if instance.user_email:
             send_email_for_track_number.delay(instance.pk, instance.track_number)
         if instance.user_phone:
-            sms_text = f"К заказу: {instance.order_number} был добавлен трэк-номер.\n Трэк-номер: {instance.track_number}.\n Вы можете отследить посылку по этому трэк-номеру на офицальном сайте транспортной компании."
+            sms_text = f"К заказу: №{instance.id} был добавлен трэк-номер.\n Трэк-номер: {instance.track_number}.\n Вы можете отследить посылку по этому трэк-номеру на офицальном сайте транспортной компании."
             send_sms_to_user.delay(instance.user_phone, sms_text)
 
     if old_instance.order_status != instance.order_status:
         if instance.user_email:
-            send_email_for_change_order_status.delay(
-                instance.pk, instance.order_status.name
-            )
+            send_email_for_change_order_status.delay(instance.pk)
         if instance.user_phone:
-            sms_text = f"Статус заказа:{instance.order_number} измнился. \n Статус: {instance.order_status.name}."
+            sms_text = f"Статус заказа:{instance.id} измнился. \n Статус: {instance.get_status_name()}."
             send_sms_to_user.delay(instance.user_phone, sms_text)
 
 
@@ -77,5 +75,16 @@ def send_email_order(sender, instance, created, **kwargs):
         if instance.user_email:
             send_order_confirmation_email.delay(instance.pk)
         else:
-            sms_text = f"Спасибо за заказ в Антураж.\n Номер вашего заказа: {instance.order_number}"
+            sms_text = (
+                f"Спасибо за заказ в Антураж.\n Номер вашего заказа: {instance.id}"
+            )
             send_sms_to_user.delay(instance.user_phone, sms_text)
+
+
+@receiver(post_save, sender=Order)
+def cancel_order(sender, instance, **kwargs):
+    if instance.get_status_name() == "Отменен":
+        order_items = instance.orderitems_set.all()
+        for order_item in order_items:
+            order_item.product.quantity += order_item.quantity
+            order_item.product.save()

@@ -5,7 +5,6 @@ from sitedb.models import Sertificate
 
 from django.core.exceptions import ValidationError
 from .misc.upd_info import quantity_check
-from .misc.code_generator import generate_order_number
 
 
 class OrderSettings(models.Model):
@@ -178,8 +177,11 @@ class Order(models.Model):
 
         return round(total, 2)
 
+    def get_status_name(self):
+        return self.order_status.name
+
     def __str__(self):
-        return f"Заказ: {self.id}"
+        return f"№ {self.pk}"
 
 
 class OrderItems(models.Model):
@@ -290,4 +292,4 @@ class LegalDate(models.Model):
         verbose_name_plural = "Юридические данные"
 
     def __str__(self):
-        return f"{self.order}"
+        return "Юридическая информация"

@@ -21,12 +21,32 @@ class OrderAddressInline(admin.StackedInline):
     model = OrderAddress
     extra = 1
     max_num = 1
+    readonly_fields = [
+        "city",
+        "region",
+        "post_index",
+        "floor",
+        "street",
+        "house",
+        "apartment",
+    ]
 
 
 class LegalDateAdmin(admin.StackedInline):
     model = LegalDate
     extra = 1
     max_num = 1
+    readonly_fields = [
+        "name",
+        "inn",
+        "kpp",
+        "ogrn",
+        "bik",
+        "bank_name",
+        "cores_account",
+        "ras_check",
+        "legal_address",
+    ]
 
 
 class OrderStatusInline(admin.TabularInline):

@@ -12,26 +12,35 @@
     "dev": "nuxt dev --host",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
     "lint": "eslint . --fix",
-    "typecheck": "vue-tsc -p tsconfig.app.json --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "postinstall": "simple-git-hooks"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.11.6",
+    "@antfu/eslint-config": "^2.16.1",
     "@mdi/font": "^7.4.47",
-    "@nuxt/eslint": "0.3.0-beta.7",
-    "@nuxt/image": "^1.4.0",
+    "@nuxt/image": "^1.6.0",
     "@pinia/nuxt": "^0.5.1",
-    "@unocss/eslint-plugin": "^0.58.8",
-    "eslint": "^8.57.0",
-    "eslint-plugin-format": "^0.1.0",
-    "nuxt": "^3.11.1",
+    "@unocss/eslint-plugin": "^0.59.4",
+    "@yandex/ymaps3-types": "^0.0.25",
+    "eslint": "^9.1.1",
+    "eslint-plugin-format": "^0.1.1",
+    "nuxt": "^3.11.2",
     "pinia": "^2.1.7",
-    "sass": "^1.72.0",
-    "swiper": "^11.1.0",
-    "typescript": "^5.4.3",
+    "sass": "^1.76.0",
+    "simple-git-hooks": "^2.11.1",
+    "swiper": "^11.1.1",
+    "typescript": "^5.4.5",
     "vite-plugin-vuetify": "^2.0.3",
-    "vue-tsc": "^2.0.7",
-    "vuetify": "^3.5.13"
+    "vue-tsc": "^2.0.16",
+    "vue-yandex-maps": "^2.1.2",
+    "vuetify": "^3.6.3"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "cd frontend && npx lint-staged",
+    "post-commit": "git status"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
   }
 }

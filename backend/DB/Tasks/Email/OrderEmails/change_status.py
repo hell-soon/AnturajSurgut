@@ -1,20 +1,18 @@
 from celery import shared_task
 from order.models import Order, OrderAddress
-from DB.utils.codes import STATUS_MAP
 from ..send_html import send_html_email
 
 
 @shared_task
-def send_email_for_change_order_status(pk, order_status):
+def send_email_for_change_order_status(pk: int):
     order = Order.objects.get(pk=pk)
     address = OrderAddress.objects.get(order=order).__str__()
     recipient_list = [order.user_email]
-    status_name = STATUS_MAP.get(order_status)
     data = {
         "initials": order.user_initials,
         "order_number": order.id,
         "order_address": address,
-        "order_status": status_name,
+        "order_status": order.get_status_name(),
         "created_at": order.created_at,
     }
     send_html_email(
