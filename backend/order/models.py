@@ -292,4 +292,4 @@ class LegalDate(models.Model):
         verbose_name_plural = "Юридические данные"
 
     def __str__(self):
-        return f"{self.order}"
+        return "Юридическая информация"
