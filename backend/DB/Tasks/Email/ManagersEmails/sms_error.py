@@ -1,8 +1,8 @@
 from celery import shared_task
-from django.contrib.auth.models import Group
-from ..send_html import send_html_email
 
-from icecream import ic
+from django.contrib.auth.models import Group
+
+from ..send_html import send_html_email
 
 
 @shared_task
@@ -14,7 +14,6 @@ def send_error_for_manager(result: dict, phone: str):
         error_message = result.get(phone, {}).get("status_text")
         group, _ = Group.objects.get_or_create(name="Менеджеры")
         recipient_list = group.user_set.all()
-        ic(recipient_list)
         data = {
             "id": sms_id,
             "phone": phone,

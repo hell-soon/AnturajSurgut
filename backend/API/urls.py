@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from .Views.Catalogs import CatalogViewSet
 from .Views.Tags import TagsViewSet
 from .Views.SubCatalogs import SubCatalogViewSet

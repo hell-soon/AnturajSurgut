@@ -1,9 +1,9 @@
 from django_filters import filters, ModelMultipleChoiceFilter
-from django_filters.rest_framework import FilterSet, CharFilter
+from django_filters.rest_framework import FilterSet
+
 from django.db.models import Q, Count
-from DB.models import Product, Tags, SubCatalog, Catalog
-from icecream import ic
-import random
+
+from DB.models import Product, Tags, SubCatalog
 
 
 class TagsFilter(FilterSet):
