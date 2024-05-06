@@ -181,7 +181,7 @@ class Order(models.Model):
         return self.order_status.name
 
     def __str__(self):
-        return f"Заказ: {self.id}"
+        return f"№ {self.pk}"
 
 
 class OrderItems(models.Model):
